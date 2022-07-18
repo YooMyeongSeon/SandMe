@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+section {
+    padding-top: 210px;
+    text-align: center;
+}
+#orderHead {
+	margin-top: 50px;
+}
+#orderTitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FACE34;
+}
+#orderTitle {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #5CB531;
+	margin: 10px 0px 25px;
+}
+#orderChapter {
+	width: 800px;
+	height: 80px;
+	margin: 25px auto;
+	background-color: #C9CACA;
+}
+#orderSearch {
+	width: 800px;
+	margin: 0px auto 50px;
+	border: 1px solid #C9CACA;
+	padding: 25px;
+}
+#orderSearch > form > input[type=text] {
+	width: 500px;
+	height: 40px;
+	background-color: #F7F7F7;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	margin: 0px 10px;
+}
+#orderSearch > form > input[type=submit] {
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	background-color: #5CB531;
+	color: white;
+	cursor: pointer;
+}

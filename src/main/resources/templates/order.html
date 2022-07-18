@@ -6,30 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SandMe</title>
     <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
-    <link rel="stylesheet" href="./css/style_main.css"> <!-- 메인 스타일 시트 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> <!--메인롤링배너-->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="./css/style_order.css"> <!-- 오더 스타일 시트 -->
 </head>
 <body>
 	<header data-include="./include/header.html"></header>
-    <section>
-        <div id="mainbanner">
-			<img src="./img/test.jpg">
-        </div>
-        <div id="BestMenu">
-        	<table>
-				<tr th:each="best : ${list}">
-			        <td th:text="${best.menu}">menu</td>
-			        <td th:text="${best.price}">price</td>
-			    </tr>
-		    </table>
-        </div>
-        <div id="tendency">
-
-        </div>
-    </section>
-    <footer data-include="./include/footer.html"></footer>
+	<section>
+		<div id="orderHead">
+			<div id="orderTitleDeco"></div>
+			<span th:if="${order == 'home'}">
+				<p id="orderTitle">배달 주문</p>
+				<p>온라인 주문 배달 서비스입니다.</p>
+			</span>
+			<span th:if="${order == 'pickUp'}">
+				<p id="orderTitle">매장 주문</p>
+				<p>온라인 주문 후 매장 픽업/시식 서비스입니다.</p>
+			</span>
+			<div id="orderChapter">
+			</div>
+		</div>
+		<div id="orderSearch">
+			<form method="post">
+				<label for="shop">매장 찾기</label>
+				<input type="text" id="shop" name="address" placeholder="배달 받으실 주소를 입력해 주세요.">
+				<input type="hidden" value="${order}">
+				<input type="submit" value="입력">
+			</form>
+		</div>
+		<span th:if="${address}">
+			<p th:text="${address}">address</p>
+		</span>
+	</section>
+	<footer data-include="./include/footer.html"></footer>
     <script>
     	function includeHTML() {
     		let z, elmnt, file, xhttp;

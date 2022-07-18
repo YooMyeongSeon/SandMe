@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
-* { /* 공통 속성 ↓ */
+* { /* 공통 ↓ */
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    font-family: 'S-CoreDream-4Regular';
+    font-family: 'S-CoreDream-3Light';
 }
 a {
-    color:#414042;
+    color:#3E3A39;
     text-decoration: none;
     cursor: pointer;
 }
@@ -19,24 +19,24 @@ body{
 	z-index: 1;
 }
 @font-face { /* S-CoreDream Light 폰트 */
-    font-family: 'S-CoreDream-2ExtraLight';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-2ExtraLight.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
 }
 @font-face { /* S-CoreDream Regular 폰트 */
-    font-family: 'S-CoreDream-4Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'S-CoreDream-4Regular';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 @font-face { /* S-CoreDream Bold 폰트 */
-    font-family: 'S-CoreDream-7ExtraBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-7ExtraBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'S-CoreDream-6Bold';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
-::-webkit-scrollbar { /* 스크롤바 속성 ↓ */
+::-webkit-scrollbar { /* 스크롤바 ↓ */
     width: 12.5px;
 }
 ::-webkit-scrollbar-thumb {
@@ -51,7 +51,7 @@ body{
 ::-webkit-scrollbar-track {
     background-color: #F0F0F0;
 }
-header { /* 헤더 속성 ↓ */
+header { /* 헤더 ↓ */
     width: 100%;
     min-width: 1200px;
     height: 210px;
@@ -60,33 +60,69 @@ header { /* 헤더 속성 ↓ */
     position: absolute;
     z-index: 10;
 }
-#hdLogo { /* 로고 섹션 ↓ */
+#hdLogo { /* 헤더 로고 ↓ */
     width: 1200px;
     height: 150px;
     margin: 0px auto;
     position: relative;
 }
-img {
+#hdLogo > a > img {
     width: 350px;
-    margin-top: 30px;
+    margin-top: 40px;
 }
-#hdRight { /* 헤더 우측 섹션 ↓ */
+#hdLeft { /* 헤더 좌측 ↓ */
     position: absolute;
-    right: 0px;
-    top: 75px;
+    left: 0px;
+    top: 70px;
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid #C9CACA;
+}
+#hdLeft > ul > li {
+	margin-top: 10px;
+	width: 75px;
+	height: 20px;
+    display: inline-block;
     font-size: 10pt;
 }
+#hdLeft > ul > li > a {
+    color: #5CB531;
+}
+#hdLeft > ul > li:first-child {
+    padding-right: 15px;
+    border-right: 1px solid #FACE34;
+}
+#hdLeft > ul > li:last-child {
+    padding-left: 15px;
+}
+#hdRight { /* 헤더 우측 ↓ */
+	position: absolute;
+    right: 0px;
+    top: 70px;
+    width: 200px;
+    height: 40px;
+}
 #hdRight > ul > li {
-    display: inline-block;
-    margin-left: 20px;
+	float: right;
+	width: 40px;
+	height: 40px;
+    border-radius: 20px;
+    border: 1px solid #C9CACA;
+    margin-left: 15px;
+	padding: 9px;
 }
-#hdRight > ul > li:first-child {
-    padding-right: 20px;
-    border-right: 2px solid #6EB248;
+#hdRight > ul > li > a {
+	width: 40px;
+	height: 40px;
 }
-nav { /* 네비게이션 섹션 ↓ */
+#hdRight > ul > li > a > img {
+	width: 20px;
+	height: 20px;
+}
+nav { /* 네비게이션 ↓ */
     height: 60px;
-    border-bottom: 1px solid #CCCCCC;
+    border-bottom: 1px solid #C9CACA;
 }
 #openNav > ul > li {
 	font-size: 12pt;
@@ -96,13 +132,13 @@ nav { /* 네비게이션 섹션 ↓ */
     line-height: 60px;
 }
 #openNav > ul > li:hover > a {
-    color: #6EB248;
+    color: #5CB531;
     transition-duration: 0.3s;
 }
-#openNav:hover > #detailNav { /* 네비게이션 상세 메뉴 섹션 ↓ */
+#openNav:hover > #detailNav { /* 네비게이션 상세 ↓ */
     height: 120px;
+    border-bottom: 1px solid #C9CACA;
     transition-duration: 0.3s;
-    border-bottom: 1px solid #CCCCCC;
 }
 #detailNav {
     height: 0px;
@@ -112,6 +148,7 @@ nav { /* 네비게이션 섹션 ↓ */
     overflow: hidden;
 }
 #detailNav > ul {
+	vertical-align: top;
 	display: inline-block;
 	width: 160px;
 	margin-top: 15px;
@@ -121,13 +158,54 @@ nav { /* 네비게이션 섹션 ↓ */
 	margin-bottom: 10px;
 }
 #detailNav > ul > li:hover > a {
-	color: #6EB248;
+	color: #5CB531;
     transition-duration: 0.3s;
 }
-
-
-
-footer {
-    height: 200px;
-    background-color: #303030;
+footer { /* 푸터 ↓ */
+    height: 250px;
+    background-color: #3E3A39;
+}
+#ftHead { /* 푸터 헤드 ↓ */
+	width: 100%;
+	min-width: 1200px;
+	height: 60px;
+	padding:20px;
+	font-size: 10pt;
+	text-align: center;
+}
+#ftHead > ul > li {
+	height: 20px;
+	display: inline-block;
+}
+#ftHead > ul > li:not(:last-child) {
+	border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+#ftHead > ul > li > a {
+	margin: 0px 20px;
+	color: white;
+}
+#pipp {
+	font-family: 'S-CoreDream-6Bold';
+}
+#ftBody { /* 푸터 바디 ↓ */
+	width: 950px;
+	margin: 0px auto;
+	padding-top: 25px;
+}
+#ftBodyLeft {
+	width: 250px;
+	margin-right: 50px;
+	float: left;
+}
+#ftBodyLeft > img {
+	width: 250px;
+}
+#ftBodyRight {
+	font-size: 10pt;
+	width: 650px;
+	float: left;
+}
+#ftBodyRight > p {
+	color: white;
+	margin-bottom: 5px;
 }
