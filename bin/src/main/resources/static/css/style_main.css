@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+section {
+    padding-top: 180px;
+}
+#mainbanner {
+    height: 450px;
+    background-color: #6EB248;
+    z-index: 5;
+}
+#BestMenu {
+    height: 350px;
+}
+#tendency {
+    height: 350px;
+    background-color: #196BEE;
+}

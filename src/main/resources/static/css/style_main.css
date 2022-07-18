@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+section {
+    padding-top: 210px;
+}
+#mainbanner {
+    height: 450px;
+}
+#mainbanner > img {
+	width: 1920px;
+	height: 450px;
+}
+#BestMenu {
+    height: 350px;
+}
+#tendency {
+    height: 350px;
+    background-color: #5CB531;
+}
