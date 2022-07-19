@@ -20,10 +20,46 @@ section {
 	margin: 10px 0px 25px;
 }
 #orderChapter {
-	width: 800px;
+	width: 555px;
 	height: 80px;
-	margin: 25px auto;
-	background-color: #C9CACA;
+	margin: 50px auto;
+}
+.chapterVi {
+	width: 120px;
+	height: 80px;
+	background-color: #FACE34;
+	border-radius: 5px;
+	float: left;
+}
+.chapterVi > p {
+	font-size: 10pt;
+	margin-top: -7.5px;
+}
+.Step {
+	font-family: 'S-CoreDream-6Bold';
+	color: #5CB531;
+}
+.chapterDe {
+	width: 120px;
+	height: 80px;
+	background-color: #F7F7F7;
+	border-radius: 5px;
+	float: left;
+}
+.chapterViImg {
+	width: 80px;
+}
+.chapterDeImg {
+	width: 100px;
+	margin-top: 5px;
+}
+.chapterPartition {
+	width: 6px;
+	height: 6px;
+	border-radius: 3px;
+	background-color: #F7F7F7;
+	margin: 37px 9.5px;
+	float: left;
 }
 #orderSearch {
 	width: 800px;
@@ -31,7 +67,7 @@ section {
 	border: 1px solid #C9CACA;
 	padding: 25px;
 }
-#orderSearch > form > input[type=text] {
+#orderSearch > input[type=text] {
 	width: 500px;
 	height: 40px;
 	background-color: #F7F7F7;
@@ -41,7 +77,7 @@ section {
 	padding: 10px;
 	margin: 0px 10px;
 }
-#orderSearch > form > input[type=submit] {
+#btn {
 	width: 80px;
 	height: 40px;
 	border: none;

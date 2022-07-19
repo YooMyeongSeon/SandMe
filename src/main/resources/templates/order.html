@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,65 +7,111 @@
     <title>SandMe</title>
     <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
     <link rel="stylesheet" href="./css/style_order.css"> <!-- 오더 스타일 시트 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
 </head>
 <body>
-	<header data-include="./include/header.html"></header>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block>
 	<section>
-		<div id="orderHead">
-			<div id="orderTitleDeco"></div>
-			<span th:if="${order == 'home'}">
-				<p id="orderTitle">배달 주문</p>
-				<p>온라인 주문 배달 서비스입니다.</p>
-			</span>
-			<span th:if="${order == 'pickUp'}">
-				<p id="orderTitle">매장 주문</p>
-				<p>온라인 주문 후 매장 픽업/시식 서비스입니다.</p>
-			</span>
-			<div id="orderChapter">
+		<form method="post">
+			<input type="hidden" id="order" name="order" th:value="${order}">
+			<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+			<input type="hidden" name="inputAddress" th:value="${address}">
+			<div id="orderHead">
+				<div id="orderTitleDeco"></div>
+				<div th:if="${order == 'home'}">
+					<p id="orderTitle">배달 주문</p>
+					<p>온라인 주문 배달 서비스입니다.</p>
+				</div>
+				<div th:if="${order == 'pickUp'}">
+					<p id="orderTitle">매장 주문</p>
+					<p>온라인 주문 후 매장 픽업/시식 서비스입니다.</p>
+				</div>
+				<div id="orderChapter">	
+					<div th:if="${chapter == 'chapter01'}">
+						<div class="chapterVi">
+							<img src="img/chapter01.svg" class="chapterViImg">
+							<p><span class="Step">Step1</span> <span style="color:white;">|</span> 매장 선택</p>
+						</div>
+					</div>
+					<div th:unless="${chapter == 'chapter01'}">
+						<div class="chapterDe">
+							<img src="img/chapter01(w).svg" class="chapterDeImg">
+						</div>
+					</div>
+					<div class="chapterPartition"></div>
+					<div th:if="${chapter == 'chapter02'}">
+						<div class="chapterVi">
+							<img src="img/chapter02.svg" class="chapterViImg">
+							<p><span class="Step">Step2</span> <span style="color:white;">|</span> 메뉴 선택</p>
+						</div>
+					</div>
+					<div th:unless="${chapter == 'chapter02'}">
+						<div class="chapterDe">
+							<img src="img/chapter02(w).svg" class="chapterDeImg">
+						</div>
+					</div>
+					<div class="chapterPartition"></div>
+					<div th:if="${chapter == 'chapter03'}">
+						<div class="chapterVi">
+							<img src="img/chapter03.svg" class="chapterViImg">
+							<p><span class="Step">Step3</span> <span style="color:white;">|</span> 주문 작성</p>
+						</div>
+					</div>
+					<div th:unless="${chapter == 'chapter03'}">
+						<div class="chapterDe">
+							<img src="img/chapter03(w).svg" class="chapterDeImg">
+						</div>
+					</div>
+					<div class="chapterPartition"></div>
+					<div th:if="${chapter == 'chapter04'}">
+						<div class="chapterVi">
+							<img src="img/chapter04.svg" class="chapterViImg">
+							<p><span class="Step">Step4</span> <span style="color:white;">|</span> 주문 완료</p>
+						</div>
+					</div>
+					<div th:unless="${chapter == 'chapter04'}">
+						<div class="chapterDe">
+							<img src="img/chapter04(w).svg" class="chapterDeImg">
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div id="orderSearch">
-			<form method="post">
+			<div th:if="${chapter == 'chapter01'}" id="orderSearch">
 				<label for="shop">매장 찾기</label>
+				<input type="text" style="display:none;">
 				<input type="text" id="shop" name="address" placeholder="배달 받으실 주소를 입력해 주세요.">
-				<input type="hidden" value="${order}">
-				<input type="submit" value="입력">
-			</form>
-		</div>
-		<span th:if="${address}">
-			<p th:text="${address}">address</p>
-		</span>
+				<button id="btn" type="button" onclick="search()">입력</button>
+			</div>
+			<div th:if="${chapter == 'chapter02'}" id="orderSearch">
+
+			</div>
+			<div th:if="${chapter == 'chapter03'}" id="orderSearch">
+
+			</div>
+			<div id="shopSearch">
+			
+			</div>
+		</form>
 	</section>
-	<footer data-include="./include/footer.html"></footer>
+	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
     <script>
-    	function includeHTML() {
-    		let z, elmnt, file, xhttp;
-    	 
-    	    z = document.getElementsByTagName("*");
-    	    
-    	    for (let i = 0; i < z.length; i++) {
-    	    	elmnt = z[i];
-    	    	file = elmnt.getAttribute("data-include");
-    	      
-				if (file) {
-					xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function() {
-					if (this.readyState == 4) {
-				    	if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-				    	if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-				    		elmnt.removeAttribute("data-include");
-				        	includeHTML();
-				        }
-				    }
-    	        xhttp.open("GET", file, true);
-    	        xhttp.send();
-    	        return;
-	    	    }
-    	    }
-    	}
-    	window.addEventListener('DOMContentLoaded', ()=>{
-    	    includeHTML();
-    	});
+    	function search() {
+ 			let address = $('#shop').val();
+ 			
+			$.ajax({
+				url : "order/shop",
+				type : "post",
+				async : true,
+				data : address,
+				datetype : "text",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					let html = "<p>" + data + "</p>";
+								
+					$("#shopSearch").append(html);
+				}
+			});
+		}
     </script>
 </body>
 </html>
