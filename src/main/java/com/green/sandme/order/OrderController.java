@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,11 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
+import com.green.sandme.order.vo.OrderAddressVo;
 
 @Controller
 public class OrderController {
+	
+	@Autowired
+	SqlSession sqlSession;
+	
 	@RequestMapping("/order")
-	public String Oder(HttpServletRequest request, Model model) {
+	public String oder(HttpServletRequest request, Model model) {
 		String order = request.getParameter("order");
 		
 		if (order == null || order.equals("home")) {
@@ -30,17 +37,25 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order")
-	public String OderChapter(HttpServletRequest request, Model model) {
+	public String oderChapter(HttpServletRequest request, Model model) {
 		String order = request.getParameter("order");
 		String chapter = request.getParameter("chapter");
 
 		if (chapter.equals("chapter01")) {
-			String address = request.getParameter("address");
-			model.addAttribute("address", address);
+			if (order.equals("home")) {
+				String address = request.getParameter("address") + " " + request.getParameter("detailAddress");
+				model.addAttribute("address", address);
+			}
+			
+			int shopNum = Integer.parseInt(request.getParameter("shopNum"));
+			model.addAttribute("shop", shopNum);
+			
 			model.addAttribute("chapter", "chapter02");
 		} else if (chapter.equals("chapter02")) {
+			
 			model.addAttribute("chapter", "chapter03");
 		} else if (chapter.equals("chapter03")) {
+			
 			model.addAttribute("chapter", "chapter04");
 		}
 		
@@ -48,19 +63,28 @@ public class OrderController {
 		return "order";
 	}
 	
-	@PostMapping("/order/shop")
-	public void OderShop(@RequestBody String address, HttpServletResponse response) throws Exception {
+	@PostMapping("/order/home")
+	public void oderHome(@RequestBody String address, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
-
-		if (address.contains("정자동")) {
-			
-		} else {
-			
-		}
+		
+		OrderAddressVo oAv = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectShopByAddress", address);
 		
 		Gson gson = new Gson();
 		
-		String data = gson.toJson("데이터");
+		String data = gson.toJson(oAv);
+		PrintWriter out = response.getWriter();
+		out.print(data);
+	}
+	
+	@PostMapping("/order/pickUp")
+	public void oderPickUp(@RequestBody String address, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		
+		OrderAddressVo oAv = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectShopByName", address);
+		
+		Gson gson = new Gson();
+		
+		String data = gson.toJson(oAv);
 		PrintWriter out = response.getWriter();
 		out.print(data);
 	}

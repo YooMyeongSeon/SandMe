@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
-section {
+section { /* 섹션 */
     padding-top: 210px;
     text-align: center;
 }
-#orderHead {
-	margin-top: 50px;
+#orderHead { /* 오더 헤드 ↓ */
+	margin-top: 75px;
 }
 #orderTitleDeco {
 	width: 40px;
@@ -19,65 +19,71 @@ section {
 	color: #5CB531;
 	margin: 10px 0px 25px;
 }
-#orderChapter {
-	width: 555px;
-	height: 80px;
+#orderChapter { /* 오더 챕터 ↓ */
+	width: 800px;
+	height: 120px;
 	margin: 50px auto;
 }
 .chapterVi {
-	width: 120px;
-	height: 80px;
+	width: 170px;
+	height: 120px;
 	background-color: #FACE34;
 	border-radius: 5px;
 	float: left;
 }
+.chapterDe {
+	width: 170px;
+	height: 120px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	float: left;
+}
 .chapterVi > p {
-	font-size: 10pt;
-	margin-top: -7.5px;
+	font-size: 12pt;
+	margin-top: -5px;
 }
 .Step {
 	font-family: 'S-CoreDream-6Bold';
 	color: #5CB531;
 }
-.chapterDe {
-	width: 120px;
-	height: 80px;
-	background-color: #F7F7F7;
-	border-radius: 5px;
-	float: left;
-}
 .chapterViImg {
-	width: 80px;
+	width: 120px;
 }
 .chapterDeImg {
-	width: 100px;
-	margin-top: 5px;
+	width: 140px;
+	margin-top: 12.5px;
 }
 .chapterPartition {
-	width: 6px;
-	height: 6px;
-	border-radius: 3px;
-	background-color: #F7F7F7;
-	margin: 37px 9.5px;
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	background-color: #EFEFEF;
+	margin: 55px 15px;
 	float: left;
 }
-#orderSearch {
-	width: 800px;
-	margin: 0px auto 50px;
+#orderSearch { /* 오더 검색 ↓ */
+	width: 1200px;
+	margin: 50px auto;
 	border: 1px solid #C9CACA;
-	padding: 25px;
+	padding: 50px;
+}
+#orderSearch > label {
+	margin-right: 7.5px;
 }
 #orderSearch > input[type=text] {
-	width: 500px;
+	width: 305px;
 	height: 40px;
-	background-color: #F7F7F7;
+	background-color: #EFEFEF;
 	border-radius: 5px;
 	outline: none;
 	border: none;
 	padding: 10px;
-	margin: 0px 10px;
+	margin: 0px 2.5px;
 }
-#btn {
+#orderSearch > .btn {
+	margin-left: 7.5px;
+}
+.btn {
 	width: 80px;
 	height: 40px;
 	border: none;
@@ -85,4 +91,28 @@ section {
 	background-color: #5CB531;
 	color: white;
 	cursor: pointer;
+	display: inline-block;
+}
+.mapLine { 
+	border-top: 1px solid #C9CACA;
+	width:1100px;
+	margin: 50px auto;
+}
+#map {  /* 오더 검색 지도 ↓ */
+	width:1100px;
+	height:400px;
+	margin: 25px auto;
+	border-radius: 5px;
+}
+#markerName {
+	padding: 10px;
+	font-size: 10pt;
+	white-space: nowrap;
+	text-align: center;
+}
+.shopSearchInfo {
+	display: inline-block;
+	padding-right: 15px; 
+	margin-right: 15px;
+	border-right: 1px solid #C9CACA;
 }
