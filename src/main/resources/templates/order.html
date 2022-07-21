@@ -74,7 +74,7 @@
 				</div>
 			</div>
 		</div>
-		<div th:if="${chapter == 'chapter02'}" id="orderSearch"> <!-- 챕터1 : 매장 선택 -->
+		<div th:if="${chapter == 'chapter01'}" id="orderSearch"> <!-- 챕터1 : 매장 선택 -->
 			<form method="post">
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
@@ -92,9 +92,9 @@
 			</form>
 			<div id="map"></div>
 		</div>
-		<div th:if="${chapter == 'chapter01'}" id="orderSearch"> <!-- 챕터2 : 메뉴 선택 -->
+		<div th:if="${chapter == 'chapter02'}" id="orderSearch"> <!-- 챕터2 : 메뉴 선택 -->
 			<form method="post">
-				<div>
+				<div class="orderMenu">
 					<div id="SelectSc"><p>빵 선택</p></div>
 					<div>
 						<input type="radio" name="bread" value="bread01" id="bread01" class="selectRadio" checked>
@@ -119,7 +119,7 @@
 						function bread04() {$('#bread04').prop("checked", true);}
 					</script>
 				</div>
-				<div>
+				<div class="orderMenu">
 					<div id="SelectSc"><p>패티 선택</p></div>
 					<div>
 						<input type="radio" name="patty" value="patty01" id="patty01" class="selectRadio" checked>
@@ -144,40 +144,86 @@
 						function patty04() {$('#patty04').prop("checked", true);}
 					</script>
 				</div>
-				<div>
+				<div class="orderMenu">
 					<div id="SelectSc"><p>야채 선택<br>(다중 선택)</p></div>
-					<div class="menuSelect"><img src="img/menu/vegetable01.png"><p>양상추</p></div>
-					<div class="menuSelect"><img src="img/menu/vegetable02.png"><p>양파</p></div>
-					<div class="menuSelect"><img src="img/menu/vegetable03.png"><p>토마토</p></div>
-					<div class="menuSelect"><img src="img/menu/vegetable04.png"><p>올리브</p></div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="vegetable01" id="vegetable01" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable01()"><img src="img/menu/vegetable01.png"><p>양상추</p></div>
+					</div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="vegetable02" id="vegetable02" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable02()"><img src="img/menu/vegetable02.png"><p>양파</p></div> 
+					</div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="vegetable03" id="vegetable03" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable03()"><img src="img/menu/vegetable03.png"><p>토마토</p></div>
+					</div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="vegetable04" id="vegetable04" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable04()"><img src="img/menu/vegetable04.png"><p>올리브</p></div>
+					</div>
+					<script>
+						function vegetable01() {if ($('#vegetable01').is(":checked")) {$('#vegetable01').prop("checked", false);} else {$('#vegetable01').prop("checked", true);}}
+						function vegetable02() {if ($('#vegetable02').is(":checked")) {$('#vegetable02').prop("checked", false);} else {$('#vegetable02').prop("checked", true);}}
+						function vegetable03() {if ($('#vegetable03').is(":checked")) {$('#vegetable03').prop("checked", false);} else {$('#vegetable03').prop("checked", true);}}
+						function vegetable04() {if ($('#vegetable04').is(":checked")) {$('#vegetable04').prop("checked", false);} else {$('#vegetable04').prop("checked", true);}}
+					</script>
 				</div>
-				<div>
+				<div class="orderMenu">
 					<div id="SelectSc"><p>치즈 선택</p></div>
-					<div class="menuSelect"><img src="img/menu/cheese01.png"><p>아메리칸치즈</p></div>
-					<div class="menuSelect"><img src="img/menu/cheese02.png"><p>모차렐라치즈</p></div>
+					<div>
+						<input type="radio" name="cheese" value="cheese01" id="cheese01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="cheese01()"><img src="img/menu/cheese01.png"><p>아메리칸 치즈</p></div>
+					</div>
+					<div>
+						<input type="radio" name="cheese" value="cheese02" id="cheese02" class="selectRadio">
+						<div class="menuSelect" onclick="cheese02()"><img src="img/menu/cheese02.png"><p>모차렐라 치즈</p></div>
+					</div>
+					<script>
+						function cheese01() {$('#cheese01').prop("checked", true);}
+						function cheese02() {$('#cheese02').prop("checked", true);}
+					</script>
 				</div>
-				<div>
+				<div class="orderMenu">
 					<div id="SelectSc"><p>소스 선택</p></div>
-					<div class="menuSelect"><img src="img/menu/sauce01.png"><p>허니 머스타드</p></div>
-					<div class="menuSelect"><img src="img/menu/sauce02.png"><p>스위트 어니언</p></div>
-					<div class="menuSelect"><img src="img/menu/sauce03.png"><p>스모크 바비큐</p></div>
-					<div class="menuSelect"><img src="img/menu/sauce04.png"><p>핫 칠리</p></div>
+					<div>
+						<input type="radio" name="sauce" value="sauce01" id="sauce01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="sauce01()"><img src="img/menu/sauce01.png"><p>허니 머스타드</p></div>
+					</div>
+					<div>
+						<input type="radio" name="sauce" value="sauce02" id="sauce02" class="selectRadio">
+						<div class="menuSelect" onclick="sauce02()"><img src="img/menu/sauce02.png"><p>스위트 어니언</p></div>
+					</div>
+					<div>
+						<input type="radio" name="sauce" value="sauce03" id="sauce03" class="selectRadio">
+						<div class="menuSelect" onclick="sauce03()"><img src="img/menu/sauce03.png"><p>스모크 바비큐</p></div>
+					</div>
+					<div>
+						<input type="radio" name="sauce" value="sauce04" id="sauce04" class="selectRadio">
+						<div class="menuSelect" onclick="sauce04()"><img src="img/menu/sauce04.png"><p>핫 칠리</p></div>
+					</div>
+					<script>
+						function sauce01() {$('#sauce01').prop("checked", true);}
+						function sauce02() {$('#sauce02').prop("checked", true);}
+						function sauce03() {$('#sauce03').prop("checked", true);}
+						function sauce04() {$('#sauce04').prop("checked", true);}
+					</script>
 				</div>
-			
-			
-			
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
 				<input type="hidden" name="inputShop" th:value="${shop}">
 				<input type="hidden" name="inputAddress" th:value="${address}">
+				<input type="submit" value="선택" class="btn">
 				<div id="map" style="display:none;"></div>
 			</form>
 		</div>
 		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
-
+		
+			<div id="map" style="display:none;"></div>
 		</div>
 		<div th:if="${chapter == 'chapter04'}" id="orderSearch"> <!-- 챕터4 : 주문 완료 -->
-
+			
+			<div id="map" style="display:none;"></div>
 		</div>
 	</section>
 	<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->

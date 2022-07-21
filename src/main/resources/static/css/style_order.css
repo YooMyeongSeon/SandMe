@@ -67,7 +67,7 @@ section { /* 섹션 */
 	border: 1px solid #C9CACA;
 	padding: 50px;
 }
-#orderSearch > label {
+#orderSearch > form > label {
 	margin-right: 7.5px;
 }
 #orderSearch > form > input[type=text] {
@@ -116,7 +116,7 @@ section { /* 섹션 */
 	margin-right: 15px;
 	border-right: 1px solid #C9CACA;
 }
-#orderSearch > form > div { /* 오더 메뉴 ↓ */
+.orderMenu { /* 오더 메뉴 ↓ */
 	width: 1000px;
 	height: 140px;
 	margin: 0px auto 50px;
@@ -140,6 +140,7 @@ section { /* 섹션 */
 	margin-left: 15px;
 	float: left;
 	cursor: pointer;
+	transition-duration: 0.3s;
 }
 .selectRadio {
 	display:none;
