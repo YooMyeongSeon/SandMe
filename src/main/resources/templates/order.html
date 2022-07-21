@@ -12,99 +12,175 @@
     <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 Api -->
 </head>
 <body>
-	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
 	<section>
-		<form method="post">
-			<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
-			<input type="hidden" id="order" name="order" th:value="${order}">
-			<input type="hidden" name="inputAddress" th:value="${address}">
-			<input type="hidden" name="inputShop" th:value="${shop}">
-			<div id="orderHead">
-				<div id="orderTitleDeco"></div>
-				<div th:if="${order == 'home'}">
-					<p id="orderTitle">배달 주문</p>
-					<p>온라인 주문 배달 서비스입니다.</p>
+		<div id="orderHead"> <!-- 오더 헤더 -->
+			<div id="orderTitleDeco"></div>
+			<div th:if="${order == 'home'}">
+				<p id="orderTitle">배달 주문</p>
+				<p>온라인 주문 배달 서비스입니다.</p>
+			</div>
+			<div th:if="${order == 'pickUp'}">
+				<p id="orderTitle">매장 주문</p>
+				<p>온라인 주문 후 매장 픽업/시식 서비스입니다.</p>
+			</div>
+			<div id="orderChapter"> <!-- 오더 챕터 -->
+				<div th:if="${chapter == 'chapter01'}">
+					<div class="chapterVi">
+						<img src="img/chapter01.svg" class="chapterViImg">
+						<p><span class="Step">Step1</span> <span style="color:white;">|</span> 매장 선택</p>
+					</div>
 				</div>
-				<div th:if="${order == 'pickUp'}">
-					<p id="orderTitle">매장 주문</p>
-					<p>온라인 주문 후 매장 픽업/시식 서비스입니다.</p>
+				<div th:unless="${chapter == 'chapter01'}">
+					<div class="chapterDe">
+						<img src="img/chapter01(w).svg" class="chapterDeImg">
+					</div>
 				</div>
-				<div id="orderChapter">	
-					<div th:if="${chapter == 'chapter01'}">
-						<div class="chapterVi">
-							<img src="img/chapter01.svg" class="chapterViImg">
-							<p><span class="Step">Step1</span> <span style="color:white;">|</span> 매장 선택</p>
-						</div>
+				<div class="chapterPartition"></div>
+				<div th:if="${chapter == 'chapter02'}">
+					<div class="chapterVi">
+						<img src="img/chapter02.svg" class="chapterViImg">
+						<p><span class="Step">Step2</span> <span style="color:white;">|</span> 메뉴 선택</p>
 					</div>
-					<div th:unless="${chapter == 'chapter01'}">
-						<div class="chapterDe">
-							<img src="img/chapter01(w).svg" class="chapterDeImg">
-						</div>
+				</div>
+				<div th:unless="${chapter == 'chapter02'}">
+					<div class="chapterDe">
+						<img src="img/chapter02(w).svg" class="chapterDeImg">
 					</div>
-					<div class="chapterPartition"></div>
-					<div th:if="${chapter == 'chapter02'}">
-						<div class="chapterVi">
-							<img src="img/chapter02.svg" class="chapterViImg">
-							<p><span class="Step">Step2</span> <span style="color:white;">|</span> 메뉴 선택</p>
-						</div>
+				</div>
+				<div class="chapterPartition"></div>
+				<div th:if="${chapter == 'chapter03'}">
+					<div class="chapterVi">
+						<img src="img/chapter03.svg" class="chapterViImg">
+						<p><span class="Step">Step3</span> <span style="color:white;">|</span> 주문 작성</p>
 					</div>
-					<div th:unless="${chapter == 'chapter02'}">
-						<div class="chapterDe">
-							<img src="img/chapter02(w).svg" class="chapterDeImg">
-						</div>
+				</div>
+				<div th:unless="${chapter == 'chapter03'}">
+					<div class="chapterDe">
+						<img src="img/chapter03(w).svg" class="chapterDeImg">
 					</div>
-					<div class="chapterPartition"></div>
-					<div th:if="${chapter == 'chapter03'}">
-						<div class="chapterVi">
-							<img src="img/chapter03.svg" class="chapterViImg">
-							<p><span class="Step">Step3</span> <span style="color:white;">|</span> 주문 작성</p>
-						</div>
+				</div>
+				<div class="chapterPartition"></div>
+				<div th:if="${chapter == 'chapter04'}">
+					<div class="chapterVi">
+						<img src="img/chapter04.svg" class="chapterViImg">
+						<p><span class="Step">Step4</span> <span style="color:white;">|</span> 주문 완료</p>
 					</div>
-					<div th:unless="${chapter == 'chapter03'}">
-						<div class="chapterDe">
-							<img src="img/chapter03(w).svg" class="chapterDeImg">
-						</div>
-					</div>
-					<div class="chapterPartition"></div>
-					<div th:if="${chapter == 'chapter04'}">
-						<div class="chapterVi">
-							<img src="img/chapter04.svg" class="chapterViImg">
-							<p><span class="Step">Step4</span> <span style="color:white;">|</span> 주문 완료</p>
-						</div>
-					</div>
-					<div th:unless="${chapter == 'chapter04'}">
-						<div class="chapterDe">
-							<img src="img/chapter04(w).svg" class="chapterDeImg">
-						</div>
+				</div>
+				<div th:unless="${chapter == 'chapter04'}">
+					<div class="chapterDe">
+						<img src="img/chapter04(w).svg" class="chapterDeImg">
 					</div>
 				</div>
 			</div>
-			<div th:if="${chapter == 'chapter01'}" id="orderSearch">
+		</div>
+		<div th:if="${chapter == 'chapter02'}" id="orderSearch"> <!-- 챕터1 : 매장 선택 -->
+			<form method="post">
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
 				<label for="address">매장 찾기</label>
 				<input th:if="${order == 'home'}" type="text" id="address" name="address" placeholder="배달 받으실 주소를 입력해 주세요." onclick="callAddress()">
 				<input th:if="${order == 'home'}" type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해 주세요.">
 				<input th:if="${order == 'pickUp'}" type="text" style="display:none;">
 				<input th:if="${order == 'pickUp'}" type="text" id="address" name="address" placeholder="이용하실 매장의 매장명을 입력해 주세요." style="width:626px;">
+				<button class="btn" th:onclick="search(); return false;">검색</button>
+				<div class="mapLine"></div>
+				
 				<input type="hidden" id="shopAddress" name="shopAddress">
 				<input type="hidden" id="shopNum" name="shopNum">
-				<button class="btn" type="button" onclick="search()">검색</button>
-				<div class="mapLine"></div>
 				<div id="shopSearch"></div>
-				<div id="map"></div>
-			</div>
-			<div th:if="${chapter == 'chapter02'}" id="orderSearch">
+			</form>
+			<div id="map"></div>
+		</div>
+		<div th:if="${chapter == 'chapter01'}" id="orderSearch"> <!-- 챕터2 : 메뉴 선택 -->
+			<form method="post">
+				<div>
+					<div id="SelectSc"><p>빵 선택</p></div>
+					<div>
+						<input type="radio" name="bread" value="bread01" id="bread01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="bread01()"><img src="img/menu/bread01.png"><p>화이트</p></div>
+					</div>
+					<div>
+						<input type="radio" name="bread" value="bread02" id="bread02" class="selectRadio">
+						<div class="menuSelect" onclick="bread02()"><img src="img/menu/bread02.png"><p>허니오트</p></div>
+					</div>
+					<div>
+						<input type="radio" name="bread" value="bread03" id="bread03" class="selectRadio">
+						<div class="menuSelect" onclick="bread03()"><img src="img/menu/bread03.png"><p>하티</p></div>
+					</div>
+					<div>
+						<input type="radio" name="bread" value="bread04" id="bread04" class="selectRadio">
+						<div class="menuSelect" onclick="bread04()"><img src="img/menu/bread04.png"><p>플랫브레드</p></div>
+					</div>
+					<script>
+						function bread01() {$('#bread01').prop("checked", true);}
+						function bread02() {$('#bread02').prop("checked", true);}
+						function bread03() {$('#bread03').prop("checked", true);}
+						function bread04() {$('#bread04').prop("checked", true);}
+					</script>
+				</div>
+				<div>
+					<div id="SelectSc"><p>패티 선택</p></div>
+					<div>
+						<input type="radio" name="patty" value="patty01" id="patty01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="patty01()"><img src="img/menu/patty01.png"><p>베이컨</p></div>
+					</div>
+					<div>
+						<input type="radio" name="patty" value="patty02" id="patty02" class="selectRadio">
+						<div class="menuSelect" onclick="patty02()"><img src="img/menu/patty02.png"><p>풀드포크 바비큐</p></div>
+					</div>
+					<div>
+						<input type="radio" name="patty" value="patty03" id="patty03" class="selectRadio">
+						<div class="menuSelect" onclick="patty03()"><img src="img/menu/patty03.png"><p>치킨 데리야끼</p></div>
+					</div>
+					<div>
+						<input type="radio" name="patty" value="patty04" id="patty04" class="selectRadio">
+						<div class="menuSelect" onclick="patty04()"><img src="img/menu/patty04.png"><p>쉬림프</p></div>
+					</div>
+					<script>
+						function patty01() {$('#patty01').prop("checked", true);}
+						function patty02() {$('#patty02').prop("checked", true);}
+						function patty03() {$('#patty03').prop("checked", true);}
+						function patty04() {$('#patty04').prop("checked", true);}
+					</script>
+				</div>
+				<div>
+					<div id="SelectSc"><p>야채 선택<br>(다중 선택)</p></div>
+					<div class="menuSelect"><img src="img/menu/vegetable01.png"><p>양상추</p></div>
+					<div class="menuSelect"><img src="img/menu/vegetable02.png"><p>양파</p></div>
+					<div class="menuSelect"><img src="img/menu/vegetable03.png"><p>토마토</p></div>
+					<div class="menuSelect"><img src="img/menu/vegetable04.png"><p>올리브</p></div>
+				</div>
+				<div>
+					<div id="SelectSc"><p>치즈 선택</p></div>
+					<div class="menuSelect"><img src="img/menu/cheese01.png"><p>아메리칸치즈</p></div>
+					<div class="menuSelect"><img src="img/menu/cheese02.png"><p>모차렐라치즈</p></div>
+				</div>
+				<div>
+					<div id="SelectSc"><p>소스 선택</p></div>
+					<div class="menuSelect"><img src="img/menu/sauce01.png"><p>허니 머스타드</p></div>
+					<div class="menuSelect"><img src="img/menu/sauce02.png"><p>스위트 어니언</p></div>
+					<div class="menuSelect"><img src="img/menu/sauce03.png"><p>스모크 바비큐</p></div>
+					<div class="menuSelect"><img src="img/menu/sauce04.png"><p>핫 칠리</p></div>
+				</div>
+			
+			
+			
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${shop}">
+				<input type="hidden" name="inputAddress" th:value="${address}">
 				<div id="map" style="display:none;"></div>
-				<p th:text="${order}">order</p>
-				<p th:text="${chapter}">chapter</p>
-				<p th:text="${address}">address</p>
-				<p th:text="${shop}">shop</p>
-			</div>
-			<div th:if="${chapter == 'chapter03'}" id="orderSearch">
+			</form>
+		</div>
+		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
 
-			</div>
-		</form>
+		</div>
+		<div th:if="${chapter == 'chapter04'}" id="orderSearch"> <!-- 챕터4 : 주문 완료 -->
+
+		</div>
 	</section>
-	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+	<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
     <script>
     	/* 카카오 맵 ↓ */
 		let container = document.getElementById('map');
@@ -205,7 +281,7 @@
 						if (data == "null" || info.shopOpen == "close") {
 							let html = "";
 	
-							html += "<p>입력하신 주소 주변으로 배달 가능한 매장이 없습니다.</p>";
+							html += "<p>입력하신 매장이 없거나, 영업시간이 아닙니다.</p>";
 								html += "<div class=\"mapLine\"></div>";
 										
 							$("#shopSearch").append(html);
