@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>장바구니 목록</title>
+<link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+<link rel="stylesheet" href="./css/style_main.css"> <!-- 메인 스타일 시트 -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<section>
+		<H1>장바구니 페이지</H1>
+	 	<table border="1">
+         	<tr>
+        		<th>체크박스자리</th>
+                <th>회원 이름</th>
+                <th>장바구니 메뉴</th>
+                <th>장바구니 수량</th>
+           </tr>
+           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
+           		<td th:text="${cart.cartNum}"></td>
+				<td th:text="${cart.memberName}"></td>
+				<td th:text="${cart.cartMenu}"></td>
+				<td th:text="${cart.cartCount}"></td>
+				<td><button th:onclick="|javascript:delcart(${cart.cartNum})|">삭제</button></td>
+			</tr>   	 
+		</table>
+		<br>
+		<input type="submit" value="결제">
+	</section>
+	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+	<script>
+		function delcart(delNum) {
+			let delcartNum = '#cart' + delNum;
+			let cartNum = delNum;
+			
+			$.ajax({
+				url : "/cart/delete",
+				type : "post",
+				async : true,
+				data : {"cartNum" : cartNum},
+				success : function(data) {
+					$(delcartNum).remove();
+				}
+			});
+		}
+	</script>
+</body>
+</html>
