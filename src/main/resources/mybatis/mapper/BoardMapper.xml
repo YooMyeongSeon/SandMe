@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.green.sandme.board.notice.dao.BoardDao"> 
+ 	
+ 	<!-- 공지사항 목록 쿼리문-->
+    <select id="getBoard" resultType="com.green.sandme.board.notice.vo.BoardVO">
+       SELECT * 
+       FROM boardTbl order by boardNum DESC
+    </select>
+ 	
+ 	<!-- 공지사항 상세보기를 위한 쿼리문 -->
+    <select parameterType="int" id="viewBoard" resultType="com.green.sandme.board.notice.vo.BoardVO">
+       SELECT * 
+       FROM boardTbl
+       WHERE boardNum = #{boardNum}
+    </select>
+    
+    <!-- 조회수를 증가시키기 위한 쿼리문 -->
+    <update id="updateViewCnt" parameterType="int">
+        update boardTbl
+        SET boardReadNum = boardReadNum + 1
+        WHERE boardNum = #{boardNum}
+	</update> 
+	
+
+    <!-- 공지사항을 수정하는 쿼리문 -->
+	<update id="updateBoard" parameterType="com.green.sandme.board.notice.vo.BoardVO">
+		UPDATE boardTbl
+		SET boardTitle=#{boardTitle},boardContent=#{boardContent},boardDate=sysdate
+		WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- 공지사항을 등록하는 쿼리문 -->
+	<insert id="insertBoard" parameterType="com.green.sandme.board.notice.vo.BoardVO">
+		INSERT INTO boardTbl VALUES
+		(board_seq.nextval, #{boardUser}, #{boardTitle}, #{boardContent}, 0, sysdate)
+	</insert>
+	 
+	<!-- 공지사항을 삭제하는 쿼리문 -->
+	<delete parameterType="int" id="deleteBoard">
+       delete FROM boardTbl
+       WHERE boardNum = #{boardNum}
+    </delete>
+</mapper>
+
+<!-- mybatis를 통한 sql제어를 위한 .xml파일
+	mybatis에서는 .xml mapping을 통해 쿼리문만 관리하기 가능
+ -->

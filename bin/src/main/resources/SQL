@@ -1,0 +1,85 @@
+create table shop_tbl(shopNum number PRIMARY KEY,
+    shopName varchar2(50) not null UNIQUE,
+    shopAddress varchar2(200) not null,
+    shopTel varchar2(50) not null,
+    shopOpen varchar2(50) not null);
+    
+create sequence shop_seq nocache;
+
+insert into shop_tbl values(shop_seq.nextval, '금곡점', '경기도 수원시 권선구 금곡로197번길 18-82 103호', '031-357-3579', 'open');
+insert into shop_tbl values(shop_seq.nextval, '세류점', '경기도 수원시 권선구 새터로 40 105호', '031-357-3580', 'open');
+insert into shop_tbl values(shop_seq.nextval, '매탄점', '경기도 수원시 영통구 매영로 160 102호', '031-357-3581', 'open');
+insert into shop_tbl values(shop_seq.nextval, '이의점', '경기도 수원시 영통구 센트럴파크로128번길 83 104호', '031-357-3582', 'open');
+insert into shop_tbl values(shop_seq.nextval, '정자점', '경기도 수원시 장안구 파장로 109 103호', '031-357-3583', 'open');
+insert into shop_tbl values(shop_seq.nextval, '광교점', '경기도 수원시 장안구 광교산로 154-11 105호', '031-357-3584', 'open');
+insert into shop_tbl values(shop_seq.nextval, '팔달점', '경기도 수원시 팔달구 팔달로2가 47-20 102호', '031-357-3585', 'open');
+commit;
+
+select * from shop_tbl;
+
+create table area_tbl(areaNum number PRIMARY KEY,
+    shopNum number not null,
+    areaName varchar2(50) not null UNIQUE,
+    FOREIGN KEY(shopNum) REFERENCES shop_tbl(shopNum));
+    
+create sequence area_seq nocache;
+
+insert into area_tbl values(area_seq.nextval, 1, '당수동');
+insert into area_tbl values(area_seq.nextval, 1, '입북동');
+insert into area_tbl values(area_seq.nextval, 1, '금곡동');
+insert into area_tbl values(area_seq.nextval, 1, '구운동');
+insert into area_tbl values(area_seq.nextval, 1, '호매실동');
+insert into area_tbl values(area_seq.nextval, 1, '탑동');
+insert into area_tbl values(area_seq.nextval, 1, '서둔동');
+insert into area_tbl values(area_seq.nextval, 2, '오목천동');
+insert into area_tbl values(area_seq.nextval, 2, '고색동');
+insert into area_tbl values(area_seq.nextval, 2, '평동');
+insert into area_tbl values(area_seq.nextval, 2, '평리동');
+insert into area_tbl values(area_seq.nextval, 2, '세류동');
+insert into area_tbl values(area_seq.nextval, 2, '장지동');
+insert into area_tbl values(area_seq.nextval, 2, '권선동');
+insert into area_tbl values(area_seq.nextval, 2, '대황교동');
+insert into area_tbl values(area_seq.nextval, 2, '곡반정동');
+insert into area_tbl values(area_seq.nextval, 3, '망포동');
+insert into area_tbl values(area_seq.nextval, 3, '신동');
+insert into area_tbl values(area_seq.nextval, 3, '매탄동');
+insert into area_tbl values(area_seq.nextval, 3, '영통동');
+insert into area_tbl values(area_seq.nextval, 3, '원천동');
+insert into area_tbl values(area_seq.nextval, 4, '이의동');
+insert into area_tbl values(area_seq.nextval, 4, '하동');
+insert into area_tbl values(area_seq.nextval, 5, '율전동');
+insert into area_tbl values(area_seq.nextval, 5, '이목동');
+insert into area_tbl values(area_seq.nextval, 5, '천천동');
+insert into area_tbl values(area_seq.nextval, 5, '정자동');
+insert into area_tbl values(area_seq.nextval, 5, '파장동');
+insert into area_tbl values(area_seq.nextval, 6, '상광교동');
+insert into area_tbl values(area_seq.nextval, 6, '하광교동');
+insert into area_tbl values(area_seq.nextval, 6, '송죽동');
+insert into area_tbl values(area_seq.nextval, 6, '조원동');
+insert into area_tbl values(area_seq.nextval, 6, '영화동');
+insert into area_tbl values(area_seq.nextval, 6, '연무동');
+insert into area_tbl values(area_seq.nextval, 7, '화서동');
+insert into area_tbl values(area_seq.nextval, 7, '남창동');
+insert into area_tbl values(area_seq.nextval, 7, '장안동');
+insert into area_tbl values(area_seq.nextval, 7, '신풍동');
+insert into area_tbl values(area_seq.nextval, 7, '북수동');
+insert into area_tbl values(area_seq.nextval, 7, '팔달로1가');
+insert into area_tbl values(area_seq.nextval, 7, '팔달로2가');
+insert into area_tbl values(area_seq.nextval, 7, '팔달로3가');
+insert into area_tbl values(area_seq.nextval, 7, '영동');
+insert into area_tbl values(area_seq.nextval, 7, '구천동');
+insert into area_tbl values(area_seq.nextval, 7, '중동');
+insert into area_tbl values(area_seq.nextval, 7, '매향동');
+insert into area_tbl values(area_seq.nextval, 7, '남수동');
+insert into area_tbl values(area_seq.nextval, 7, '지동');
+insert into area_tbl values(area_seq.nextval, 7, '우만동');
+insert into area_tbl values(area_seq.nextval, 7, '인계동');
+insert into area_tbl values(area_seq.nextval, 7, '매교동');
+insert into area_tbl values(area_seq.nextval, 7, '교동');
+insert into area_tbl values(area_seq.nextval, 7, '매산로1가');
+insert into area_tbl values(area_seq.nextval, 7, '매산로2가');
+insert into area_tbl values(area_seq.nextval, 7, '매산로3가');
+insert into area_tbl values(area_seq.nextval, 7, '고등동');
+commit;
+
+select * from area_tbl;
