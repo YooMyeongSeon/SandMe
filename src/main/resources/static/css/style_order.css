@@ -11,12 +11,12 @@ section { /* 섹션 */
 	width: 40px;
 	height: 5px;
 	margin: 0px auto;
-	background-color: #FACE34;
+	background-color: #009223;
 }
 #orderTitle {
 	font-family: 'S-CoreDream-6Bold';
 	font-size: 32pt;
-	color: #5CB531;
+	color: #009223;
 	margin: 10px 0px 25px;
 }
 #orderChapter { /* 오더 챕터 ↓ */
@@ -27,7 +27,7 @@ section { /* 섹션 */
 .chapterVi {
 	width: 170px;
 	height: 120px;
-	background-color: #FACE34;
+	background-color: #009223;
 	border-radius: 5px;
 	float: left;
 }
@@ -44,7 +44,7 @@ section { /* 섹션 */
 }
 .Step {
 	font-family: 'S-CoreDream-6Bold';
-	color: #5CB531;
+	color: #009223;
 }
 .chapterViImg {
 	width: 120px;
@@ -88,7 +88,7 @@ section { /* 섹션 */
 	height: 40px;
 	border: none;
 	border-radius: 5px;
-	background-color: #5CB531;
+	background-color: #009223;
 	color: white;
 	cursor: pointer;
 	display: inline-block;
@@ -147,7 +147,7 @@ section { /* 섹션 */
 }
 .selectRadio:checked ~ .menuSelect {
 	transition-duration: 0.3s;
-	background-color: #5CB531;
+	background-color: #009223;
 }
 .selectRadio:checked ~ .menuSelect > p{
 	transition-duration: 0.3s;

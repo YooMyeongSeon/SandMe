@@ -1,19 +1,45 @@
 @charset "UTF-8";
 
-section {
-    padding-top: 210px;
-}
-#mainbanner {
+#mainBanner {
+	width: 1920px;
+	margin:0px auto;
     height: 450px;
+    position: relative;
 }
-#mainbanner > img {
+.mainBannerImg > img {
 	width: 1920px;
 	height: 450px;
 }
+#mainBtL {
+	position: absolute; top:187.5px; left: 50px;
+	opacity: 0.25;
+	z-index: 10;
+}
+#mainBtL > img {
+	width: 75px;
+}
+#mainBtR {
+	position: absolute; top:187.5px; right: 50px;
+	z-index: 10;
+}
+#mainBtR > img {
+	width: 75px;
+	transform: scaleX(-1);
+}
 #BestMenu {
+	width: 1200px;
+	margin: 0px auto;
     height: 350px;
 }
+#BestMenu > p {
+	font-size: 26pt;
+	font-family: 'S-CoreDream-6Bold';
+}
+.mainMenu > img {
+	width: 300px;
+}
 #tendency {
+	width: 1920px;
     height: 350px;
-    background-color: #5CB531;
+    background-color: #009223;
 }

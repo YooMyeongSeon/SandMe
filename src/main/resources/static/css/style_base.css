@@ -4,7 +4,7 @@
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    font-family: 'S-CoreDream-3Light';
+    font-family: 'S-CoreDream-4Regular';
 }
 a {
     color:#3E3A39;
@@ -15,9 +15,9 @@ ul {
     list-style: none;
 }
 body{
+	color: #3E3A39;
 	position: relative;
 	overflow-x: hidden;
-	z-index: 1;
 }
 @font-face { /* S-CoreDream Light 폰트 */
      font-family: 'S-CoreDream-3Light';
@@ -47,7 +47,7 @@ body{
     border: 2.5px solid transparent;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #FACE34;
+    background-color: #FFCE32;
 }
 ::-webkit-scrollbar-track {
     background-color: #EFEFEF;
@@ -88,11 +88,11 @@ header { /* 헤더 ↓ */
     font-size: 10pt;
 }
 #hdLeft > ul > li > a {
-    color: #5CB531;
+    color: #009223;
 }
 #hdLeft > ul > li:first-child {
     padding-right: 15px;
-    border-right: 1px solid #FACE34;
+    border-right: 1px solid #FFCE32;
 }
 #hdLeft > ul > li:last-child {
     padding-left: 15px;
@@ -128,12 +128,14 @@ nav { /* 네비게이션 ↓ */
 #openNav > ul > li {
 	font-size: 12pt;
     display: inline-block;
-    width: 160px;
+    width: 120px;
     height: 60px;
     line-height: 60px;
+    position: relative;
+    margin: 0px 20px;
 }
 #openNav > ul > li:hover > a {
-    color: #5CB531;
+    color: #009223;
     transition-duration: 0.3s;
 }
 #openNav:hover > #detailNav { /* 네비게이션 상세 ↓ */
@@ -147,6 +149,18 @@ nav { /* 네비게이션 ↓ */
     min-width: 1200px;
     background-color: white;
     overflow: hidden;
+    transition-duration: 0.3s;
+}
+.orderLiDeco {
+	height: 0px;
+	width: 120px;
+	background-color: #FFCE32;
+	position: absolute; bottom: 0px;
+	transition-duration: 0.15s;
+}
+li:hover > .orderLiDeco{
+	height: 5px;
+	transition-duration: 0.15s;
 }
 #detailNav > ul {
 	vertical-align: top;
@@ -159,16 +173,24 @@ nav { /* 네비게이션 ↓ */
 	margin-bottom: 10px;
 }
 #detailNav > ul > li:hover > a {
-	color: #5CB531;
+	color: #009223;
     transition-duration: 0.3s;
 }
+section { /* 섹션 */
+	position: absolute; left: 50%; transform: translateX(-50%);
+    min-width: 1200px;
+    padding-top: 210px;
+    z-index: 1;
+}
 footer { /* 푸터 ↓ */
+	width: 1920px;
     height: 250px;
     background-color: #3E3A39;
+    z-index: 10;
 }
 #ftHead { /* 푸터 헤드 ↓ */
-	width: 100%;
-	min-width: 1200px;
+	width: 1200px;
+	margin: 0px auto;
 	height: 60px;
 	padding:20px;
 	font-size: 10pt;

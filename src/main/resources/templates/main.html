@@ -4,34 +4,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SandMe</title>
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
     <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
     <link rel="stylesheet" href="./css/style_main.css"> <!-- 메인 스타일 시트 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> <!--메인롤링배너-->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> <!--메인롤링배너-->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> <!-- 메인롤링배너 -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> <!-- 메인롤링배너 -->
 </head>
 <body>
-	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
     <section>
-        <div id="mainbanner">
-			<img src="./img/test.jpg">
+    	<div id="mainBanner"> <!-- 메인배너 ↓ -->
+            <div class="swiper mySwiper">  
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"> <!-- 메인배너1 ↓ -->
+                        <div class="mainBannerImg"><img src="./img/mainBanner_01.jpg"></div>
+                    </div>
+                    <div class="swiper-slide"> <!-- 메인배너2 ↓ -->
+                        <div class="mainBannerImg"><img src="./img/mainBanner_02.jpg"></div>
+                    </div>
+                    <div class="swiper-slide"> <!-- 메인배너3 ↓ -->
+                        <div class="mainBannerImg"><img src="./img/mainBanner_03.jpg"></div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" id="mainBtL"><img src="./img/mainBt.svg"></a>
+            <a href="#" id="mainBtR"><img src="./img/mainBt.svg"></a>
         </div>
         <div id="BestMenu">
-        	<table>
-				<tr th:each="best : ${list}">
-			        <td th:text="${best.menu}">menu</td>
-			        <td th:text="${best.price}">price</td>
-			    </tr>
-		    </table>
+	        <p>SandMe's Menu</p>
+        	<div class="swiper mySwiper">  
+                <div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="mainMenu"><img src="./img/menu/menu01.png"><p>SandMe's Menu</p></div>
+		        		<div class="mainMenu"><img src="./img/menu/menu02.png"><p>SandMe's Menu</p></div>
+		        		<div class="mainMenu"><img src="./img/menu/menu03.png"><p>SandMe's Menu</p></div>
+		        		<div class="mainMenu"><img src="./img/menu/menu04.png"><p>SandMe's Menu</p></div>
+	        		</div>
+	        		<div class="swiper-slide">
+						<div class="mainMenu"><img src="./img/menu/menu01.png"><p>SandMe's Menu</p></div>
+		        		<div class="mainMenu"><img src="./img/menu/menu02.png"><p>SandMe's Menu</p></div>
+		        		<div class="mainMenu"><img src="./img/menu/menu03.png"><p>SandMe's Menu</p></div>
+		        		<div class="mainMenu"><img src="./img/menu/menu04.png"><p>SandMe's Menu</p></div>
+	        		</div>
+                </div>
+            </div>
         </div>
         <div id="tendency">
 
         </div>
+        <th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
     </section>
-    <th:block th:replace="fragments/footer :: footerFragment"></th:block>
     <script>
-
+	    let bt_pv = $("#mainBtL");
+	    let bt_nt = $("#mainBtR");
+	    let swiper = new Swiper(".mySwiper", {navigation: {nextEl: "#mainBtR", prevEl: "#mainBtL"},
+	        on: {activeIndexChange: function() {
+	            if (this.realIndex == 0) {
+	                bt_pv.css("opacity","0.25");
+	            } else if (this.realIndex == 1) {
+	                bt_pv.css("opacity","1");
+	                bt_nt.css("opacity","1");
+	            } else {
+	                bt_nt.css("opacity","0.25");
+	            }
+	        }}
+	    });
     </script>
 </body>
 </html>
