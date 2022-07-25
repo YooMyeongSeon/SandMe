@@ -26,10 +26,11 @@
 	</update> 
 	
 
+
     <!-- 공지사항을 수정하는 쿼리문 -->
 	<update id="updateBoard" parameterType="com.green.sandme.board.notice.vo.BoardVO">
 		UPDATE boardTbl
-		SET boardTitle=#{boardTitle},boardContent=#{boardContent},boardDate=sysdate
+		SET boardTitle = #{boardTitle},boardContent = #{boardContent},boardDate = sysdate
 		WHERE boardNum = #{boardNum}
 	</update>
 	

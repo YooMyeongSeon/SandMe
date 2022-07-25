@@ -17,7 +17,6 @@ public class BoardController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	
 	// 공지사항 목록 보기
 	@RequestMapping("/boardList")
 	public String boardList(Model model) {
@@ -36,6 +35,7 @@ public class BoardController {
 		return "board/notice/boardView";
 	}
 	/////////////////////////////////////////////////////////////////////////
+	
 	//게시글 작성 화면 호출
 	@RequestMapping("/boardWriteForm")		
     public String openBoardWrite() {
@@ -48,7 +48,9 @@ public class BoardController {
     	sqlSession.insert("com.green.sandme.board.notice.dao.BoardDao.insertBoard", bVo);
     	return "redirect:boardList";
     }
+	
 	// //////////////////////////////////////////////////////////////////////////
+	
 	@RequestMapping("/boardUpdateForm")
 	public String boardUpdateForm(Model model, int boardNum) {
 		BoardVO bVo = sqlSession.selectOne("com.green.sandme.board.notice.dao.BoardDao.viewBoard", boardNum);
@@ -59,11 +61,13 @@ public class BoardController {
 	// 게시글 수정 기능
 	@RequestMapping("/boardUpdate")		
     public String updateBoard(BoardVO bVo) {
-    	sqlSession.update("com.green.sandme.board.notice.dao.BoardDao.insertBoard", bVo);
+    	sqlSession.update("com.green.sandme.board.notice.dao.BoardDao.updateBoard", bVo);
+    	
     	return "forward:boardView";
     }
+	
 	///////////////////////////////////////////////////////////////////////////////////
-	@RequestMapping("/boardDelete")
+	@RequestMapping("/boardsDelete")
 	public String deleteBoard(int boardNum) {
 		sqlSession.delete("com.green.sandme.board.notice.dao.BoardDao.deleteBoard", boardNum);
 		return "redirect:boardList";

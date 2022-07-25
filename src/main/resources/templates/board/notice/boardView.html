@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<th>작성일</th>
-				<td colspan="3"><span th:text="${bVo.boardDate}"></span></td>
+				<td colspan="3"><span th:text="${bVo.boardDate}"></span></td>  
 			</tr>
 		</table>
 		<button th:onclick="'location.href=\''+@{boardUpdateForm(boardNum=${bVo.boardNum})}+'\''">게시물 수정</button>
