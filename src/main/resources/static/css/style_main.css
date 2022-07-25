@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-#mainBanner {
-	width: 1920px;
-	margin:0px auto;
+#mainBanner { /* 메인 롤링 배너 ↓ */
     height: 450px;
     position: relative;
 }
@@ -11,35 +9,89 @@
 	height: 450px;
 }
 #mainBtL {
-	position: absolute; top:187.5px; left: 50px;
+	position: absolute; top:200px; left: 50px;
 	opacity: 0.25;
 	z-index: 10;
 }
-#mainBtL > img {
-	width: 75px;
+#mainBtL > img, #mainBtR > img {
+	width: 30px;
 }
 #mainBtR {
-	position: absolute; top:187.5px; right: 50px;
+	position: absolute; top:200px; right: 50px;
 	z-index: 10;
 }
 #mainBtR > img {
-	width: 75px;
 	transform: scaleX(-1);
 }
-#BestMenu {
+#mainMenu { /* 메인 메뉴 소개 ↓ */
 	width: 1200px;
-	margin: 0px auto;
+	margin: 100px auto;
     height: 350px;
+    position: relative;
 }
-#BestMenu > p {
+#mainMenuTitleDeco {
+	width: 60px;
+	height: 60px;
+	background-color: #FFCE32;
+	border-radius: 30px 0px 30px 30px;
+	position: relative;
+}
+#mainMenuTitleDeco > p {
 	font-size: 26pt;
 	font-family: 'S-CoreDream-6Bold';
+	position: absolute; left:25px; top:10px;
+	white-space: nowrap;
 }
-.mainMenu > img {
-	width: 300px;
+.mainMenus {
+	margin-top: 20px;
+	width: 291px;
+	text-align: center;
+	float: left;
 }
-#tendency {
-	width: 1920px;
-    height: 350px;
-    background-color: #009223;
+.mainMenus:not(:last-child) {
+	margin-right: 12px;
+}
+.mainMenus > img {
+	width: 291px;
+}
+.mainMenusName {
+	font-family: 'S-CoreDream-6Bold';
+	margin-top: -25px;
+}
+.mainMenusInfo {
+	margin-top: 10px;
+	font-size: 10pt;
+	color: #898989;
+	line-height: 16pt;
+}
+#mainMenuBtL {
+	position: absolute; top:180px; left:-50px;
+	opacity: 0.25;
+}
+#mainMenuBtL > img, #mainMenuBtR > img {
+	width: 15px;
+}
+#mainMenuBtR {
+	position: absolute; top:180px; right:-50px;
+}
+#mainMenuBtR > img {
+	transform: scaleX(-1);
+}
+#mainEtc { /* 메인 기타 ↓ */
+    height: 440px;
+    background-color: #EFEFEF;
+    padding: 60px 360px 100px;
+}
+#mainEtc > div {
+	height: 280px;
+	background-color: white;
+	border-radius: 30px 0px 30px 30px;
+	float: left;
+}
+#mainEtcNotice {
+	width: 800px;
+	margin-right: 20px;
+}
+#mainEtcShop{
+	width: 380px;
 }

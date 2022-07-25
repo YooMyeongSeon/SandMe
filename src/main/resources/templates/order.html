@@ -226,8 +226,8 @@
 			
 			<div id="map" style="display:none;"></div>
 		</div>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
-	<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
     <script>
     	/* 카카오 맵 ↓ */
 		let container = document.getElementById('map');
@@ -300,7 +300,7 @@
 						} else {
 							let html = "";
 							
-							html += "<p class=\"shopSearchInfo\"><span style=\"color:#5CB531;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
 							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"
@@ -335,7 +335,7 @@
 						} else {
 							let html = "";
 							
-							html += "<p class=\"shopSearchInfo\"><span style=\"color:#5CB531;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
 							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"

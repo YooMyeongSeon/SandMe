@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 section { /* 섹션 */
-    padding-top: 210px;
     text-align: center;
 }
 #orderHead { /* 오더 헤드 ↓ */
@@ -11,7 +10,7 @@ section { /* 섹션 */
 	width: 40px;
 	height: 5px;
 	margin: 0px auto;
-	background-color: #009223;
+	background-color: #FFCE32;
 }
 #orderTitle {
 	font-family: 'S-CoreDream-6Bold';
@@ -27,7 +26,7 @@ section { /* 섹션 */
 .chapterVi {
 	width: 170px;
 	height: 120px;
-	background-color: #009223;
+	background-color: #FFCE32;
 	border-radius: 5px;
 	float: left;
 }
@@ -149,7 +148,7 @@ section { /* 섹션 */
 	transition-duration: 0.3s;
 	background-color: #009223;
 }
-.selectRadio:checked ~ .menuSelect > p{
+.selectRadio:checked ~ .menuSelect > p {
 	transition-duration: 0.3s;
 	color: white;
 }
