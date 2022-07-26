@@ -22,7 +22,7 @@ public class CartListController {
 @Autowired
 private SqlSession sqlSession;
 	
-	// 장바구니 테이블 전체 조회 -> 삭제 확인
+	// 장바구니 테이블 전체 조회 -> 삭제 확인 용도
 	@GetMapping("/cartTable")
 	public String cartTable(Model model) {
 		List<CartVO> allList = sqlSession.selectList("cart.selectAll");
@@ -44,10 +44,12 @@ private SqlSession sqlSession;
 	public String cartList(Model model, int memberNum) {
  
 		 // 회원에 따른 장바구니 정보
-		 List<CartVOForList> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.SelectCart", memberNum);
+		List<CartVOForList> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.SelectCart", memberNum);
+
+		
+		model.addAttribute("cartList", cartList);
+		return "member/cartList"; 
 		 
-		 model.addAttribute("cartList", cartList);
-		  return "member/cartList"; 
 	  }
 	
 	

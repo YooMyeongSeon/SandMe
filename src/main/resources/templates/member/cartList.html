@@ -8,43 +8,151 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
 </head>
 <body>
-	<th:block th:replace="fragments/header :: headerFragment"></th:block>
-	<section>
-		<H1>장바구니 페이지</H1>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>	
+
+<!-- <section>
+		<H1>장바구니</H1>
+		<p th:text="${cartList[0].cartCount}"></p>
 	 	<table border="1">
          	<tr>
-        		<th>체크박스자리</th>
+        		<th> <input type="checkbox" name="all" id="all"> 전체 선택 </th>
                 <th>회원 이름</th>
                 <th>장바구니 메뉴</th>
-                <th>장바구니 수량</th>
+                <th>장바구니 수량</th>       
            </tr>
            <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
-           		<td th:text="${cart.cartNum}"></td>
+           		<td><input type="checkbox" name="delNum" th:value="${cart.cartNum}"></td>
 				<td th:text="${cart.memberName}"></td>
 				<td th:text="${cart.cartMenu}"></td>
-				<td th:text="${cart.cartCount}"></td>
-				<td><button th:onclick="|javascript:delcart(${cart.cartNum})|">삭제</button></td>
+				<td th:text="${cart.cartCount}" class="cart_count"></td>
 			</tr>   	 
 		</table>
 		<br>
+		<input type="button" value="메뉴 추가">
+		<button th:onclick="delcart()">선택 삭제</button>
 		<input type="submit" value="결제">
-	</section>
-	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
-	<script>
-		function delcart(delNum) {
-			let delcartNum = '#cart' + delNum;
-			let cartNum = delNum;
-			
-			$.ajax({
-				url : "/cart/delete",
-				type : "post",
-				async : true,
-				data : {"cartNum" : cartNum},
-				success : function(data) {
-					$(delcartNum).remove();
-				}
-			});
+</section>  -->
+
+<br><br><br><br><br><br>
+<section th:if="${cartList[0].cartCount != empty}">
+		<H1>장바구니</H1>
+		장바구니 수량이 비어있지 않을 때
+			<table border="1">
+	         	<tr>
+	        		<th> <input type="checkbox" name="all" id="all"> 전체 선택 </th>
+	                <th>장바구니 메뉴</th>
+	                <th>장바구니 수량</th>       
+	           </tr>
+	           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
+	           		<td><input type="checkbox" name="delNum" th:value="${cart.cartNum}"></td>
+					<td th:text="${cart.cartMenu}"></td>
+					<td th:text="${cart.cartCount}" class="cart_count"></td>
+				</tr>   	 
+			</table>
+			<br>
+			<input type="button" value="메뉴 추가">
+			<button th:onclick="delcart()">선택 삭제</button>
+			<input type="submit" value="결제">
+</section> 
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+	
+<script type="text/javascript">
+
+
+// 선택 상품, 전체 선택 상품 삭제
+
+	 $(function(){
+		 let chk = document.getElementsByName("delNum");
+		 let chkrow = chk.length;
+		 
+		 // 전체 삭제 체크박스를 누르면 chk_list에 항목 수 만큼 저장
+		 $("input[name='all']").click(function(){
+			let chk_list = $("input[name='delNum']");
+			for(let i=0; i <chk_list.length; i++){
+				chk_list[i].checked = this.checked;
+			}
+		 });
+		 
+		 // checked 된 delNum의 수가 chkrow의 수와 같다는 건 전체선택 되었다는 것
+		 // 따라서, 전체 체크박스도 체크 해줌
+		 $("input[name='delNum']").click(function(){
+			 if($("input[name='delNum']:checked").length == chkrow){
+				 $("input[name='all']")[0].checked = true;
+			 }
+			 else {
+				 $("input[name='all']")[0].checked = false;
+			 }
+		 });
+	 }); 
+
+	// cartNum을 배열로 선언한 후, 그 안에 선택된 체크박스를 list에 담고
+	// 선택된 체크박스의 수만큼 cartNum배열에 담는다.
+	function delcart(){
+
+		let cartNum = new Array();
+		let list = $("input[name='delNum']");
+		
+		
+		for(let i = 0; i < list.length; i++){
+			if(list[i].checked){
+				cartNum.push(list[i].value);
+			}
 		}
-	</script>
+		console.log(cartNum);
+		
+		// 만약에 cartNum의 길이가 0이라면 선택된 항목이 없으므로 alert
+		if(cartNum.length==0){
+			alert("선택 항목이 없습니다.")
+		}else {
+			if(confirm("정말 삭제하시겠습니까?")){	
+				$.ajax({
+					url : "/cart/delete",
+					type : "post",
+					async : true,
+					data : {cartNum : cartNum},
+					success : function(result) {
+						if(result=1){
+							alert("삭제 성공");
+							
+							for(let i=0; i<list.length; i++){
+								$('#cart' + cartNum[i]).remove();
+							}
+						}
+					}
+				})
+			}else {
+				alert("삭제 실패");
+			} 
+		}  
+			
+	
+	}
+	
+	// ajax를 통해 post방식으로 CartController에 값을 담은 배열 cartNum을 cartNum에 담아 전송
+	// 만약 성공했다면 alert("삭제 성공")
+	// html에 해당 테이블을 지우기 위해 list의 수만큼 tr에 준 id '#cart' + 배열cartNum에 담긴 요소들을
+	// 반복문을 통해 하나씩 꺼내와 삭제한다.
+		 
+
+</script> 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

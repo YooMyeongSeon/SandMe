@@ -29,8 +29,8 @@
  
  <!-- 장바구니 목록 조회 -->
     <select id="SelectCart" resultType="com.green.sandme.member.cart.vo.CartVOForList" parameterType="int">
-       SELECT m.memberNum, m.memberName, c.cartMenu, c.cartCount, c.cartNum
-		FROM cart_tbl c INNER JOIN member_tbl m
+        SELECT  c.cartMenu, c.cartCount, c.cartNum
+		FROM cart_tbl c RIGHT OUTER JOIN member_tbl m
 		ON c.memberNum = m.memberNum
 		WHERE m.memberNum = #{memberNum}
     </select>
