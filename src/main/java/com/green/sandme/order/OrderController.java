@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
+import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
 
 @Controller
@@ -59,13 +60,23 @@ public class OrderController {
 			int shop = Integer.parseInt(request.getParameter("inputShop"));
 			int sandMenu = Integer.parseInt(request.getParameter("selectsandMenu"));
 			
+			MenuVo mVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectMenu", sandMenu);
+			
 			model.addAttribute("shop", shop);
-			model.addAttribute("sandMenu", sandMenu);
+			model.addAttribute("mVo", mVo);
 			model.addAttribute("chapter", "chapter02_02");
 		} else if (chapter.equals("chapter02_02")) {
+			if (order.equals("home")) {
+				String address = request.getParameter("inputAddress");
+				model.addAttribute("address", address);
+			}
 			
 			model.addAttribute("chapter", "chapter03");
 		} else if (chapter.equals("chapter03")) {
+			if (order.equals("home")) {
+				String address = request.getParameter("inputAddress");
+				model.addAttribute("address", address);
+			}
 			
 			model.addAttribute("chapter", "chapter04");
 		}

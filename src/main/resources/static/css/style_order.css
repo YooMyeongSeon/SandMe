@@ -146,12 +146,65 @@ section { /* 섹션 */
 	font-size: 14pt;
 	color: #FFCE32;
 }
-
-
-
-
-
-.orderMenu { /* 오더 메뉴_2 ↓ */
+#selectSandMenuInfo { /* 오더 메뉴_2 ↓ */
+	margin: 0px 60px 40px;
+	height: 320px;
+}
+#selectSandMenuInfo > img {
+	float: left;
+	width: 500px;
+}
+#selectSandMenuInfo > div {
+	float: left;
+	text-align: left;
+	padding: 100px 0px 0px 20px;
+}
+#selectSandMenuInfo > div > p:first-child{
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+}
+#selectSandMenuInfo > div > p:nth-child(2) {
+	font-size: 16pt;
+	margin-top: 10px;
+	color: #C9CACA;
+}
+#selectSandMenuInfo > div > p:last-child {
+	margin-top: 20px;
+}
+#nutrientInfo {
+	height: 250px;
+	margin: 0px 60px 40px;
+	text-align: left;
+}
+#nutrientInfo > p:first-child {
+	font-family: 'S-CoreDream-6Bold';
+	color: #C9CACA;
+	font-size: 16pt;
+	margin-bottom: 15px;
+}
+#nutrientInfo > table {
+	border-collapse: collapse;
+}
+#nutrientInfo > table > tbody > tr > td, th {
+	border-top: 1px solid #009223;
+	border-bottom:  1px solid #009223;
+	width: 163px;
+	height: 60px;
+	text-align: center;
+}
+#nutrientInfo > table > tbody > tr:first-child > th {
+	border-top: 4px solid #009223;
+	color: #009223;
+}
+#nutrientInfo > div {
+	margin-top: 15px;
+	line-height: 16pt;
+}
+#nutrientInfo > div > p {
+	color: #C9CACA;
+	font-size: 10pt;
+}
+.orderMenu {
 	width: 1000px;
 	height: 140px;
 	margin: 0px auto 50px;
