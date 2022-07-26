@@ -83,3 +83,18 @@ insert into area_tbl values(area_seq.nextval, 7, '고등동');
 commit;
 
 select * from area_tbl;
+
+create table menu_tbl(menuNum number PRIMARY KEY,
+    menuName varchar2(50) not null UNIQUE,
+    menuEngName varchar2(50) not null,
+    menuEx varchar2(200) not null,
+    menukcal varchar2(50) not null,
+    menuPicUrl varchar2(200) not null,
+    menuNutri varchar2(200) not null);
+    
+create sequence menu_seq nocache;
+
+insert into menu_tbl values(menu_seq.nextval, '베지', 'Veggie Delite', '갓 구운 빵과 신선한 8가지 야채로 즐기는 깔끔한 한끼', '209', 'img/menu/menu01.png', '1642099.2(17%)0.6(4%)7.6(8%)262(13%)');
+commit;
+
+select * from menu_tbl;

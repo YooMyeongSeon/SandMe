@@ -38,13 +38,13 @@
 					</div>
 				</div>
 				<div class="chapterPartition"></div>
-				<div th:if="${chapter == 'chapter02'}">
+				<div th:if="${chapter == 'chapter02_01' || chapter == 'chapter02_02'}">
 					<div class="chapterVi">
 						<img src="img/chapter02.svg" class="chapterViImg">
 						<p><span class="Step">Step2</span> <span style="color:white;">|</span> 메뉴 선택</p>
 					</div>
 				</div>
-				<div th:unless="${chapter == 'chapter02'}">
+				<div th:unless="${chapter == 'chapter02_01' || chapter == 'chapter02_02'}">
 					<div class="chapterDe">
 						<img src="img/chapter02(w).svg" class="chapterDeImg">
 					</div>
@@ -82,18 +82,43 @@
 				<label for="address">매장 찾기</label>
 				<input th:if="${order == 'home'}" type="text" id="address" name="address" placeholder="배달 받으실 주소를 입력해 주세요." onclick="callAddress()">
 				<input th:if="${order == 'home'}" type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해 주세요.">
-				<input th:if="${order == 'pickUp'}" type="text" style="display:none;">
 				<input th:if="${order == 'pickUp'}" type="text" id="address" name="address" placeholder="이용하실 매장의 매장명을 입력해 주세요." style="width:626px;">
 				<button class="btn" th:onclick="search(); return false;">검색</button>
 				<div class="mapLine"></div>
-				
 				<input type="hidden" id="shopAddress" name="shopAddress">
 				<input type="hidden" id="shopNum" name="shopNum">
 				<div id="shopSearch"></div>
 			</form>
 			<div id="map"></div>
 		</div>
-		<div th:if="${chapter == 'chapter02'}" id="orderSearch"> <!-- 챕터2 : 메뉴 선택 -->
+		<div th:if="${chapter == 'chapter02_01'}" id="orderSearch"> <!-- 챕터2-1 : 메뉴 선택 -->
+			<form id="chapter02_01" method="post">
+				<input type="hidden" name="order" th:value="${order}">
+				<input type="hidden" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${shop}">
+				<input type="hidden" name="inputAddress" th:value="${address}">
+				<table id="sandMenu">
+					<tbody>
+						<tr>
+							<td><a th:onclick="chap02submit(1)"><img src="img/menu/menu01.png"><span>베지</span><br><span>Veggie Delite</span><br><span>209kcal</span></a></td>
+							<td><a th:onclick="chap02submit(2)"><img src="img/menu/menu02.png"><span>로스트 치킨</span><br><span>Roasted Chicken</span><br><span>300kcal</span></a></td>
+							<td><a th:onclick="chap02submit(3)"><img src="img/menu/menu03.png"><span>비엘티</span><br><span>B.L.T</span><br><span>300kcal</span></a></td>
+						</tr>
+						<tr>
+							<td><a th:onclick="chap02submit(4)"><img src="img/menu/menu04.png"><span>풀드 포크 바비큐</span><br><span>Pulled Pork Barbecue</span><br><span>327kcal</span></a></td>
+							<td><a th:onclick="chap02submit(5)"><img src="img/menu/menu05.png"><span>쉬림프</span><br><span>Shrimp</span><br><span>229kcal</span></a></td>
+							<td><a th:onclick="chap02submit(6)"><img src="img/menu/menu06.png"><span>스파이시 쉬림프</span><br><span>Spicy Shrimp</span><br><span>233kcal</span></a></td>
+						</tr>
+						<tr>
+							<td><a th:onclick="chap02submit(7)"><img src="img/menu/menu07.png"><span>참치</span><br><span>Tuna</span><br><span>316kcal</span></a></td>
+							<td><a th:onclick="chap02submit(8)"><img src="img/menu/menu08.png"><span>에그마요</span><br><span>Egg Mayo</span><br><span>416kcal</span></a></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="hidden" name="selectsandMenu" id="selectsandMenu">
+			</form>
+		</div>
+		<div th:if="${chapter == 'chapter02_02'}" id="orderSearch"> <!-- 챕터2-2 : 세부 메뉴 선택 -->
 			<form method="post">
 				<div class="orderMenu">
 					<div id="SelectSc"><p>빵 선택</p></div>
@@ -118,31 +143,6 @@
 						function bread02() {$('#bread02').prop("checked", true);}
 						function bread03() {$('#bread03').prop("checked", true);}
 						function bread04() {$('#bread04').prop("checked", true);}
-					</script>
-				</div>
-				<div class="orderMenu">
-					<div id="SelectSc"><p>패티 선택</p></div>
-					<div>
-						<input type="radio" name="patty" value="patty01" id="patty01" class="selectRadio" checked>
-						<div class="menuSelect" onclick="patty01()"><img src="img/menu/patty01.png"><p>베이컨</p></div>
-					</div>
-					<div>
-						<input type="radio" name="patty" value="patty02" id="patty02" class="selectRadio">
-						<div class="menuSelect" onclick="patty02()"><img src="img/menu/patty02.png"><p>풀드포크 바비큐</p></div>
-					</div>
-					<div>
-						<input type="radio" name="patty" value="patty03" id="patty03" class="selectRadio">
-						<div class="menuSelect" onclick="patty03()"><img src="img/menu/patty03.png"><p>치킨 데리야끼</p></div>
-					</div>
-					<div>
-						<input type="radio" name="patty" value="patty04" id="patty04" class="selectRadio">
-						<div class="menuSelect" onclick="patty04()"><img src="img/menu/patty04.png"><p>쉬림프</p></div>
-					</div>
-					<script>
-						function patty01() {$('#patty01').prop("checked", true);}
-						function patty02() {$('#patty02').prop("checked", true);}
-						function patty03() {$('#patty03').prop("checked", true);}
-						function patty04() {$('#patty04').prop("checked", true);}
 					</script>
 				</div>
 				<div class="orderMenu">
@@ -369,6 +369,11 @@
 				});
 			}
 		}
+		
+    	function chap02submit(selectMenuNum) {
+    		$('#selectsandMenu').val(selectMenuNum);
+    		$('#chapter02_01').submit();
+    	}
     </script>
 </body>
 </html>

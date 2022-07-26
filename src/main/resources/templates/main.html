@@ -31,6 +31,7 @@
             </div>
             <a href="#" th:onclick="return false" id="mainBtL"><img src="./img/mainBt.svg"></a>
             <a href="#" th:onclick="return false" id="mainBtR"><img src="./img/mainBt.svg"></a>
+            <a href="order?order=home" id="mainOrder"><img src="./img/mainOrder.svg"><span>주문 하기</span></a>
         </div>
         <div id="mainMenu">
 	        <div id="mainMenuTitleDeco"><p>SandMe's Menu</p></div>
@@ -54,8 +55,25 @@
             <a href="#" th:onclick="return false" id="mainMenuBtR"><img src="./img/mainMenuBt.svg"></a>
         </div>
         <div id="mainEtc">
-        	<div id="mainEtcNotice"></div>
-			<div id="mainEtcShop"></div>
+        	<div id="mainEtcNotice">
+        		<div>
+        			<div id="mainEtcNoticeTitleDeco"><p>What's New</p></div>
+        			<p>샌드미의 다양한 소식들을<br> 빠르게 전달해드립니다.</p>
+        		</div>
+        		<div>
+        			<a href="#" th:onclick="return false"><span>공지사항 1</span></a><br>
+        			<a href="#" th:onclick="return false"><span>공지사항 2</span></a><br>
+        			<a href="#" th:onclick="return false"><span>공지사항 3</span></a><br>
+        			<a href="#" th:onclick="return false"><span>공지사항 4</span></a><br>
+        			<a href="#" th:onclick="return false"><span>more</span></a>
+        		</div>
+        	</div>
+			<div id="mainEtcShop">
+				<p>샌드미 매장 찾기</p>
+				<p>나와 가장 가까운 샌드미를 찾아보세요</p>
+				<a href="#" th:onclick="return false"><span>more</span></a>
+				<img src="./img/location.svg">
+			</div>
         </div>
         <th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
     </section>

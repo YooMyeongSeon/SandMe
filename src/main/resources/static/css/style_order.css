@@ -62,7 +62,7 @@ section { /* 섹션 */
 }
 #orderSearch { /* 오더 검색 ↓ */
 	width: 1200px;
-	margin: 50px auto;
+	margin: 50px auto 120px;
 	border: 1px solid #C9CACA;
 	padding: 50px;
 }
@@ -115,7 +115,43 @@ section { /* 섹션 */
 	margin-right: 15px;
 	border-right: 1px solid #C9CACA;
 }
-.orderMenu { /* 오더 메뉴 ↓ */
+#sandMenu { /* 오더 메뉴_1 ↓ */
+	margin: 0px 60px 40px;
+	border-collapse: collapse;
+}
+#sandMenu > tbody > tr > td {
+	width: 300px;
+	height: 250px;
+	float: left;
+	margin: 20px 0px 60px;
+	line-height: 22pt;
+}
+#sandMenu > tbody > tr > td:not(:last-child) {
+	margin-right: 39px;
+}
+#sandMenu > tbody > tr > td > a > img {
+	width: 300px;
+	margin-top: -25px;
+	margin-bottom: -30px;
+}
+#sandMenu > tbody > tr > td > a > span:nth-child(2) {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 14pt;
+}
+#sandMenu > tbody > tr > td > a > span:nth-child(4) {
+	color: #C9CACA;
+}
+#sandMenu > tbody > tr > td > a > span:nth-child(6) {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 14pt;
+	color: #FFCE32;
+}
+
+
+
+
+
+.orderMenu { /* 오더 메뉴_2 ↓ */
 	width: 1000px;
 	height: 140px;
 	margin: 0px auto 50px;

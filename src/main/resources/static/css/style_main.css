@@ -23,6 +23,26 @@
 #mainBtR > img {
 	transform: scaleX(-1);
 }
+#mainOrder {
+	width: 300px;
+	height: 80px;
+	background-color: #009223;
+	position: absolute; bottom: -25px; right: 500px;
+	border-radius: 30px 0px 30px 30px;
+	z-index: 15;
+}
+#mainOrder > img {
+	width: 50px;
+	margin: 20px 0px 0px 70px;
+	float: left;
+}
+#mainOrder > span {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 18pt;
+	color: white;
+	float: left;
+	margin: 25px 15px;
+}
 #mainMenu { /* 메인 메뉴 소개 ↓ */
 	width: 1200px;
 	margin: 100px auto;
@@ -84,14 +104,68 @@
 }
 #mainEtc > div {
 	height: 280px;
-	background-color: white;
 	border-radius: 30px 0px 30px 30px;
 	float: left;
 }
 #mainEtcNotice {
 	width: 800px;
+	background-color: white;
 	margin-right: 20px;
+	padding: 50px;
 }
-#mainEtcShop{
+#mainEtcNotice > div:first-child {
+	text-align: center;
+	width: 300px;
+	height: 180px;
+	float: left;
+}
+#mainEtcNoticeTitleDeco {
+	width: 60px;
+	height: 60px;
+	background-color: #FFCE32;
+	border-radius: 30px 0px 30px 30px;
+	position: relative;
+	margin: 25px;
+}
+#mainEtcNoticeTitleDeco > p {
+	font-size: 26pt;
+	font-family: 'S-CoreDream-6Bold';
+	position: absolute; left:25px; top:10px;
+	white-space: nowrap;
+}
+#mainEtcNoticeTitleDeco ~ p {
+	line-height: 20pt;
+}
+#mainEtcNotice > div:last-child {
+	width: 400px;
+	height: 180px;
+	float: left;
+	padding: 15px 20px;
+	line-height: 25pt;
+}
+#mainEtcShop { /* 매장 찾기 ↓ */
 	width: 380px;
+	background-color: #009223;
+	padding: 30px;
+}
+#mainEtcShop > p {
+	color: white;
+}
+#mainEtcShop > p:first-child {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 20pt;
+	margin-bottom: 10px;
+}
+#mainEtcShop > a > span {
+	border: 1px solid #FFCE32;
+	border-radius: 30px;
+	width: 120px;
+	padding: 10px 40px;
+	color: #FFCE32;
+	display: block;
+	margin-top: 15px;
+}
+#mainEtcShop > img {
+	margin: -40px 0px 0px 180px ;
+	width: 140px;
 }

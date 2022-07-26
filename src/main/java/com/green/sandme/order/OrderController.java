@@ -22,7 +22,7 @@ public class OrderController {
 	@Autowired
 	SqlSession sqlSession;
 	
-	@RequestMapping("/order")
+	@RequestMapping("/order") //주문 페이지
 	public String oder(HttpServletRequest request, Model model) {
 		String order = request.getParameter("order");
 		
@@ -36,7 +36,7 @@ public class OrderController {
 		return "order";
 	}
 	
-	@PostMapping("/order")
+	@PostMapping("/order") //주문 챕터 기능
 	public String oderChapter(HttpServletRequest request, Model model) {
 		String order = request.getParameter("order");
 		String chapter = request.getParameter("chapter");
@@ -47,11 +47,22 @@ public class OrderController {
 				model.addAttribute("address", address);
 			}
 			
-			int shopNum = Integer.parseInt(request.getParameter("shopNum"));
-			model.addAttribute("shop", shopNum);
+			int shop = Integer.parseInt(request.getParameter("shopNum"));
+			model.addAttribute("shop", shop);
+			model.addAttribute("chapter", "chapter02_01");
+		} else if (chapter.equals("chapter02_01")) {
+			if (order.equals("home")) {
+				String address = request.getParameter("inputAddress");
+				model.addAttribute("address", address);
+			}
 			
-			model.addAttribute("chapter", "chapter02");
-		} else if (chapter.equals("chapter02")) {
+			int shop = Integer.parseInt(request.getParameter("inputShop"));
+			int sandMenu = Integer.parseInt(request.getParameter("selectsandMenu"));
+			
+			model.addAttribute("shop", shop);
+			model.addAttribute("sandMenu", sandMenu);
+			model.addAttribute("chapter", "chapter02_02");
+		} else if (chapter.equals("chapter02_02")) {
 			
 			model.addAttribute("chapter", "chapter03");
 		} else if (chapter.equals("chapter03")) {
@@ -63,7 +74,7 @@ public class OrderController {
 		return "order";
 	}
 	
-	@PostMapping("/order/home")
+	@PostMapping("/order/home") //배달 주문 매장 검색 기능
 	public void oderHome(@RequestBody String address, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		
@@ -76,7 +87,7 @@ public class OrderController {
 		out.print(data);
 	}
 	
-	@PostMapping("/order/pickUp")
+	@PostMapping("/order/pickUp") //방문 포장 매장 검색 기능
 	public void oderPickUp(@RequestBody String address, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		
