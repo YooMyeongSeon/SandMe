@@ -10,49 +10,46 @@
 <body>
 <th:block th:replace="fragments/header :: headerFragment"></th:block>	
 
-<!-- <section>
-		<H1>장바구니</H1>
-		<p th:text="${cartList[0].cartCount}"></p>
-	 	<table border="1">
-         	<tr>
-        		<th> <input type="checkbox" name="all" id="all"> 전체 선택 </th>
-                <th>회원 이름</th>
-                <th>장바구니 메뉴</th>
-                <th>장바구니 수량</th>       
-           </tr>
-           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
-           		<td><input type="checkbox" name="delNum" th:value="${cart.cartNum}"></td>
-				<td th:text="${cart.memberName}"></td>
-				<td th:text="${cart.cartMenu}"></td>
-				<td th:text="${cart.cartCount}" class="cart_count"></td>
-			</tr>   	 
-		</table>
-		<br>
-		<input type="button" value="메뉴 추가">
-		<button th:onclick="delcart()">선택 삭제</button>
-		<input type="submit" value="결제">
-</section>  -->
+
 
 <br><br><br><br><br><br>
-<section th:if="${cartList[0].cartCount != empty}">
+
+<section>
 		<H1>장바구니</H1>
-		장바구니 수량이 비어있지 않을 때
+		
+		<div th:if="${cartNullChk == 'nothing'}">
+			<p>장바구니가 비어있습니다.</p>
+		</div>
+
+		
+		<div th:unless="${cartNullChk == 'nothing'}">
+			장바구니 수량이 비어있지 않을 때
 			<table border="1">
 	         	<tr>
 	        		<th> <input type="checkbox" name="all" id="all"> 전체 선택 </th>
+	        		<th>회원 이름</th>
+	        		<th>회원 번호</th>
 	                <th>장바구니 메뉴</th>
-	                <th>장바구니 수량</th>       
+	                <th>커스텀 정보</th> 
+	                <th>장바구니 수량</th> 
+	                <th>주소</th>    
 	           </tr>
 	           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
-	           		<td><input type="checkbox" name="delNum" th:value="${cart.cartNum}"></td>
+	           		<td><input type="checkbox" name="delNum" th:value="${cart.cartNum}"> <span th:text="${cart.cartNum}"></span></td>
+					<td th:text="${cart.memberName}"></td>
+					<td th:text="${cart.memberNum}"></td>
 					<td th:text="${cart.cartMenu}"></td>
+					<td th:text="${cart.custom}"></td>
 					<td th:text="${cart.cartCount}" class="cart_count"></td>
+					<td th:text="${cart.cartAddress}"></td>
 				</tr>   	 
 			</table>
 			<br>
 			<input type="button" value="메뉴 추가">
 			<button th:onclick="delcart()">선택 삭제</button>
-			<input type="submit" value="결제">
+			<input type="submit" value="결제">	
+		</div> 
+		
 </section> 
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 	
@@ -116,7 +113,9 @@
 							
 							for(let i=0; i<list.length; i++){
 								$('#cart' + cartNum[i]).remove();
+								location.reload();
 							}
+							
 						}
 					}
 				})

@@ -43,14 +43,30 @@ private SqlSession sqlSession;
 	@PostMapping("/cartList")
 	public String cartList(Model model, int memberNum) {
  
-		 // 회원에 따른 장바구니 정보
+		 // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu
 		List<CartVOForList> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.SelectCart", memberNum);
-
 		
-		model.addAttribute("cartList", cartList);
+		
+		System.out.println(cartList.size());
+		//System.out.println(cartList.get(0));
+		
+		
+		// 만약에 cartList가 비어있다면 
+		// "cartNullChk"에 'nothing'을 담아 보낸 후 html에서 if문을 사용
+		if(cartList.size() == 0) {
+			model.addAttribute("cartNullChk", "nothing");
+		} else {
+			model.addAttribute("cartList", cartList);
+		}
+		// 
+
 		return "member/cartList"; 
 		 
 	  }
+	
+	
+	// 장바구니 목록 -> 메뉴 선택 페이지
+	
 	
 	
 /*	@PostMapping("/cartList")
