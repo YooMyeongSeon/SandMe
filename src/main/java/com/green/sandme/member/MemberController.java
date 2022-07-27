@@ -72,6 +72,7 @@ public class MemberController {
 	//로그인 화면
 	@GetMapping("/login")
 	public String loginForm() {
+		System.out.println("로그인 성공");
 		return "/loginform";
 	}
 
