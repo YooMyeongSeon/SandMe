@@ -120,11 +120,11 @@
 		</div>
 		<div th:if="${chapter == 'chapter02_02'}" id="orderSearch"> <!-- 챕터2-2 : 세부 메뉴 선택 -->
 			<div id="selectSandMenuInfo">
-				<img src="img/menu/menu01.png">
+				<img th:src="@{${mVo.menuPicUrl}}">
 				<div>
-					<p>베지</p>
-					<p>Veggie Delite</p>
-					<p>갓 구운 빵과 신선한 8가지 야채로 즐기는 깔끔한 한끼</p>
+					<p th:text="${mVo.menuName}">menuName</p>
+					<p th:text="${mVo.menuEngName}">menuEngName</p>
+					<p th:utext="${mVo.menuEx}">menuEx</p>
 				</div>
 			</div>
 			<div id="nutrientInfo">
@@ -140,12 +140,12 @@
 							<th><p>나트륨(mg)</p></th>
 						</tr>
 						<tr>
-							<td><p>196</p></td>
-							<td><p>233</p></td>
-							<td><p>14(25%)</p></td>
-							<td><p>1(7%)</p></td>
-							<td><p>9</p></td>
-							<td><p>513(26%)</p></td>
+							<td><p th:text="${mVo.menuNt1}">menuNt1</p></td>
+							<td><p th:text="${mVo.menuNt2}">menuNt2</p></td>
+							<td><p th:text="${mVo.menuNt3}">menuNt3</p></td>
+							<td><p th:text="${mVo.menuNt4}">menuNt4</p></td>
+							<td><p th:text="${mVo.menuNt5}">menuNt5</p></td>
+							<td><p th:text="${mVo.menuNt6}">menuNt6</p></td>
 						</tr>
 					</tbody>
 				</table>
@@ -154,23 +154,24 @@
 					<p>※ 괄호 안 %는 1일 영양소 기준치에 대한 비율입니다.</p>
 				</div>
 			</div>
-			<form method="post">
+			<div class="mapLine"></div>
+			<form method="post" id="chapter02_02">
 				<div class="orderMenu">
-					<div id="SelectSc"><p>빵 선택</p></div>
+					<div class="SelectSc"><p>빵 선택</p></div>
 					<div>
-						<input type="radio" name="bread" value="bread01" id="bread01" class="selectRadio" checked>
+						<input type="radio" name="bread" value="화이트" id="bread01" class="selectRadio" checked>
 						<div class="menuSelect" onclick="bread01()"><img src="img/menu/bread01.png"><p>화이트</p></div>
 					</div>
 					<div>
-						<input type="radio" name="bread" value="bread02" id="bread02" class="selectRadio">
+						<input type="radio" name="bread" value="허니오트" id="bread02" class="selectRadio">
 						<div class="menuSelect" onclick="bread02()"><img src="img/menu/bread02.png"><p>허니오트</p></div>
 					</div>
 					<div>
-						<input type="radio" name="bread" value="bread03" id="bread03" class="selectRadio">
+						<input type="radio" name="bread" value="하티" id="bread03" class="selectRadio">
 						<div class="menuSelect" onclick="bread03()"><img src="img/menu/bread03.png"><p>하티</p></div>
 					</div>
 					<div>
-						<input type="radio" name="bread" value="bread04" id="bread04" class="selectRadio">
+						<input type="radio" name="bread" value="플랫브레드" id="bread04" class="selectRadio">
 						<div class="menuSelect" onclick="bread04()"><img src="img/menu/bread04.png"><p>플랫브레드</p></div>
 					</div>
 					<script>
@@ -181,21 +182,21 @@
 					</script>
 				</div>
 				<div class="orderMenu">
-					<div id="SelectSc"><p>야채 선택<br>(다중 선택)</p></div>
+					<div class="SelectSc"><p>야채 선택<br>(다중 선택)</p></div>
 					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable01" id="vegetable01" class="selectRadio">
+						<input type="checkbox" name="vegetable[]" value="양상추" id="vegetable01" class="selectRadio">
 						<div class="menuSelect" onclick="vegetable01()"><img src="img/menu/vegetable01.png"><p>양상추</p></div>
 					</div>
 					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable02" id="vegetable02" class="selectRadio">
+						<input type="checkbox" name="vegetable[]" value="양파" id="vegetable02" class="selectRadio">
 						<div class="menuSelect" onclick="vegetable02()"><img src="img/menu/vegetable02.png"><p>양파</p></div> 
 					</div>
 					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable03" id="vegetable03" class="selectRadio">
+						<input type="checkbox" name="vegetable[]" value="토마토" id="vegetable03" class="selectRadio">
 						<div class="menuSelect" onclick="vegetable03()"><img src="img/menu/vegetable03.png"><p>토마토</p></div>
 					</div>
 					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable04" id="vegetable04" class="selectRadio">
+						<input type="checkbox" name="vegetable[]" value="올리브" id="vegetable04" class="selectRadio">
 						<div class="menuSelect" onclick="vegetable04()"><img src="img/menu/vegetable04.png"><p>올리브</p></div>
 					</div>
 					<script>
@@ -206,36 +207,21 @@
 					</script>
 				</div>
 				<div class="orderMenu">
-					<div id="SelectSc"><p>치즈 선택</p></div>
+					<div class="SelectSc"><p>소스 선택</p></div>
 					<div>
-						<input type="radio" name="cheese" value="cheese01" id="cheese01" class="selectRadio" checked>
-						<div class="menuSelect" onclick="cheese01()"><img src="img/menu/cheese01.png"><p>아메리칸 치즈</p></div>
-					</div>
-					<div>
-						<input type="radio" name="cheese" value="cheese02" id="cheese02" class="selectRadio">
-						<div class="menuSelect" onclick="cheese02()"><img src="img/menu/cheese02.png"><p>모차렐라 치즈</p></div>
-					</div>
-					<script>
-						function cheese01() {$('#cheese01').prop("checked", true);}
-						function cheese02() {$('#cheese02').prop("checked", true);}
-					</script>
-				</div>
-				<div class="orderMenu">
-					<div id="SelectSc"><p>소스 선택</p></div>
-					<div>
-						<input type="radio" name="sauce" value="sauce01" id="sauce01" class="selectRadio" checked>
+						<input type="radio" name="sauce" value="허니 머스타드" id="sauce01" class="selectRadio" checked>
 						<div class="menuSelect" onclick="sauce01()"><img src="img/menu/sauce01.png"><p>허니 머스타드</p></div>
 					</div>
 					<div>
-						<input type="radio" name="sauce" value="sauce02" id="sauce02" class="selectRadio">
+						<input type="radio" name="sauce" value="스위트 어니언" id="sauce02" class="selectRadio">
 						<div class="menuSelect" onclick="sauce02()"><img src="img/menu/sauce02.png"><p>스위트 어니언</p></div>
 					</div>
 					<div>
-						<input type="radio" name="sauce" value="sauce03" id="sauce03" class="selectRadio">
+						<input type="radio" name="sauce" value="스모크 바비큐" id="sauce03" class="selectRadio">
 						<div class="menuSelect" onclick="sauce03()"><img src="img/menu/sauce03.png"><p>스모크 바비큐</p></div>
 					</div>
 					<div>
-						<input type="radio" name="sauce" value="sauce04" id="sauce04" class="selectRadio">
+						<input type="radio" name="sauce" value="핫 칠리" id="sauce04" class="selectRadio">
 						<div class="menuSelect" onclick="sauce04()"><img src="img/menu/sauce04.png"><p>핫 칠리</p></div>
 					</div>
 					<script>
@@ -245,16 +231,69 @@
 						function sauce04() {$('#sauce04').prop("checked", true);}
 					</script>
 				</div>
+				<div class="orderMenu">
+					<div class="SelectSc"><p>치즈 선택</p></div>
+					<div>
+						<input type="radio" name="cheese" value="아메리칸 치즈" id="cheese01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="cheese01()"><img src="img/menu/cheese01.png"><p>아메리칸 치즈</p></div>
+					</div>
+					<div>
+						<input type="radio" name="cheese" value="모차렐라 치즈" id="cheese02" class="selectRadio">
+						<div class="menuSelect" onclick="cheese02()"><img src="img/menu/cheese02.png"><p>모차렐라 치즈</p></div>
+					</div>
+					<div>
+						<input type="radio" name="cheese" value="슈레드 치즈" id="cheese03" class="selectRadio">
+						<div class="menuSelect" onclick="cheese03()"><img src="img/menu/cheese03.png"><p>슈레드 치즈</p></div>
+					</div>
+					<div>
+						<input type="radio" name="cheese" value="치즈 선택 안함" id="cheese04" class="selectRadio">
+						<div class="menuSelect" onclick="cheese04()"><img src="img/drink04.png"><p>치즈 선택 안함</p></div>
+					</div>
+					<script>
+						function cheese01() {$('#cheese01').prop("checked", true);}
+						function cheese02() {$('#cheese02').prop("checked", true);}
+						function cheese03() {$('#cheese03').prop("checked", true);}
+						function cheese04() {$('#cheese04').prop("checked", true);}
+					</script>
+				</div>
+				<div class="orderMenu">
+					<div class="SelectSc"><p>음료 선택</p></div>
+					<div>
+						<input type="radio" name="drink" value="코카콜라" id="drink01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="drink01()"><img src="img/drink01.png"><p>코카콜라</p></div>
+					</div>
+					<div>
+						<input type="radio" name="drink" value="스프라이트" id="drink02" class="selectRadio">
+						<div class="menuSelect" onclick="drink02()"><img src="img/drink02.png"><p>스프라이트</p></div>
+					</div>
+					<div>
+						<input type="radio" name="drink" value="미닛메이드 오렌지" id="drink03" class="selectRadio">
+						<div class="menuSelect" onclick="drink03()"><img src="img/drink03.png"><p>미닛메이드 오렌지</p></div>
+					</div>
+					<div>
+						<input type="radio" name="drink" value="음료 선택 안함" id="drink04" class="selectRadio">
+						<div class="menuSelect" onclick="drink04()"><img src="img/drink04.png"><p>음료 선택 안함</p></div>
+					</div>
+					<script>
+						function drink01() {$('#drink01').prop("checked", true);}
+						function drink02() {$('#drink02').prop("checked", true);}
+						function drink03() {$('#drink03').prop("checked", true);}
+						function drink04() {$('#drink04').prop("checked", true);}
+					</script>
+				</div>
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
 				<input type="hidden" name="inputShop" th:value="${shop}">
 				<input type="hidden" name="inputAddress" th:value="${address}">
-				<input type="submit" value="선택" class="btn">
-				
+				<input type="hidden" name="inputSandMenu" th:value="${mVo.menuNum}">
+				<input type="submit" value="주문하기" class="btn2">
+				<input type="button" value="장바구니" class="btn2" onclick="inCart()">
 			</form>
 		</div>
 		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
-		
+			<form method="post">
+				
+			</form>
 			<div id="map" style="display:none;"></div>
 		</div>
 		<div th:if="${chapter == 'chapter04'}" id="orderSearch"> <!-- 챕터4 : 주문 완료 -->
@@ -408,6 +447,11 @@
     	function chap02submit(selectMenuNum) {
     		$('#selectsandMenu').val(selectMenuNum);
     		$('#chapter02_01').submit();
+    	}
+    	
+    	function inCart() {
+    		$('#chapter').val("inCart");
+    		$('#chapter02_02').submit();
     	}
     </script>
 </body>

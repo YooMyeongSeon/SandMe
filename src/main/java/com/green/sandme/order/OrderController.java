@@ -71,6 +71,25 @@ public class OrderController {
 				model.addAttribute("address", address);
 			}
 			
+			int shop = Integer.parseInt(request.getParameter("inputShop"));
+			int sandMenu = Integer.parseInt(request.getParameter("inputSandMenu"));
+			
+			String[] vegelist = request.getParameterValues("vegetable[]");
+			String vege = "";
+			
+			for (int i=0; i<vegelist.length; i++) {
+				vege += vegelist[i] + ", ";
+			}
+			
+			String custom = "빵 : " + request.getParameter("bread") +
+					", 야채 : " + vege +
+					"소스 : " + request.getParameter("sauce") +
+					", 치즈 : " + request.getParameter("cheese") +
+					", 음료 : " + request.getParameter("drink");
+
+			model.addAttribute("custom", custom);
+			model.addAttribute("sandMenu", sandMenu);
+			model.addAttribute("shop", shop);
 			model.addAttribute("chapter", "chapter03");
 		} else if (chapter.equals("chapter03")) {
 			if (order.equals("home")) {
@@ -79,6 +98,9 @@ public class OrderController {
 			}
 			
 			model.addAttribute("chapter", "chapter04");
+		} else if (chapter.equals("inCart")) {
+			System.out.println("장바구니 기능");//////////////////////////////////////////////////
+			return "main";
 		}
 		
 		model.addAttribute("order", order);
