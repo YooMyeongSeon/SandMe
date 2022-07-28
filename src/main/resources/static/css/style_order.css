@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 section { /* 섹션 */
-    padding-top: 210px;
     text-align: center;
 }
 #orderHead { /* 오더 헤드 ↓ */
@@ -11,12 +10,12 @@ section { /* 섹션 */
 	width: 40px;
 	height: 5px;
 	margin: 0px auto;
-	background-color: #FACE34;
+	background-color: #FFCE32;
 }
 #orderTitle {
 	font-family: 'S-CoreDream-6Bold';
 	font-size: 32pt;
-	color: #5CB531;
+	color: #009223;
 	margin: 10px 0px 25px;
 }
 #orderChapter { /* 오더 챕터 ↓ */
@@ -27,7 +26,7 @@ section { /* 섹션 */
 .chapterVi {
 	width: 170px;
 	height: 120px;
-	background-color: #FACE34;
+	background-color: #FFCE32;
 	border-radius: 5px;
 	float: left;
 }
@@ -44,7 +43,7 @@ section { /* 섹션 */
 }
 .Step {
 	font-family: 'S-CoreDream-6Bold';
-	color: #5CB531;
+	color: #009223;
 }
 .chapterViImg {
 	width: 120px;
@@ -63,7 +62,7 @@ section { /* 섹션 */
 }
 #orderSearch { /* 오더 검색 ↓ */
 	width: 1200px;
-	margin: 50px auto;
+	margin: 50px auto 120px;
 	border: 1px solid #C9CACA;
 	padding: 50px;
 }
@@ -88,7 +87,7 @@ section { /* 섹션 */
 	height: 40px;
 	border: none;
 	border-radius: 5px;
-	background-color: #5CB531;
+	background-color: #009223;
 	color: white;
 	cursor: pointer;
 	display: inline-block;
@@ -116,19 +115,109 @@ section { /* 섹션 */
 	margin-right: 15px;
 	border-right: 1px solid #C9CACA;
 }
-.orderMenu { /* 오더 메뉴 ↓ */
+#sandMenu { /* 오더 메뉴_1 ↓ */
+	margin: 0px 60px 40px;
+	border-collapse: collapse;
+}
+#sandMenu > tbody > tr > td {
+	width: 300px;
+	height: 250px;
+	float: left;
+	margin: 20px 0px 60px;
+	line-height: 22pt;
+}
+#sandMenu > tbody > tr > td:not(:last-child) {
+	margin-right: 39px;
+}
+#sandMenu > tbody > tr > td > a > img {
+	width: 300px;
+	margin-top: -25px;
+	margin-bottom: -30px;
+}
+#sandMenu > tbody > tr > td > a > span:nth-child(2) {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 14pt;
+}
+#sandMenu > tbody > tr > td > a > span:nth-child(4) {
+	color: #C9CACA;
+}
+#sandMenu > tbody > tr > td > a > span:nth-child(6) {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 14pt;
+	color: #FFCE32;
+}
+#selectSandMenuInfo { /* 오더 메뉴_2 ↓ */
+	margin: 0px 60px 40px;
+	height: 320px;
+}
+#selectSandMenuInfo > img {
+	float: left;
+	width: 500px;
+}
+#selectSandMenuInfo > div {
+	float: left;
+	text-align: left;
+	padding: 100px 0px 0px 20px;
+}
+#selectSandMenuInfo > div > p:first-child{
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+}
+#selectSandMenuInfo > div > p:nth-child(2) {
+	font-size: 16pt;
+	margin-top: 10px;
+	color: #C9CACA;
+}
+#selectSandMenuInfo > div > p:last-child {
+	margin-top: 10px;
+	line-height: 22pt;
+}
+#nutrientInfo {
+	height: 250px;
+	margin: 0px 60px 40px;
+	text-align: left;
+}
+#nutrientInfo > p:first-child {
+	font-family: 'S-CoreDream-6Bold';
+	color: #C9CACA;
+	font-size: 16pt;
+	margin-bottom: 15px;
+}
+#nutrientInfo > table {
+	border-collapse: collapse;
+}
+#nutrientInfo > table > tbody > tr > td, th {
+	border-top: 1px solid #009223;
+	border-bottom:  1px solid #009223;
+	width: 163px;
+	height: 60px;
+	text-align: center;
+}
+#nutrientInfo > table > tbody > tr:first-child > th {
+	border-top: 4px solid #009223;
+	color: #009223;
+}
+#nutrientInfo > div {
+	margin-top: 15px;
+	line-height: 16pt;
+}
+#nutrientInfo > div > p {
+	color: #C9CACA;
+	font-size: 10pt;
+}
+.orderMenu {
 	width: 1000px;
 	height: 140px;
 	margin: 0px auto 50px;
 }
-#SelectSc {
+.SelectSc {
 	width: 100px;
 	height: 140px;
 	text-align: left;
 	float: left;
 	display: table;
 }
-#SelectSc > p {
+.SelectSc > p {
 	display: table-cell;
 	vertical-align: middle;
 }
@@ -147,9 +236,9 @@ section { /* 섹션 */
 }
 .selectRadio:checked ~ .menuSelect {
 	transition-duration: 0.3s;
-	background-color: #5CB531;
+	background-color: #009223;
 }
-.selectRadio:checked ~ .menuSelect > p{
+.selectRadio:checked ~ .menuSelect > p {
 	transition-duration: 0.3s;
 	color: white;
 }
@@ -158,4 +247,17 @@ section { /* 섹션 */
 }
 .menuSelect > p {
 	margin-top: -20px;
+}
+.btn2 {
+	width: 160px;
+	height: 50px;
+	border: none;
+	border-radius: 30px;
+	background-color: #009223;
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 14pt;
+	color: white;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0px 10px;
 }

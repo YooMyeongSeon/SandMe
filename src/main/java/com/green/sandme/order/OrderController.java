@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
+import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
 
 @Controller
@@ -22,7 +23,7 @@ public class OrderController {
 	@Autowired
 	SqlSession sqlSession;
 	
-	@RequestMapping("/order")
+	@RequestMapping("/order") //주문 페이지
 	public String oder(HttpServletRequest request, Model model) {
 		String order = request.getParameter("order");
 		
@@ -36,7 +37,7 @@ public class OrderController {
 		return "order";
 	}
 	
-	@PostMapping("/order")
+	@PostMapping("/order") //주문 챕터 기능
 	public String oderChapter(HttpServletRequest request, Model model) {
 		String order = request.getParameter("order");
 		String chapter = request.getParameter("chapter");
@@ -47,23 +48,66 @@ public class OrderController {
 				model.addAttribute("address", address);
 			}
 			
-			int shopNum = Integer.parseInt(request.getParameter("shopNum"));
-			model.addAttribute("shop", shopNum);
+			int shop = Integer.parseInt(request.getParameter("shopNum"));
+			model.addAttribute("shop", shop);
+			model.addAttribute("chapter", "chapter02_01");
+		} else if (chapter.equals("chapter02_01")) {
+			if (order.equals("home")) {
+				String address = request.getParameter("inputAddress");
+				model.addAttribute("address", address);
+			}
 			
-			model.addAttribute("chapter", "chapter02");
-		} else if (chapter.equals("chapter02")) {
+			int shop = Integer.parseInt(request.getParameter("inputShop"));
+			int sandMenu = Integer.parseInt(request.getParameter("selectsandMenu"));
 			
+			MenuVo mVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectMenu", sandMenu);
+			
+			model.addAttribute("shop", shop);
+			model.addAttribute("mVo", mVo);
+			model.addAttribute("chapter", "chapter02_02");
+		} else if (chapter.equals("chapter02_02")) {
+			if (order.equals("home")) {
+				String address = request.getParameter("inputAddress");
+				model.addAttribute("address", address);
+			}
+			
+			int shop = Integer.parseInt(request.getParameter("inputShop"));
+			int sandMenu = Integer.parseInt(request.getParameter("inputSandMenu"));
+			
+			String[] vegelist = request.getParameterValues("vegetable[]");
+			String vege = "";
+			
+			for (int i=0; i<vegelist.length; i++) {
+				vege += vegelist[i] + ", ";
+			}
+			
+			String custom = "빵 : " + request.getParameter("bread") +
+					", 야채 : " + vege +
+					"소스 : " + request.getParameter("sauce") +
+					", 치즈 : " + request.getParameter("cheese") +
+					", 음료 : " + request.getParameter("drink");
+
+			model.addAttribute("custom", custom);
+			model.addAttribute("sandMenu", sandMenu);
+			model.addAttribute("shop", shop);
 			model.addAttribute("chapter", "chapter03");
 		} else if (chapter.equals("chapter03")) {
+			if (order.equals("home")) {
+				String address = request.getParameter("inputAddress");
+				model.addAttribute("address", address);
+			}
 			
 			model.addAttribute("chapter", "chapter04");
+		} else if (chapter.equals("inCart")) {
+			System.out.println("장바구니 기능");//////////////////////////////////////////////////
+			return "main";
 		}
 		
 		model.addAttribute("order", order);
 		return "order";
 	}
 	
-	@PostMapping("/order/home")
+	@PostMapping("/order/home") //배달 주문 매장 검색 기능
 	public void oderHome(@RequestBody String address, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		
@@ -76,7 +120,7 @@ public class OrderController {
 		out.print(data);
 	}
 	
-	@PostMapping("/order/pickUp")
+	@PostMapping("/order/pickUp") //방문 포장 매장 검색 기능
 	public void oderPickUp(@RequestBody String address, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		
