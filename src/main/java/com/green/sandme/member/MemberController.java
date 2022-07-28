@@ -7,11 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.green.sandme.member.service.memberService;
 import com.green.sandme.member.vo.memberVo;
@@ -27,17 +24,25 @@ public class MemberController {
 	
 	//회원가입 페이지 이동
 	@GetMapping("/join")
-	public String joinForm() {	
-		return "/joinform";
+	public String joinForm(Model model) {
+		model.addAttribute("chapter", "chapter01");
+		return "/joinForm";
 	}
+	
+	@PostMapping("/join")
+	public String joinFormChapter02(Model model) {
+		model.addAttribute("chapter", "chapter02");
+		return "/joinForm";
+	}
+	
 	
 	//회원가입 처리	  
 	@PostMapping("/joinProcess")
-	public RedirectView RegisterUser(
-					            @RequestParam("memberEmail") String memberEmail,
-					            @RequestParam("memberPwd") String memberPwdout,
-					            @RequestParam("memberTel") String memberTel,
-					            @RequestParam("memberName") String memberName) throws Exception{
+	public String RegisterUser(@RequestParam("memberEmail") String memberEmail, 
+			@RequestParam("memberPwd") String memberPwdout,
+			@RequestParam("memberTel") String memberTel,
+			@RequestParam("memberName") String memberName,
+			Model model) throws Exception{
 
 		 String memberPwd = bcryptPasswordEncoder.encode(memberPwdout);
 		 
@@ -50,24 +55,9 @@ public class MemberController {
 		 
 		 memberService.RegisterUser(mVo);
 		 
-		 String url = "/registerPage/"+ memberEmail;
-
-	     return new RedirectView(url);
+		 model.addAttribute("memberName", memberName);
+		 return "registerPage";
 	}
-	 
-	//회원가입 완료 페이지
-	@GetMapping("/registerPage/{memberEmail}")
-	public String RegisterPage(@PathVariable("memberEmail")String memberEmail, Model model) throws Exception {
-	
-//		ModelAndView mav = new ModelAndView();
-		memberVo mVo = memberService.RegisterPage(memberEmail);
-		
-//		mav.addObject("mVo", mVo);
-//		mav.setViewName("/registerPage");
-		
-		model.addAttribute("mVo", mVo);
-		return "registerPage";
-    }
 	
 	//로그인 화면
 	@GetMapping("/login")
