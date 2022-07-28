@@ -12,8 +12,15 @@ public class CartVO {
 	private int cartShop;
 	private int memberNum;
 	private String memberName;
+	private int menuNum;
 	
 	
+	public int getMenuNum() {
+		return menuNum;
+	}
+	public void setMenuNum(int menuNum) {
+		this.menuNum = menuNum;
+	}
 	public int getCartNum() {
 		return cartNum;
 	}

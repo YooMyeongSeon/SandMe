@@ -8,16 +8,22 @@
 	mybatis에서는 .xml mapping을 통해 쿼리문만 관리하기 가능
  -->  
 
-	
+<!-- 장바구니에 저장 -->
+	<insert id="insertCart" parameterType="com.green.sandme.member.cart.vo.CartVO">
+		INSERT INTO cart_tbl (cartNum, cartMenu, cartShop, custom, cartAddress)
+		VALUES(cart_seq.nextval, #{cartMenu}, #{cartShop}, #{custom}, #{cartAddress})
+	</insert>
 
 
  
  <!-- 장바구니 목록 조회 -->
     <select id="SelectCart" resultType="com.green.sandme.member.cart.vo.CartVO" parameterType="int">
-        SELECT  c.cartNum, c.cartMenu, c.custom, c.cartCount, c.cartAddress, m.memberName, m.memberNum
-		FROM cart_tbl c INNER JOIN member_tbl m
-		ON c.memberNum = m.memberNum
-		WHERE m.memberNum = #{memberNum}
+        SELECT  c.cartNum, c.cartMenu, c.custom, c.cartCount, c.cartAddress, m.menuNum, mem.memberName
+		FROM cart_tbl c INNER JOIN menu_tbl m
+		ON c.cartMenu = m.menuNum
+		INNER JOIN member_tbl mem
+		ON c.memberNum = mem.memberNum
+		WHERE m.menuNum = #{menuNum}
     </select>
     
 

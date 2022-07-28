@@ -27,7 +27,6 @@
 			<table border="1">
 	         	<tr>
 	        		<th> <input type="checkbox" name="all" id="all"> 전체 선택 </th>
-	        		<th>회원 이름</th>
 	        		<th>회원 번호</th>
 	                <th>장바구니 메뉴</th>
 	                <th>커스텀 정보</th> 
@@ -36,7 +35,6 @@
 	           </tr>
 	           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
 	           		<td><input type="checkbox" name="delNum" th:value="${cart.cartNum}"> <span th:text="${cart.cartNum}"></span></td>
-					<td th:text="${cart.memberName}"></td>
 					<td th:text="${cart.memberNum}"></td>
 					<td th:text="${cart.cartMenu}"></td>
 					<td th:text="${cart.custom}"></td>
@@ -47,7 +45,7 @@
 			<br>
 			<input type="button" value="메뉴 추가">
 			<button th:onclick="delcart()">선택 삭제</button>
-			<input type="submit" value="결제">	
+			<input type="button" value="결제">	
 		</div> 
 		
 </section> 
