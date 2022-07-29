@@ -1,6 +1,11 @@
 package com.green.sandme.pay.controller;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,9 +28,9 @@ public class PayController {
 	private SqlSession sqlSession;
 		
 		
-	@RequestMapping("")
+	@RequestMapping("/kakaopay")
 	@ResponseBody
-	public String kakaopay() {
+	public String kakaopay() {  // 값 가져오기
 		try {
 			URL payUrl = new URL("http://kapi.kakao.com/v1/payment/ready");
 			// 사용자와 카카오페이를 연결시켜주는 역할 - 서버 연결
@@ -39,7 +44,34 @@ public class PayController {
 				// 넣어줄 것이 있음에도 input을 쓰지 않는 이유는
 				//connection은 기본적으로 input이 true
 				
-				String param = "item_name=item_name&item_code=item_code&quantity=quantity&total_amount=total_amount&approval_url=approval_url&cancel_url=cancel_url&fail_url=fail_url";
+				String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&"
+						+ "item_name=sandme&quantity=1&total_amount=2200&vat_amount=200&tax_free_amount=0&"
+						+ "approval_url=https://developers.kakao.com/success&v&cancel_url=https://developers.kakao.com/cancel";  //url은 수정
+				
+				OutputStream out = server.getOutputStream(); // outputStream 을 통해 실제 정보를 줄 수 있음 내보냄
+				DataOutputStream data = new DataOutputStream(out);
+				data.writeBytes(param); // 문자를 byte로 형 번환
+				data.flush();
+				data.close();
+				
+				int result = server.getResponseCode(); // 데이터를 보낸 것에 대한 결과를 int result로 받음
+				
+				InputStream in; // 받음
+				
+				if(result == 200) {  // http 에서 정상적인 통신을 뜻하는 코드 = 200
+					in = server.getInputStream();
+				}else {
+					in = server.getErrorStream();
+				}
+				
+				// 받아온 데이터를 읽어줌
+				InputStreamReader reader = new InputStreamReader(in);
+				
+				// 받아온 데이터를 형 변환
+				BufferedReader bufReader = new BufferedReader(reader);
+				
+				
+				return bufReader.readLine();
 			} catch (IOException e) {
 				
 				e.printStackTrace();
@@ -49,7 +81,7 @@ public class PayController {
 			e.printStackTrace();
 		}
 		
-		return "";
+		return "{\"result\":\"NO\"}";
 	}
 		
 		

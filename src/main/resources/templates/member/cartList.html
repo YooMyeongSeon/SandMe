@@ -27,25 +27,48 @@
 			<table border="1">
 	         	<tr>
 	        		<th> <input type="checkbox" name="all" id="all"> 전체 선택 </th>
-	        		<th>회원 번호</th>
-	                <th>장바구니 메뉴</th>
-	                <th>커스텀 정보</th> 
-	                <th>장바구니 수량</th> 
-	                <th>주소</th>    
+	        		<th>메뉴 이름-메뉴 테이블</th>
+	                <th>커스텀 정보 - 카트 테이블</th>
+	                <th>주소 - 카트 테이블</th> 
+	                <th>수량</th>
+	                <th>수량 수정</th>
+	                <th>가격 - 메뉴 테이블</th>    
 	           </tr>
 	           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
 	           		<td><input type="checkbox" name="delNum" th:value="${cart.cartNum}"> <span th:text="${cart.cartNum}"></span></td>
-					<td th:text="${cart.memberNum}"></td>
-					<td th:text="${cart.cartMenu}"></td>
+					<td th:text="${cart.menuName}"></td>
 					<td th:text="${cart.custom}"></td>
-					<td th:text="${cart.cartCount}" class="cart_count"></td>
 					<td th:text="${cart.cartAddress}"></td>
+					<td th:text="${cart.cartCount}"></td>
+					<!-- 수량 변경 -->
+					<td>
+						<!-- <input type='button' onclick='count("plus")' value='+'/>
+						<div id='result'>1</div>
+						<input type='button' onclick='count("minus")' value='-'/> -->
+						 <form name="form" method="post">
+							 <input type=hidden name="sell_price" value="80000">
+							 <input type="text" name="amount" value="1"  max="10" onchange="change();">
+							 <input type="button" value=" + " onclick="add();"  max="10">
+							 <input type="button" value=" - " onclick="del();"><br>
+							 <input type="text" name="sum" size="13" readonly>
+						</form>
+					</td>
+					<td th:text="${cart.menuPrice}"></td> 
 				</tr>   	 
 			</table>
 			<br>
+
+			<br>
+			<!-- 장바구니 전체 정보 -->
+			<div id="sum_price">
+				총 결제 금액 :   <p th:text="${sumPrice}"/>원 <!-- 수량 * 샌드위치가격 -->   
+			</div>
+			<br>
+			<input type="hidden" th:value="${cartList[0].menuNum}">
 			<input type="button" value="메뉴 추가">
 			<button th:onclick="delcart()">선택 삭제</button>
-			<input type="button" value="결제">	
+			<button th:onclick="pay()">결제</button>	
+			<button id="apibtn">카카오페이</button>
 		</div> 
 		
 </section> 
@@ -129,7 +152,143 @@
 	// 만약 성공했다면 alert("삭제 성공")
 	// html에 해당 테이블을 지우기 위해 list의 수만큼 tr에 준 id '#cart' + 배열cartNum에 담긴 요소들을
 	// 반복문을 통해 하나씩 꺼내와 삭제한다.
-		 
+	
+	
+	
+	// 수량 변경
+
+ 	/* function count(type)  {
+		  // 결과를 표시할 element
+		  const resultElement = document.getElementById('result');
+		  
+		  // 현재 화면에 표시된 값
+		  let number = resultElement.innerText;
+		  
+		  // 더하기/빼기
+		  if(type === 'plus') {
+			number = parseInt(number) + 1;
+		    if(number > 10){
+		    	alert("10개 이하 구매");
+		    	
+		    }
+		  }else if(type === 'minus')  {
+		    number = parseInt(number) - 1;
+		    if(number <= 0){
+		    	alert("1개 이상 구매");
+		    	
+		    }
+		  }
+		  
+		  // 결과 출력
+		  resultElement.innerText = number;
+		} 
+		
+
+	function change(num){
+		let plus = document.getElementsByName("count");
+	} */
+	
+	
+	
+	  // 변경된 값을 저장
+	  var sell_price;
+	  var amount;
+
+
+	  // init 초기값을 지정할 수 있다.
+	  function init () {
+	    sell_price = document.form.sell_price.value;
+	    amount = document.form.amount.value;
+	    document.form.sum.value = sell_price;
+	    change();
+	  }
+
+
+	    // add
+	  // howmany 값을 1 증가 시키고, 합계를 계산.
+	function add () {
+	    hm = document.form.amount;
+	    sum = document.form.sum;
+	  	addResult = hm.value ++ ;
+	  	
+		  	if(addResult > 9){
+		  		alert("10개 이하 구매");
+		  		sum.value = parseInt(hm.value) * sell_price;
+		  	}
+	    }
+
+
+
+	    // del
+
+	    // howmany 값을 1 감소 시키고, 합계를 계산.
+
+	    function del () {
+
+		    hm = document.form.amount;
+	
+		    sum = document.form.sum;
+
+	   
+
+		    // 에러 처리 : 음수 값
+	
+		    if (hm.value > 1) {
+	
+		      hm.value -- ;
+	
+		      sum.value = parseInt(hm.value) * sell_price;
+	
+		    }
+
+	    }
+
+
+
+
+
+	    function change () {
+
+		    hm = document.form.amount;
+	
+		    sum = document.form.sum;
+	
+		   
+	
+		    if (hm.value < 0) {
+	
+		      hm.value = 0;
+	
+		    }
+	
+		    sum.value = parseInt(hm.value) * sell_price;
+
+	    } 
+
+	
+	
+	
+	
+	
+
+	
+	// 결제
+	$(function(){
+		$('#apibtn').click(function(){
+			$.ajax({
+				url : 'kakaopay',
+				dataType : 'json',
+				success : function(data){
+					alert(data,tid);
+					/* let box = data.next_redirect_pc_url;
+					window.open(box); */
+				},
+				error : function(error){
+					alert(error);
+				}
+			})
+		})
+	})
 
 </script> 
 </body>

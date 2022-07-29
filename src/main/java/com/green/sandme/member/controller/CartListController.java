@@ -23,46 +23,41 @@ public class CartListController {
 private SqlSession sqlSession;
 	
 	// 장바구니 테이블 전체 조회 -> 삭제 확인 용도
-	@GetMapping("/cartTable")
-	public String cartTable(Model model) {
-		List<CartVO> allList = sqlSession.selectList("cart.selectAll");
-		model.addAttribute("allList", allList);
-		
-		return "cartTable";
-	}
-	
-	
-	 //회원 정보 입력 페이지
-	@GetMapping("/loginForm")
-	public String member() {
-		return "member/loginForm";
-	}
-	
-	
-	// 로그인 후 장바구니 목록 페이지	
-	@PostMapping("/cartList")
-	public String cartList(Model model, int memberNum) {
- 
-		 // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu
-		List<CartVOForList> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.SelectCart", memberNum);
-		
-		
-		System.out.println(cartList.size());
-		//System.out.println(cartList.get(0));
-		
-		
-		// 만약에 cartList가 비어있다면 
-		// "cartNullChk"에 'nothing'을 담아 보낸 후 html에서 if문을 사용
-		if(cartList.size() == 0) {
-			model.addAttribute("cartNullChk", "nothing");
-		} else {
-			model.addAttribute("cartList", cartList);
-		}
-		// 
-
-		return "member/cartList"; 
-		 
-	  }
+	/*
+	 * @GetMapping("/cartTable") public String cartTable(Model model) { List<CartVO>
+	 * allList = sqlSession.selectList("cart.selectAll");
+	 * model.addAttribute("allList", allList);
+	 * 
+	 * return "cartTable"; }
+	 * 
+	 * 
+	 * //회원 정보 입력 페이지
+	 * 
+	 * @GetMapping("/loginForm") public String member() { return "member/loginForm";
+	 * }
+	 * 
+	 * 
+	 * // 로그인 후 장바구니 목록 페이지
+	 * 
+	 * @PostMapping("/cartList") public String cartList(Model model, int memberNum){
+	 * 
+	 * // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu List<CartVOForList> cartList
+	 * =
+	 * sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.SelectCart",
+	 * memberNum);
+	 * 
+	 * 
+	 * System.out.println(cartList.size()); //System.out.println(cartList.get(0));
+	 * 
+	 * 
+	 * // 만약에 cartList가 비어있다면 // "cartNullChk"에 'nothing'을 담아 보낸 후 html에서 if문을 사용
+	 * if(cartList.size() == 0) { model.addAttribute("cartNullChk", "nothing"); }
+	 * else { model.addAttribute("cartList", cartList); } //
+	 * 
+	 * return "member/cartList";
+	 * 
+	 * }
+	 */
 	
 	
 	// 장바구니 목록 -> 메뉴 선택 페이지

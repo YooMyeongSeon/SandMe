@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.green.sandme.member.cart.vo.CartVO;
@@ -106,8 +107,8 @@ public class OrderController {
 			}
 			
 			model.addAttribute("chapter", "chapter04");
-		} else if (chapter.equals("inCart")) {
-			System.out.println("장바구니 기능");//////////////////////////////////////////////////
+		} else if (chapter.equals("inCart")) {//////////////////////////////////////////////////
+			System.out.println("장바구니 기능");
 			if(order.equals("home")) {
 				String address = request.getParameter("inputAddress");
 				model.addAttribute("address", address);
@@ -115,7 +116,7 @@ public class OrderController {
 			
 			// 매장
 			int shop = Integer.parseInt(request.getParameter("inputShop"));
-			// 메뉴 선택
+			// 메뉴 선택 - menuNum
 			int sandMenu = Integer.parseInt(request.getParameter("inputSandMenu"));
 			// 매장 주소
 			String address = request.getParameter("inputAddress");
@@ -136,8 +137,12 @@ public class OrderController {
 			
 			System.out.println(custom);
 			
+			// 자동으로 장바구니에 수량 +1
+			int count = 1;
+			
 			// 객체에 저장
 			CartVO cart = new CartVO();
+			cart.setCartCount(count);
 			cart.setCartAddress(address);
 			cart.setCartShop(shop);
 			cart.setCartMenu(sandMenu);
@@ -192,5 +197,28 @@ public class OrderController {
 		String data = gson.toJson(oAv);
 		PrintWriter out = response.getWriter();
 		out.print(data);
+	}
+	
+	
+	// 수량 변경
+	@PostMapping("modifyCount")
+	public String modifyCartCount(@RequestParam("cartNUm") int cartNum, 
+								  @RequestParam("num") int num,
+								  Model model) {
+		
+		CartVO cart = new CartVO();
+		cart.setCartCount(num);
+		
+		sqlSession.update("com.green.sandme.member.cart.dao.CartDao.updateCartCount", cart);
+		
+		// 수량 * 가격
+		int sumPrice = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.selectSumPrice",cartNum);
+		
+		System.out.println(sumPrice);
+		
+		model.addAttribute("sumPrice",sumPrice);
+		
+		return "member/cartList";
+		
 	}
 }

@@ -5,7 +5,7 @@ public class CartVO {
 	
 	private int cartNum;
 	private int cartMenu;
-	private int cartCount;
+	private int cartCount;  // 장바구니 수량
 	private String custom;
 	private String cartOrder;
 	private String cartAddress;
@@ -13,8 +13,29 @@ public class CartVO {
 	private int memberNum;
 	private String memberName;
 	private int menuNum;
+	private String menuName;
+	private int menuPrice;
+	private int sumPrice;
 	
 	
+	public int getSumPrice() {
+		return sumPrice;
+	}
+	public void setSumPrice(int sumPrice) {
+		this.sumPrice = sumPrice;
+	}
+	public String getMenuName() {
+		return menuName;
+	}
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+	public int getMenuPrice() {
+		return menuPrice;
+	}
+	public void setMenuPrice(int menuPrice) {
+		this.menuPrice = menuPrice;
+	}
 	public int getMenuNum() {
 		return menuNum;
 	}
