@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>샌드미 : 회원탈퇴</title>
+</head>
+<body>
+<h2>진짜 탈퇴할려구?</h2>
+<p>탈퇴해도 게시글은 남아있을거야</p>
+<form action="/deleteProcess" method="post">
+<label for="agree">동의</label> 
+<input type="checkbox" id="agree">
+<input type="submit" value="회원탈퇴">
+</form>
+</body>
+</html>

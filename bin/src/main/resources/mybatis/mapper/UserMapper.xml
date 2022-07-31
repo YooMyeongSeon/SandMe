@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.green.sandme.member.dao.memberDao">
+
+	<!-- 회원가입 정보입력 -->
+	<insert id="RegisterUser" parameterType="com.green.sandme.member.vo.memberVo">
+		INSERT INTO SANDME_MEMBERTBL
+		VALUES(SANDME_MEMBERSEQ.NEXTVAL, #{memberEmail}, #{memberPwd}, #{memberTel}, #{memberName})		
+	</insert>
+
+	<!-- 로그인 -->
+	<select id="LoginUser" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
+		SELECT * FROM SANDME_MEMBERTBL
+		WHERE memberEmail = #{memberEmail}
+	</select>
+	
+	<!-- 회원가입 결과 출력 -->
+	<select id="RegisterPage" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
+		SELECT * FROM SANDME_MEMBERTBL
+		WHERE memberEmail = #{memberEmail}
+	</select>
+	
+	<!-- 마이페이지 이름 출력 -->
+	<select id="Mypage" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
+		SELECT * FROM SANDME_MEMBERTBL
+		WHERE memberEmail = #{memberEmail}
+	</select>
+	
+	<!-- 회원 정보 수정 폼 출력 -->
+	<select id="UserInfo" parameterType="int" resultType="com.green.sandme.member.vo.memberVo">
+		SELECT memberNum,  memberName, memberEmail, memberPwd, memberTel FROM SANDME_MEMBERTBL
+		WHERE memberNum = #{memberNum}
+	</select>	
+
+	<!-- 회원 정보 수정 -->
+	<update id="UpdateUser" parameterType="com.green.sandme.member.vo.memberVo" >
+		UPDATE SANDME_MEMBERTBL
+		SET memberName = #{memberName},
+			memberEmail = #{memberEmail}, 
+			memberPwd = #{memberPwd},
+			memberTel = #{memberTel}
+		WHERE memberNum = #{memberNum}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="DeleteUser">
+		DELETE FROM SANDME_MEMBERTBL
+		WHERE memberEmail = #{memberNum}
+	</delete>
+
+	
+	
+
+</mapper>  

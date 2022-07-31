@@ -44,12 +44,18 @@
 	</update>
 	
 	<!-- 회원 탈퇴 -->
-	<delete id="DeleteUser">
+	<delete id="DeleteUser" parameterType="int">
 		DELETE FROM SANDME_MEMBERTBL
-		WHERE memberEmail = #{memberNum}
+		WHERE memberNum = #{memberNum}
 	</delete>
-
 	
+	<!-- 아이디 중복확인 -->
+	<select id="checkUserId" parameterType="String" resultType="int">
+		SELECT count(*) FROM SANDME_MEMBERTBL
+		WHERE memberEmail = #{memberEmail}
+	</select>
+
+
 	
 
 </mapper>  

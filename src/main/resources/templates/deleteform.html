@@ -8,10 +8,11 @@
 <body>
 <h2>진짜 탈퇴할려구?</h2>
 <p>탈퇴해도 게시글은 남아있을거야</p>
-<form action="/deleteProcess" method="post">
+<form th:action="@{/deleteProcess}" method="GET">
 <label for="agree">동의</label> 
 <input type="checkbox" id="agree">
 <input type="submit" value="회원탈퇴">
+<input type="hidden" name="memberNum" value="${#authentication.principal.memberNum}">
 </form>
 </body>
 </html>

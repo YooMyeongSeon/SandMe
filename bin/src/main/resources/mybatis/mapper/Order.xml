@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.green.sandme.order.dao.OrderDao">
+ 	 	
+    <select id="selectShopByAddress" resultType="com.green.sandme.order.vo.OrderAddressVo" parameterType="String">
+		select s.shopNum, shopName, shopAddress, shopTel, shopOpen from shop_tbl s, area_tbl a where s.shopnum = a.shopnum and a.areaname = #{address}
+    </select>
+    
+    <select id="selectShopByName" resultType="com.green.sandme.order.vo.OrderAddressVo" parameterType="String">
+		select shopNum, shopName, shopAddress, shopTel, shopOpen from shop_tbl where shopName = #{address}
+    </select>
+    
+    <select id="selectMenu" resultType="com.green.sandme.order.vo.MenuVo" parameterType="int">
+		select * from menu_tbl where menuNum = #{sandMenu}
+    </select>
+    
+</mapper>

@@ -58,9 +58,25 @@ public class memberService implements UserDetailsService{
 
 	//회원 탈퇴
 	@Transactional
-	public void deleteUsert(memberVo vo) throws Exception{
-		sqlSession.delete("com.green.sandme.member.dao.memberDao.deleteUser",vo);
+	public void DeleteUser(int memberNum) throws Exception{
+		sqlSession.delete("com.green.sandme.member.dao.memberDao.DeleteUser",memberNum);
 	}
+	
+
+	//회원 아이디 중복확인
+	public int checkUserId(String memberEmail) throws Exception{
+		int result = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.checkUserId",memberEmail);
+		return result;
+	}
+
+
+
+
+
+
+
+
+
 
 
 
