@@ -65,19 +65,4 @@ public class memberService implements UserDetailsService{
 		int result = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.checkUserId",memberEmail);
 		return result;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

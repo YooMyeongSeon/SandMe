@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,17 +35,13 @@ public class SandmeApplication {
         
         return sessionFactory.getObject();
     }
-	
 
-	
 	//비밀번호 해시처리(시큐리티는 비밀번호를 해시처리하지 않으면 가입불가)  
 	@Bean 
 	BCryptPasswordEncoder encoderPassword() { 
 		return new BCryptPasswordEncoder(); 
 	}
-	
-	
-	  
+
 	@Bean 
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception { 
 		http.cors() //교차 출처 리소스 공유
@@ -63,8 +58,8 @@ public class SandmeApplication {
 			.defaultSuccessUrl("/") //로그인이 성공했을 때 이동되는 페이지
 			.failureUrl("/loginForm") //로그인이 실패했을 때 이동되는 페이지
 			.permitAll()
-			.and() 
-			.logout() 
+			.and()
+			.logout()
 			.logoutUrl("/logout") //로그아웃
 			.logoutSuccessUrl("/") //로그아웃 성공시 이동되는 페이지
 			.invalidateHttpSession(true); //Http세션 초기화
@@ -85,5 +80,4 @@ public class SandmeApplication {
 		
 		return source;
 	}
-	
 }

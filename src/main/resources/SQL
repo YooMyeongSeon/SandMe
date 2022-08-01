@@ -125,7 +125,8 @@ create table member_tbl(
     memberEmail VARCHAR2(50) NOT NULL UNIQUE,
     memberPwd VARCHAR2(200) NOT NULL,
     memberTel VARCHAR2(50) NOT NULL,
-    memberName VARCHAR2(50) NOT NULL);
+    memberName VARCHAR2(50) NOT NULL,
+    admin VARCHAR2(2) NOT NULL);
     
 create sequence member_seq nocache;
 

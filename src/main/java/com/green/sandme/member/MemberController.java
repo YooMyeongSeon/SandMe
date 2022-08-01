@@ -38,9 +38,7 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
-	
-	
-	
+
 	//회원가입 페이지 이동
 	@GetMapping("/join")
 	public String joinForm(Model model) {
@@ -56,51 +54,38 @@ public class MemberController {
 	}
 	
 	//회원가입 처리	  
-//	@PostMapping("/joinProcess")
-//	public String RegisterUser(@RequestParam("memberEmail") String memberEmail, 
-//			@RequestParam("memberPwd") String memberPwdout,
-//			@RequestParam("memberTel") String memberTel,
-//			@RequestParam("memberName") String memberName,
-//			Model model) throws Exception{
-//
-//		 String memberPwd = bcryptPasswordEncoder.encode(memberPwdout);
-//		 
-//		 //아이디 중복체크
+    @PostMapping("/joinProcess")
+    public String RegisterUser(@RequestParam("memberEmail") String memberEmail, 
+            @RequestParam("memberPwd") String memberPwdout,
+            @RequestParam("memberTel") String memberTel,
+            @RequestParam("memberName") String memberName,
+            Model model) throws Exception{
+
+         String memberPwd = bcryptPasswordEncoder.encode(memberPwdout);
+         
+       //아이디 중복체크
 //		 int idResult = memberService.checkUserId(memberEmail);
-//		 
-//		 memberVo mVo = new memberVo();
-//				 
-//		 mVo.setMemberEmail(memberEmail);
-//		 mVo.setMemberPwd(memberPwd);
-//		 mVo.setMemberTel(memberTel);
-//		 mVo.setMemberName(memberName);
-//		 
-//		 try {
-//			 if(idResult == 0) {
-//				 memberService.RegisterUser(mVo);
-//				 String url = "/registerPage/"+ memberEmail;
-//                 return new RedirectView(url);
-//			 }else if(idResult == 1) {
-//				 String fail = "/join";
-//				 return new RedirectView(fail);
-//			 }
-//		 }catch(Exception e) {
-//			 e.printStackTrace();
-//		 }
-//		 
-//
-//		 model.addAttribute("memberName", memberName);
-//		 model.addAttribute("chapter", "chapter03");
-//		 return "joinForm";
-//	}
-//	
-//	//로그인 폼으로 이동
-//	@GetMapping("/loginForm")
-//	public String loginForm() {
-//		return "loginForm";
-//	}
+         
+         memberVo mVo = new memberVo();
+                 
+         mVo.setMemberEmail(memberEmail);
+         mVo.setMemberPwd(memberPwd);
+         mVo.setMemberTel(memberTel);
+         mVo.setMemberName(memberName);
+         
+         memberService.RegisterUser(mVo);
+         
+         model.addAttribute("memberName", memberName);
+         model.addAttribute("chapter", "chapter03");
+         return "joinForm";
+    }
 	
-  
+	//로그인 폼으로 이동
+	@GetMapping("/loginForm")
+	public String loginForm() {
+		return "loginForm";
+	}
+	
 	//회원정보 수정 처리
 //	@GetMapping("/updatepro")
 //	public RedirectView UpdateUser(
@@ -132,8 +117,7 @@ public class MemberController {
 //
 //	     return new RedirectView(url);
 //	}	  
-  
-	  
+   
 	//정보변경페이지 (정보출력)
 //	 @GetMapping("/updateUser/{memberNum}")
 //	 public String UserInfo(@PathVariable("memberNum")int memberNum, Model model) throws Exception {
@@ -174,8 +158,4 @@ public class MemberController {
 			 return "success";
 		 }
 	 }
- 
-	 
-	 
-
 }
