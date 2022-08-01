@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.gson.Gson;
 import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
+import com.green.sandme.order.vo.OrderVo;
 
 @Controller
 public class OrderController {
@@ -42,7 +43,7 @@ public class OrderController {
 		String order = request.getParameter("order");
 		String chapter = request.getParameter("chapter");
 
-		if (chapter.equals("chapter01")) {
+		if (chapter.equals("chapter01")) { //--------------------------------------------------챕터 1 : 매장 선택
 			if (order.equals("home")) {
 				String address = request.getParameter("address") + " " + request.getParameter("detailAddress");
 				model.addAttribute("address", address);
@@ -51,7 +52,7 @@ public class OrderController {
 			int shop = Integer.parseInt(request.getParameter("shopNum"));
 			model.addAttribute("shop", shop);
 			model.addAttribute("chapter", "chapter02_01");
-		} else if (chapter.equals("chapter02_01")) {
+		} else if (chapter.equals("chapter02_01")) { //--------------------------------------------------챕터 2-1 : 메뉴 선택
 			if (order.equals("home")) {
 				String address = request.getParameter("inputAddress");
 				model.addAttribute("address", address);
@@ -65,7 +66,7 @@ public class OrderController {
 			model.addAttribute("shop", shop);
 			model.addAttribute("mVo", mVo);
 			model.addAttribute("chapter", "chapter02_02");
-		} else if (chapter.equals("chapter02_02")) {
+		} else if (chapter.equals("chapter02_02")) { //--------------------------------------------------챕터 2-2 : 메뉴 상세 선택
 			if (order.equals("home")) {
 				String address = request.getParameter("inputAddress");
 				model.addAttribute("address", address);
@@ -74,6 +75,7 @@ public class OrderController {
 			int shop = Integer.parseInt(request.getParameter("inputShop"));
 			int sandMenu = Integer.parseInt(request.getParameter("inputSandMenu"));
 			int quantity = Integer.parseInt(request.getParameter("quantity"));
+			String drink = request.getParameter("drink");
 			
 			MenuVo mVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectMenu", sandMenu);
 			
@@ -84,16 +86,25 @@ public class OrderController {
 				for (int i=0; i<vegelist.length; i++) {
 					vege += vegelist[i] + ", ";
 				}
+			} else {
+				vege = "야채 선택 안함, ";
 			}
 			
 			String custom = "빵 : " + request.getParameter("bread") +
 					", 야채 : " + vege +
 					"소스 : " + request.getParameter("sauce") +
-					", 치즈 : " + request.getParameter("cheese") +
-					", 음료 : " + request.getParameter("drink");
+					", 치즈 : " + request.getParameter("cheese");
 			
 			OrderAddressVo oAv = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectShopByNum", shop);
 			
+			int totalPrice = mVo.getMenuPrice() * quantity;
+			
+			if (!drink.equals("음료 선택 안함")) {
+				totalPrice += (2000 * quantity);
+			}
+
+			model.addAttribute("totalPrice", totalPrice);
+			model.addAttribute("drink", drink);
 			model.addAttribute("mVo", mVo);
 			model.addAttribute("oAv", oAv);
 			model.addAttribute("quantity", quantity);
@@ -101,26 +112,43 @@ public class OrderController {
 			model.addAttribute("sandMenu", sandMenu);
 			model.addAttribute("shop", shop);
 			model.addAttribute("chapter", "chapter03");
-		} else if (chapter.equals("chapter03")) {
+		} else if (chapter.equals("chapter03")) { //--------------------------------------------------챕터 3 : 주문 작성
+			OrderVo oVo = new OrderVo();
+			
 			if (order.equals("home")) {
-				String address = request.getParameter("inputAddress");
-				model.addAttribute("address", address);
+				oVo.setOrderAddress(request.getParameter("inputAddress"));
+			} else {
+				oVo.setOrderAddress("매장 주문");
 			}
 			
+			oVo.setMemberNum(Integer.parseInt(request.getParameter("memberNum")));
+			oVo.setShopNum(Integer.parseInt(request.getParameter("inputShop")));
+			oVo.setOrderCategory(request.getParameter("order"));
+			oVo.setMenuNum(Integer.parseInt(request.getParameter("menuNum")));
+			oVo.setOrderCustom(request.getParameter("inputCustom"));
+			oVo.setOrderDrink(request.getParameter("inputDrink"));
+			oVo.setOrderQuantity(Integer.parseInt(request.getParameter("inputquantity")));
+			oVo.setOrderRequest(request.getParameter("request"));
+			oVo.setOrderTotalPrice(Integer.parseInt(request.getParameter("inputTotalPrice")));
 			
+			//데이터베이스에 주문 전송
+			sqlSession.insert("com.green.sandme.order.dao.OrderDao.insertOrder", oVo);
 			
+			int seq = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectOrderSeq");
+			seq -= 1;
+			oVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectOrder", seq);
 			
-			
+			model.addAttribute("oVo", oVo);
 			model.addAttribute("chapter", "chapter04");
-		} else if (chapter.equals("inCart")) {
-			System.out.println("장바구니 기능");//////////////////////////////////////////////////
+		} else if (chapter.equals("inCart")) { //--------------------------------------------------장바구니 기능
+			
+			
+			
+			
+			
 			return "main";
 		}
-		
-		
-		
-		
-		
+
 		model.addAttribute("order", order);
 		return "order";
 	}

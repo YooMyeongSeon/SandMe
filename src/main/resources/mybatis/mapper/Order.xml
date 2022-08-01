@@ -23,4 +23,19 @@
 		select * from menu_tbl where menuNum = #{sandMenu}
     </select>
     
+    <!-- 주문 저장 -->
+    <insert id="insertOrder" parameterType="com.green.sandme.order.vo.OrderVo">
+		insert into order_tbl values(order_seq.nextval, #{memberNum}, #{shopNum}, #{orderCategory}, #{orderAddress}, #{menuNum}, #{orderCustom}, #{orderDrink}, #{orderQuantity},sysdate, #{orderRequest}, #{orderTotalPrice})
+    </insert>
+    
+    <!-- 주문한 시퀀스 가져오기 -->
+    <select id="selectOrderSeq" resultType="int">
+    	SELECT LAST_NUMBER seq FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'ORDER_SEQ'
+    </select>
+    
+    <!-- 주문 내역 다시 가져오기 -->
+    <select id="selectOrder" resultType="com.green.sandme.order.vo.OrderVo" parameterType="Int">
+    	SELECT * FROM order_tbl WHERE orderNum = #{seq}
+    </select>
+    
 </mapper>

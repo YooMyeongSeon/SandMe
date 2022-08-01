@@ -1,3 +1,5 @@
+----------------------------------------------------------------------------------------------------매장 테이블
+
 create table shop_tbl(shopNum number PRIMARY KEY,
     shopName varchar2(50) not null UNIQUE,
     shopAddress varchar2(200) not null,
@@ -16,6 +18,8 @@ insert into shop_tbl values(shop_seq.nextval, '팔달점', '경기도 수원시 
 commit;
 
 select * from shop_tbl;
+
+----------------------------------------------------------------------------------------------------매장 담당구역 테이블
 
 create table area_tbl(areaNum number PRIMARY KEY,
     shopNum number not null,
@@ -84,6 +88,8 @@ commit;
 
 select * from area_tbl;
 
+----------------------------------------------------------------------------------------------------메뉴 테이블
+
 create table menu_tbl(menuNum number PRIMARY KEY,
     menuName varchar2(50) not null UNIQUE,
     menuEngName varchar2(50) not null,
@@ -112,6 +118,8 @@ commit;
 
 select * from menu_tbl;
 
+----------------------------------------------------------------------------------------------------멤버 테이블
+
 create table member_tbl(
     memberNum number PRIMARY KEY,
     memberEmail VARCHAR2(50) NOT NULL UNIQUE,
@@ -122,3 +130,22 @@ create table member_tbl(
 create sequence member_seq nocache;
 
 select * from member_tbl;
+
+----------------------------------------------------------------------------------------------------주문 테이블
+
+create table order_tbl(orderNum number PRIMARY KEY,
+	memberNum number NOT NULL,
+	shopNum number NOT NULL,
+	orderCategory VARCHAR2(50) NOT NULL,
+	orderAddress VARCHAR2(200),
+	menuNum number NOT NULL,
+	orderCustom VARCHAR2(200) NOT NULL,
+	orderDrink VARCHAR2(50) NOT NULL,
+	orderQuantity number NOT NULL,
+	orderTime date,
+	orderRequest VARCHAR2(200),
+	orderTotalPrice number);
+    
+create sequence order_seq nocache;
+
+select * from order_tbl;
