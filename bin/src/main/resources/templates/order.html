@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_order.css"> <!-- 오더 스타일 시트 -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f087608337867dd75c4783c9a811d2db&libraries=services,clusterer"></script> <!-- 카카오 맵 Api -->
+    <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 Api -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
+	<section>
+		<div id="orderHead"> <!-- 오더 헤더 -->
+			<div id="orderTitleDeco"></div>
+			<div th:if="${order == 'home'}">
+				<p id="orderTitle">배달 주문</p>
+				<p>온라인 주문 배달 서비스입니다.</p>
+			</div>
+			<div th:if="${order == 'pickUp'}">
+				<p id="orderTitle">매장 주문</p>
+				<p>온라인 주문 후 매장 픽업/시식 서비스입니다.</p>
+			</div>
+			<div id="orderChapter"> <!-- 오더 챕터 -->
+				<div th:if="${chapter == 'chapter01'}">
+					<div class="chapterVi">
+						<img src="img/chapter01.svg" class="chapterViImg">
+						<p><span class="Step">Step1</span> <span style="color:white;">|</span> 매장 선택</p>
+					</div>
+				</div>
+				<div th:unless="${chapter == 'chapter01'}">
+					<div class="chapterDe">
+						<img src="img/chapter01(w).svg" class="chapterDeImg">
+					</div>
+				</div>
+				<div class="chapterPartition"></div>
+				<div th:if="${chapter == 'chapter02_01' || chapter == 'chapter02_02'}">
+					<div class="chapterVi">
+						<img src="img/chapter02.svg" class="chapterViImg">
+						<p><span class="Step">Step2</span> <span style="color:white;">|</span> 메뉴 선택</p>
+					</div>
+				</div>
+				<div th:unless="${chapter == 'chapter02_01' || chapter == 'chapter02_02'}">
+					<div class="chapterDe">
+						<img src="img/chapter02(w).svg" class="chapterDeImg">
+					</div>
+				</div>
+				<div class="chapterPartition"></div>
+				<div th:if="${chapter == 'chapter03'}">
+					<div class="chapterVi">
+						<img src="img/chapter03.svg" class="chapterViImg">
+						<p><span class="Step">Step3</span> <span style="color:white;">|</span> 주문 작성</p>
+					</div>
+				</div>
+				<div th:unless="${chapter == 'chapter03'}">
+					<div class="chapterDe">
+						<img src="img/chapter03(w).svg" class="chapterDeImg">
+					</div>
+				</div>
+				<div class="chapterPartition"></div>
+				<div th:if="${chapter == 'chapter04'}">
+					<div class="chapterVi">
+						<img src="img/chapter04.svg" class="chapterViImg">
+						<p><span class="Step">Step4</span> <span style="color:white;">|</span> 주문 완료</p>
+					</div>
+				</div>
+				<div th:unless="${chapter == 'chapter04'}">
+					<div class="chapterDe">
+						<img src="img/chapter04(w).svg" class="chapterDeImg">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:if="${chapter == 'chapter01'}" id="orderSearch"> <!-- 챕터1 : 매장 선택 -->
+			<form method="post">
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+				<label for="address">매장 찾기</label>
+				<input th:if="${order == 'home'}" type="text" id="address" name="address" placeholder="배달 받으실 주소를 입력해 주세요." onclick="callAddress()">
+				<input th:if="${order == 'home'}" type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해 주세요.">
+				<input th:if="${order == 'pickUp'}" type="text" id="address" name="address" placeholder="이용하실 매장의 매장명을 입력해 주세요." style="width:626px;">
+				<button class="btn" th:onclick="search(); return false;">검색</button>
+				<div class="mapLine"></div>
+				<input type="hidden" id="shopAddress" name="shopAddress">
+				<input type="hidden" id="shopNum" name="shopNum">
+				<div id="shopSearch"></div>
+			</form>
+			<div id="map"></div>
+		</div>
+		<div th:if="${chapter == 'chapter02_01'}" id="orderSearch"> <!-- 챕터2-1 : 메뉴 선택 -->
+			<form id="chapter02_01" method="post">
+				<input type="hidden" name="order" th:value="${order}">
+				<input type="hidden" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${shop}">
+				<input type="hidden" name="inputAddress" th:value="${address}">
+				<table id="sandMenu">
+					<tbody>
+						<tr>
+							<td><a th:onclick="chap02submit(1)"><img src="img/menu/menu01.png"><span>베지</span><br><span>Veggie Delite</span><br><span>209kcal</span></a></td>
+							<td><a th:onclick="chap02submit(2)"><img src="img/menu/menu02.png"><span>로스트 치킨</span><br><span>Roasted Chicken</span><br><span>300kcal</span></a></td>
+							<td><a th:onclick="chap02submit(3)"><img src="img/menu/menu03.png"><span>비엘티</span><br><span>B.L.T</span><br><span>300kcal</span></a></td>
+						</tr>
+						<tr>
+							<td><a th:onclick="chap02submit(4)"><img src="img/menu/menu04.png"><span>풀드 포크 바비큐</span><br><span>Pulled Pork Barbecue</span><br><span>327kcal</span></a></td>
+							<td><a th:onclick="chap02submit(5)"><img src="img/menu/menu05.png"><span>쉬림프</span><br><span>Shrimp</span><br><span>229kcal</span></a></td>
+							<td><a th:onclick="chap02submit(6)"><img src="img/menu/menu06.png"><span>스파이시 쉬림프</span><br><span>Spicy Shrimp</span><br><span>233kcal</span></a></td>
+						</tr>
+						<tr>
+							<td><a th:onclick="chap02submit(7)"><img src="img/menu/menu07.png"><span>참치</span><br><span>Tuna</span><br><span>316kcal</span></a></td>
+							<td><a th:onclick="chap02submit(8)"><img src="img/menu/menu08.png"><span>에그마요</span><br><span>Egg Mayo</span><br><span>416kcal</span></a></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="hidden" name="selectsandMenu" id="selectsandMenu">
+			</form>
+		</div>
+		<div th:if="${chapter == 'chapter02_02'}" id="orderSearch"> <!-- 챕터2-2 : 세부 메뉴 선택 -->
+			<div id="selectSandMenuInfo">
+				<img th:src="@{${mVo.menuPicUrl}}">
+				<div>
+					<p th:text="${mVo.menuName}">menuName</p>
+					<p th:text="${mVo.menuEngName}">menuEngName</p>
+					<p th:utext="${mVo.menuEx}">menuEx</p>
+				</div>
+			</div>
+			<div id="nutrientInfo">
+				<p>영양 성분표</p>
+				<table>
+					<tbody>
+						<tr>
+							<th><p>중량(g)</p></th>
+							<th><p>열량(kcal)</p></th>
+							<th><p>단백질(g)</p></th>
+							<th><p>포화지방(g)</p></th>
+							<th><p>당류(g)</p></th>
+							<th><p>나트륨(mg)</p></th>
+						</tr>
+						<tr>
+							<td><p th:text="${mVo.menuNt1}">menuNt1</p></td>
+							<td><p th:text="${mVo.menuNt2}">menuNt2</p></td>
+							<td><p th:text="${mVo.menuNt3}">menuNt3</p></td>
+							<td><p th:text="${mVo.menuNt4}">menuNt4</p></td>
+							<td><p th:text="${mVo.menuNt5}">menuNt5</p></td>
+							<td><p th:text="${mVo.menuNt6}">menuNt6</p></td>
+						</tr>
+					</tbody>
+				</table>
+				<div>
+					<p>※ 기본야채 4종(양상추, 양파, 토마토, 올리브) 및 제품에 따른 미트류 포함, 치즈 및 소스 제외, 위트 브레드 기준입니다.</p>
+					<p>※ 괄호 안 %는 1일 영양소 기준치에 대한 비율입니다.</p>
+				</div>
+			</div>
+			<div class="mapLine"></div>
+			<form method="post" id="chapter02_02">
+				<div class="orderMenu">
+					<div class="SelectSc"><p>빵 선택</p></div>
+					<div>
+						<input type="radio" name="bread" value="화이트" id="bread01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="bread01()"><img src="img/menu/bread01.png"><p>화이트</p></div>
+					</div>
+					<div>
+						<input type="radio" name="bread" value="허니오트" id="bread02" class="selectRadio">
+						<div class="menuSelect" onclick="bread02()"><img src="img/menu/bread02.png"><p>허니오트</p></div>
+					</div>
+					<div>
+						<input type="radio" name="bread" value="하티" id="bread03" class="selectRadio">
+						<div class="menuSelect" onclick="bread03()"><img src="img/menu/bread03.png"><p>하티</p></div>
+					</div>
+					<div>
+						<input type="radio" name="bread" value="플랫브레드" id="bread04" class="selectRadio">
+						<div class="menuSelect" onclick="bread04()"><img src="img/menu/bread04.png"><p>플랫브레드</p></div>
+					</div>
+					<script>
+						function bread01() {$('#bread01').prop("checked", true);}
+						function bread02() {$('#bread02').prop("checked", true);}
+						function bread03() {$('#bread03').prop("checked", true);}
+						function bread04() {$('#bread04').prop("checked", true);}
+					</script>
+				</div>
+				<div class="orderMenu">
+					<div class="SelectSc"><p>야채 선택<br>(다중 선택)</p></div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="양상추" id="vegetable01" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable01()"><img src="img/menu/vegetable01.png"><p>양상추</p></div>
+					</div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="양파" id="vegetable02" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable02()"><img src="img/menu/vegetable02.png"><p>양파</p></div> 
+					</div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="토마토" id="vegetable03" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable03()"><img src="img/menu/vegetable03.png"><p>토마토</p></div>
+					</div>
+					<div>
+						<input type="checkbox" name="vegetable[]" value="올리브" id="vegetable04" class="selectRadio">
+						<div class="menuSelect" onclick="vegetable04()"><img src="img/menu/vegetable04.png"><p>올리브</p></div>
+					</div>
+					<script>
+						function vegetable01() {if ($('#vegetable01').is(":checked")) {$('#vegetable01').prop("checked", false);} else {$('#vegetable01').prop("checked", true);}}
+						function vegetable02() {if ($('#vegetable02').is(":checked")) {$('#vegetable02').prop("checked", false);} else {$('#vegetable02').prop("checked", true);}}
+						function vegetable03() {if ($('#vegetable03').is(":checked")) {$('#vegetable03').prop("checked", false);} else {$('#vegetable03').prop("checked", true);}}
+						function vegetable04() {if ($('#vegetable04').is(":checked")) {$('#vegetable04').prop("checked", false);} else {$('#vegetable04').prop("checked", true);}}
+					</script>
+				</div>
+				<div class="orderMenu">
+					<div class="SelectSc"><p>소스 선택</p></div>
+					<div>
+						<input type="radio" name="sauce" value="허니 머스타드" id="sauce01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="sauce01()"><img src="img/menu/sauce01.png"><p>허니 머스타드</p></div>
+					</div>
+					<div>
+						<input type="radio" name="sauce" value="스위트 어니언" id="sauce02" class="selectRadio">
+						<div class="menuSelect" onclick="sauce02()"><img src="img/menu/sauce02.png"><p>스위트 어니언</p></div>
+					</div>
+					<div>
+						<input type="radio" name="sauce" value="스모크 바비큐" id="sauce03" class="selectRadio">
+						<div class="menuSelect" onclick="sauce03()"><img src="img/menu/sauce03.png"><p>스모크 바비큐</p></div>
+					</div>
+					<div>
+						<input type="radio" name="sauce" value="핫 칠리" id="sauce04" class="selectRadio">
+						<div class="menuSelect" onclick="sauce04()"><img src="img/menu/sauce04.png"><p>핫 칠리</p></div>
+					</div>
+					<script>
+						function sauce01() {$('#sauce01').prop("checked", true);}
+						function sauce02() {$('#sauce02').prop("checked", true);}
+						function sauce03() {$('#sauce03').prop("checked", true);}
+						function sauce04() {$('#sauce04').prop("checked", true);}
+					</script>
+				</div>
+				<div class="orderMenu">
+					<div class="SelectSc"><p>치즈 선택</p></div>
+					<div>
+						<input type="radio" name="cheese" value="아메리칸 치즈" id="cheese01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="cheese01()"><img src="img/menu/cheese01.png"><p>아메리칸 치즈</p></div>
+					</div>
+					<div>
+						<input type="radio" name="cheese" value="모차렐라 치즈" id="cheese02" class="selectRadio">
+						<div class="menuSelect" onclick="cheese02()"><img src="img/menu/cheese02.png"><p>모차렐라 치즈</p></div>
+					</div>
+					<div>
+						<input type="radio" name="cheese" value="슈레드 치즈" id="cheese03" class="selectRadio">
+						<div class="menuSelect" onclick="cheese03()"><img src="img/menu/cheese03.png"><p>슈레드 치즈</p></div>
+					</div>
+					<div>
+						<input type="radio" name="cheese" value="치즈 선택 안함" id="cheese04" class="selectRadio">
+						<div class="menuSelect" onclick="cheese04()"><img src="img/drink04.png"><p>치즈 선택 안함</p></div>
+					</div>
+					<script>
+						function cheese01() {$('#cheese01').prop("checked", true);}
+						function cheese02() {$('#cheese02').prop("checked", true);}
+						function cheese03() {$('#cheese03').prop("checked", true);}
+						function cheese04() {$('#cheese04').prop("checked", true);}
+					</script>
+				</div>
+				<div class="orderMenu">
+					<div class="SelectSc"><p>음료 선택</p></div>
+					<div>
+						<input type="radio" name="drink" value="코카콜라" id="drink01" class="selectRadio" checked>
+						<div class="menuSelect" onclick="drink01()"><img src="img/drink01.png"><p>코카콜라</p></div>
+					</div>
+					<div>
+						<input type="radio" name="drink" value="스프라이트" id="drink02" class="selectRadio">
+						<div class="menuSelect" onclick="drink02()"><img src="img/drink02.png"><p>스프라이트</p></div>
+					</div>
+					<div>
+						<input type="radio" name="drink" value="미닛메이드 오렌지" id="drink03" class="selectRadio">
+						<div class="menuSelect" onclick="drink03()"><img src="img/drink03.png"><p>미닛메이드 오렌지</p></div>
+					</div>
+					<div>
+						<input type="radio" name="drink" value="음료 선택 안함" id="drink04" class="selectRadio">
+						<div class="menuSelect" onclick="drink04()"><img src="img/drink04.png"><p>음료 선택 안함</p></div>
+					</div>
+					<script>
+						function drink01() {$('#drink01').prop("checked", true);}
+						function drink02() {$('#drink02').prop("checked", true);}
+						function drink03() {$('#drink03').prop("checked", true);}
+						function drink04() {$('#drink04').prop("checked", true);}
+					</script>
+				</div>
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${shop}">
+				<input type="hidden" name="inputAddress" th:value="${address}">
+				<input type="hidden" name="inputSandMenu" th:value="${mVo.menuNum}">
+				<input type="submit" value="주문하기" class="btn2">
+				<input type="button" value="장바구니" class="btn2" onclick="inCart()">
+			</form>
+		</div>
+		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
+			<form method="post">
+				
+			</form>
+			<div id="map" style="display:none;"></div>
+		</div>
+		<div th:if="${chapter == 'chapter04'}" id="orderSearch"> <!-- 챕터4 : 주문 완료 -->
+			
+			<div id="map" style="display:none;"></div>
+		</div>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
+	</section>
+    <script>
+    	/* 카카오 맵 ↓ */
+		let container = document.getElementById('map');
+		let options = {center: new kakao.maps.LatLng(37.26358693125355, 127.0287164628422), level: 7};
+		let map = new kakao.maps.Map(container, options);
+		let geocoder = new kakao.maps.services.Geocoder();
+		
+		/* 주소 검색 ↓ */
+		function callAddress() {
+			new daum.Postcode({
+		        oncomplete: function(data) {
+					$('#address').val(data.roadAddress);
+					$('#shopAddress').val(data.bname);
+					
+					geocoder.addressSearch(data.roadAddress, function(result, status) {
+				    	if (status === kakao.maps.services.Status.OK) {
+					        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					        
+							$('#map').empty();
+							let map = new kakao.maps.Map(container, options);
+							
+							let marker = new kakao.maps.Marker({
+					            map: map,
+					            position: coords
+					        });
+
+					        let infowindow = new kakao.maps.InfoWindow({
+					            content: '<div id="markerName">' + data.roadAddress + '</div>'
+					        });
+					        
+					        infowindow.open(map, marker);
+					        map.setCenter(coords); 
+					    }
+					});
+		        }
+			}).open();
+		}
+		
+		/* chapter01 ↓ */
+    	function search() {
+			if ($('#address').val() == "") {
+				alert("주소/매장명을 입력해주세요.");
+				return false;
+			} else if ($('#detailAddress').val() == "") {
+				alert("상세주소를 입력해주세요.");
+				return false;
+			}
+			
+			if ($('#order').val() == "home") {
+				let address = $('#shopAddress').val();
+ 			
+				$.ajax({
+					url : "order/home",
+					type : "post",
+					async : true,
+					data : address,
+					datetype : "text",
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+						let info = JSON.parse(data);
+						$("#shopSearch").empty();
+						
+						if (data == "null" || info.shopOpen == "close") {
+							let html = "";
+	
+							html += "<p>입력하신 주소 주변으로 배달 가능한 매장이 없습니다.</p>";
+								html += "<div class=\"mapLine\"></div>";
+										
+							$("#shopSearch").append(html);
+						} else {
+							let html = "";
+							
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
+							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"
+							html += "<div class=\"mapLine\"></div>";
+							
+							$("#shopNum").val(info.shopNum);
+							$("#shopSearch").append(html);
+						}
+					}
+				});
+			} else {
+				let address = $('#address').val();
+ 			
+				$.ajax({
+					url : "order/pickUp",
+					type : "post", 
+					async : true,
+					data : address,
+					datetype : "text",
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+						let info = JSON.parse(data);
+						$("#shopSearch").empty();
+						
+						if (data == "null" || info.shopOpen == "close") {
+							let html = "";
+	
+							html += "<p>입력하신 매장이 없거나, 영업시간이 아닙니다.</p>";
+								html += "<div class=\"mapLine\"></div>";
+										
+							$("#shopSearch").append(html);
+						} else {
+							let html = "";
+							
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
+							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"
+							html += "<div class=\"mapLine\"></div>";
+							
+							geocoder.addressSearch(info.shopAddress, function(result, status) {
+						    	if (status === kakao.maps.services.Status.OK) {
+							        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+							        
+									$('#map').empty();
+									let map = new kakao.maps.Map(container, options);
+									
+									let marker = new kakao.maps.Marker({
+							            map: map,
+							            position: coords
+							        });
+		
+							        let infowindow = new kakao.maps.InfoWindow({
+							            content: '<div id="markerName">' + info.shopAddress + '</div>'
+							        });
+							        
+							        infowindow.open(map, marker);
+							        map.setCenter(coords); 
+							    }
+							});
+
+							$("#shopNum").val(info.shopNum);
+							$("#shopSearch").append(html);
+						}
+					}
+				});
+			}
+		}
+		
+    	function chap02submit(selectMenuNum) {
+    		$('#selectsandMenu').val(selectMenuNum);
+    		$('#chapter02_01').submit();
+    	}
+    	
+    	function inCart() {
+    		$('#chapter').val("inCart");
+    		$('#chapter02_02').submit();
+    	}
+    </script>
+</body>
+</html>

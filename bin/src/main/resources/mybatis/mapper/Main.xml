@@ -6,5 +6,5 @@
     <select id="selectBest" resultType="com.green.sandme.main.vo.BestVo">
 		<![CDATA[select * from bestmenu where rownum <= 3]]>
     </select>
- 
+    
 </mapper>

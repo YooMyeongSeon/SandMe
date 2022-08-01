@@ -1,8 +1,10 @@
 package com.green.sandme.member.vo;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class memberVo implements UserDetails {
@@ -13,7 +15,16 @@ public class memberVo implements UserDetails {
 	private String memberPwd;
 	private String memberTel;
 	private String memberName;
+	private String admin;
 	
+	
+	
+	public String getAdmin() {
+		return admin;
+	}
+	public void setAdmin(String admin) {
+		this.admin = admin;
+	}
 	public int getMemberNum() {
 		return memberNum;
 	}
@@ -47,7 +58,7 @@ public class memberVo implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return Collections.singletonList(new SimpleGrantedAuthority(this.admin));
 	}
 	@Override
 	public String getPassword() {
