@@ -14,11 +14,12 @@
 	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
 	<section>
 		<div id="chapterBoxHeader">
-		<div id="TitleDeco"></div>
+			<div id="TitleDeco"></div>
 			<div>
 				<p id="Title">회원 가입</p>
 				<p th:if="${chapter == 'chapter01'}">Step1. 약관 동의</p>
 				<p th:if="${chapter == 'chapter02'}">Step2. 정보 입력</p>
+				<p th:if="${chapter == 'chapter03'}">Step3. 가입 완료</p>
 			</div>
 		</div>
 		<div th:if="${chapter == 'chapter01'}" id="chapterBox">
@@ -711,68 +712,84 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 			</script>
 		</div>
 		<div th:if="${chapter == 'chapter02'}" id="chapterBox">
-			<form method="post" id="infoForm">
+			<form action="joinProcess" method="post" id="infoForm">
 				<table>
 					<tbody>
 						<tr>
+							<td colspan="2" id="formHead">기본 정보<span style="color: #009223;">(필수 입력)</span></td>
+						</tr>
+						<tr>
 							<td><label for="memberEmail">이메일 아이디</label></td>
-							<td><input type="email" maxlength="30" placeholder="이메일 형식으로 입력하세요" name="memberEmail"  id="memberEmail"></td>
+							<td><input type="email" maxlength="30" placeholder="이메일 아이디 입력" name="memberEmail"  id="memberEmail"></td>
 						</tr>
 						<tr>
 							<td><label for="memberPwd">비밀번호</label></td>
-							<td><input type="password" maxlength="15" name="memberPwd" id="memberPwd"></td>
+							<td><input type="password" maxlength="15" placeholder="비밀번호 입력" name="memberPwd" id="memberPwd"></td>
 						</tr>
 						<tr>
 							<td><label for="memberPwd">비밀번호 확인</label></td>
-							<td><input type="password" maxlength="15" name="memberPwdCheck" id="memberPwdCheck"></td>
+							<td><input type="password" maxlength="15" placeholder="확인 비밀번호 입력" name="memberPwdCheck" id="memberPwdCheck"></td>
 						</tr>
 						<tr>
 							<td><label for="memberName">이름</label></td>
-							<td><input type="text" name="memberName" id="memberName"></td>
+							<td><input type="text" name="memberName" placeholder="이름 입력" id="memberName"></td>
 						</tr>
 						<tr>
 							<td><label for="memberTel">전화번호</label></td>
-							<td><input type="text" name="memberTel" id="memberTel"></td>
+							<td><input type="text" name="memberTel" placeholder="전화번호 입력" id="memberTel"></td>
 						</tr>
 					</tbody>
 				</table>
-				<div id="btnWrap"><input type="button" value="회원가입" class="btn" onclick="check()"><input type="button" value="취소" class="btn" onclick="location.href='/'"></div>
+				<input type="button" value="중복 확인" id="overBtn" onclick="overlapCheck()">
+				<div id="btnWrap"><input type="button" value="회원가입" class="btn" onclick="check()"><input type="button" value="취소" class="btn2" onclick="location.href='/'"></div>
 			</form>
+			<script>
+				function check() {	
+					let emailEffectiveness = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+					
+					if ($('#memberEmail').val() == "") {
+						alert('이메일 아이디가 입력되지 않았습니다.');
+						$('#memberEmail').focus();
+					} else if(emailEffectiveness.test($('#memberEmail').val()) == false) {
+						alert('이메일 형식이 올바르지 않습니다.');
+						$('#memberEmail').val("");
+						$('#memberEmail').focus();
+					} else if($('#memberPwd').val() == "") {
+						alert('비밀번호가 입력되지 않았습니다.');
+						$('#memberPwd').focus();
+					} else if($('#memberPwdCheck').val() == "") {
+						alert('확인 비밀번호가 입력되지 않았습니다.');
+						$('#memberPwdCheck').focus();
+					} else if($('#memberName').val() == "") {
+						alert('이름이 입력되지 않았습니다.');
+						$('#memberName').focus();
+					} else if($('#memberTel').val() == "") {
+						alert('전화번호가 입력되지 않았습니다.');
+						$('#memberTel').focus();
+					}  else if($('#memberPwd').val() != $('#memberPwdCheck').val()) {
+						alert('확인 비밀번호가 일치하지 않습니다.');
+						$('#memberPwd').val("");
+						$('#memberPwdCheck').val("");
+						$('#memberPwd').focus();
+					} else {
+						$('#infoForm').submit();
+					}
+				}
+				
+				function overlapCheck() {
+					alert('아이디 중복 확인');
+				}
+			</script>
+		</div>
+		<div th:if="${chapter == 'chapter03'}" id="chapterBox">
+			<div id="joinSuccess">
+				<p>회원 가입 완료</p>
+				<p><span th:text="${memberName}">memberName</span>님, 샌드미 가입을 완영합니다!<p>
+				<input type="button" value="로그인" class="btn" onclick="location.href='/loginForm'">
+			</div>
 		</div>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
-	<script>
-		function check() {	
-			let emailEffectiveness = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			
-			if ($('#memberEmail').val() == "") {
-				alert('이메일 아이디가 입력되지 않았습니다.');
-				$('#memberEmail').focus();
-			} else if(emailEffectiveness.test($('#memberEmail').val()) == false) {
-				alert('이메일 형식이 올바르지 않습니다.');
-				$('#memberEmail').val("");
-				$('#memberEmail').focus();
-			} else if($('#memberPwd').val() == "") {
-				alert('비밀번호가 입력되지 않았습니다.');
-				$('#memberPwd').focus();
-			} else if($('#memberPwdCheck').val() == "") {
-				alert('확인 비밀번호가 입력되지 않았습니다.');
-				$('#memberPwdCheck').focus();
-			} else if($('#memberName').val() == "") {
-				alert('이름이 입력되지 않았습니다.');
-				$('#memberName').focus();
-			} else if($('#memberTel').val() == "") {
-				alert('전화번호가 입력되지 않았습니다.');
-				$('#memberTel').focus();
-			}  else if($('#memberPwd').val() != $('#memberPwdCheck').val()) {
-				alert('확인 비밀번호가 일치하지 않습니다.');
-				$('#memberPwd').val("");
-				$('#memberPwdCheck').val("");
-				$('#memberPwd').focus();
-			} else {
-				$('#infoForm').submit();
-			}
-		}
-	</script>
+	
 </body>
 </html>

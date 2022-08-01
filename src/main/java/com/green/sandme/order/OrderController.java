@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.green.sandme.order.vo.MenuVo;
@@ -24,9 +25,7 @@ public class OrderController {
 	SqlSession sqlSession;
 	
 	@RequestMapping("/order") //주문 페이지
-	public String oder(HttpServletRequest request, Model model) {
-		String order = request.getParameter("order");
-		
+	public String oder(@RequestParam("order")String order, Model model) {		
 		if (order == null || order.equals("home")) {
 			model.addAttribute("order", "home");
 		} else {
@@ -34,6 +33,7 @@ public class OrderController {
 		}
 		
 		model.addAttribute("chapter", "chapter01");
+
 		return "order";
 	}
 	
@@ -73,12 +73,17 @@ public class OrderController {
 			
 			int shop = Integer.parseInt(request.getParameter("inputShop"));
 			int sandMenu = Integer.parseInt(request.getParameter("inputSandMenu"));
+			int quantity = Integer.parseInt(request.getParameter("quantity"));
+			
+			MenuVo mVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectMenu", sandMenu);
 			
 			String[] vegelist = request.getParameterValues("vegetable[]");
 			String vege = "";
 			
-			for (int i=0; i<vegelist.length; i++) {
-				vege += vegelist[i] + ", ";
+			if (vegelist != null) {
+				for (int i=0; i<vegelist.length; i++) {
+					vege += vegelist[i] + ", ";
+				}
 			}
 			
 			String custom = "빵 : " + request.getParameter("bread") +
@@ -86,7 +91,12 @@ public class OrderController {
 					"소스 : " + request.getParameter("sauce") +
 					", 치즈 : " + request.getParameter("cheese") +
 					", 음료 : " + request.getParameter("drink");
-
+			
+			OrderAddressVo oAv = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectShopByNum", shop);
+			
+			model.addAttribute("mVo", mVo);
+			model.addAttribute("oAv", oAv);
+			model.addAttribute("quantity", quantity);
 			model.addAttribute("custom", custom);
 			model.addAttribute("sandMenu", sandMenu);
 			model.addAttribute("shop", shop);
@@ -97,11 +107,19 @@ public class OrderController {
 				model.addAttribute("address", address);
 			}
 			
+			
+			
+			
+			
 			model.addAttribute("chapter", "chapter04");
 		} else if (chapter.equals("inCart")) {
 			System.out.println("장바구니 기능");//////////////////////////////////////////////////
 			return "main";
 		}
+		
+		
+		
+		
 		
 		model.addAttribute("order", order);
 		return "order";

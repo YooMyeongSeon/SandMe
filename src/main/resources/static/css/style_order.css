@@ -248,6 +248,40 @@ section { /* 섹션 */
 .menuSelect > p {
 	margin-top: -20px;
 }
+#quantityBox {
+	width: 300px;
+	height: 120px;
+	margin: 0px auto;
+}
+#quantityBox > p {
+	float: left;
+	font-size: 16pt;
+	margin: 10px 20px 0px 0px;
+	font-family: 'S-CoreDream-6Bold';
+}
+.quantityOper {
+	float: left;
+	padding: 6.5px 17.25px;
+	border: 1px solid #009223;
+	border-radius: 25px;
+	font-size: 20pt;
+	cursor: pointer;
+}
+.quantityOper > p {
+	color: #009223;
+}
+#quantity {
+	float: left;
+	margin: 5px 40px 5px 50px;
+	font-size: 24pt;
+	border: none;
+	outline: none;
+	width: 35px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
 .btn2 {
 	width: 160px;
 	height: 50px;
@@ -260,4 +294,42 @@ section { /* 섹션 */
 	cursor: pointer;
 	display: inline-block;
 	margin: 0px 10px;
+}
+#tableWrap {
+	margin: 20px 60px;
+	text-align: left;
+}
+#tableWrap > p {
+	font-family: 'S-CoreDream-6Bold';
+	color: #C9CACA;
+	font-size: 16pt;
+	margin-bottom: 15px;
+}
+.chapter03table, #chapter03table02 {
+	border-collapse: collapse;
+}
+.chapter03table > tbody > tr > td {
+	border-top: 1px solid #009223;
+	border-bottom: 1px solid #009223;
+	height: 60px;
+}
+.chapter03table > tbody > tr > td > input {
+	width: 778px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+}
+.chapter03table > tbody > tr > td:first-child {
+	width: 200px;
+	color: #009223;
+	font-family: 'S-CoreDream-6Bold';	
+}
+.chapter03table > tbody > tr > td:last-child {
+	width: 778px;
+}
+#priceTitle {
+	margin-top: 60px;
 }

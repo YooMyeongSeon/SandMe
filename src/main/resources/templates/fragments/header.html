@@ -1,11 +1,13 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="headerFragment">
     <div id="hdLogo">
         <a href="/"><img src="img/logo.svg"></a>
         <div id="hdLeft">
             <ul>
-            	<li><a href="/">로그인</a></li>
-            	<li><a href="/join">회원 가입</a></li>
+            	<li sec:authorize="isAnonymous()"><a href="/loginForm">로그인</a></li>
+            	<li sec:authorize="isAuthenticated()"><a href="/logout">로그아웃</a></li>
+            	<li sec:authorize="isAnonymous()"><a href="/join">회원 가입</a></li>
+            	<li sec:authorize="isAuthenticated()"><a href="/">회원 정보</a></li>
             </ul>
         </div>
         <div id="hdRight">

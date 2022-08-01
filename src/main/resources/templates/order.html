@@ -13,8 +13,13 @@
     <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 Api -->
 </head>
 <body>
+	<script sec:authorize="isAnonymous()">
+		$(document).ready(function() {
+			location.href="/loginForm";
+		});
+	</script>
 	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
-	<section>
+	<section sec:authorize="isAuthenticated()">
 		<div id="orderHead"> <!-- 오더 헤더 -->
 			<div id="orderTitleDeco"></div>
 			<div th:if="${order == 'home'}">
@@ -281,6 +286,31 @@
 						function drink04() {$('#drink04').prop("checked", true);}
 					</script>
 				</div>
+				<div id="quantityBox">
+					<p>수량</p>
+					<div class="quantityOper" onclick="quantityOperM()"><p>-</p></div>
+					<div><input type="number" id="quantity" name="quantity" value="1" readonly></div>
+					<div class="quantityOper" onclick="quantityOperP()"><p>+</p></div>
+					<script>
+						function quantityOperM() { //수량 감소 함수
+							let num = $('#quantity').val();
+							
+							if (num != 1) {
+								let result = parseInt(num) - 1;
+								$('#quantity').val(result);
+							}
+						}
+						function quantityOperP() { //수량 증가 함수
+							let num = $('#quantity').val();
+							
+							if (num != 99) {
+								let result = parseInt(num) + 1;
+								$('#quantity').val(result);
+							}
+								
+						}
+					</script>
+				</div>
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
 				<input type="hidden" name="inputShop" th:value="${shop}">
@@ -292,7 +322,66 @@
 		</div>
 		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
 			<form method="post">
-				
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${shop}">
+				<input type="hidden" name="inputAddress" th:value="${address}">
+				<input type="hidden" name="inputSandMenu" th:value="${sandMenu}">
+				<input type="hidden" name="quantity" th:value="${quantity}">
+				<input type="hidden" name="custom" th:value="${custom}">
+				<div id="tableWrap">
+					<p>주문 내역</p>
+					<table class="chapter03table">
+						<tbody>
+							<tr>
+								<td>샌드미 <span th:text="${oAv.shopName}">shopName</span></td>
+								<td><span th:text="${oAv.shopAddress}">shopAddress</span></td>
+							</tr>
+							<tr th:if="${order == 'home'}">
+								<td>배달 주소</td>
+								<td><span th:text="${address}">address</span></td>
+							</tr>
+							<tr>
+								<td>주문 유형</td>
+								<td th:if="${order == 'home'}">배달 주문</td>
+								<td th:if="${order == 'pickUp'}">매장 주문</td>
+							</tr>
+							<tr>
+								<td>전화 번호</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>주문시 요청사항</td>
+								<td><input type="text" name="request"></td>
+							</tr>
+							<tr>
+								<td>주문 메뉴</td>
+								<td><span th:text="${mVo.menuName}">menuName</span></td>
+							</tr>
+							<tr>
+								<td>상세 내역</td>
+								<td><span th:text="${custom}">custom</span></td>
+							</tr>
+							<tr>
+								<td>주문 수량</td>
+								<td><span th:text="${quantity}">quantity</span> 개</td>
+							</tr>
+						</tbody>
+					</table>
+					<p id="priceTitle">결제 금액</p>
+					<table class="chapter03table">
+						<tbody>
+							<tr>
+								<td>메뉴 금액</td>
+								<td><span th:text="${mVo.menuPrice}">menuPrice</span>원</td>
+							</tr>
+							<tr>
+								<td>총 결제 금액</td>
+								<td><span th:text="${mVo.menuPrice}">menuPrice</span>원</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</form>
 			<div id="map" style="display:none;"></div>
 		</div>

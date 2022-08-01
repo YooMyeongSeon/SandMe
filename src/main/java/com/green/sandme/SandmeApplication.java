@@ -51,21 +51,21 @@ public class SandmeApplication {
 			.anyRequest().permitAll() //특정 권한 사용자만 접근가능한 리소스를 설정 그 외 나머지는 인증후 접근 가능
 			.and()  //로그인 페이지와 기타 로그인 처리 및 성공 실패 처리를 사용 
 			.formLogin() //따로 만든 로그인 페이지 사용할때 미설정시 시큐리티가 기본으로 제공하는 페이지 
-			.loginPage("/login") 
-			.usernameParameter("memberEmail") 
-			.passwordParameter("memberPwd")
+			.loginPage("/loginForm")
+			.usernameParameter("memberEmail") //로그인할 아이디
+			.passwordParameter("memberPwd") //로그인할 비밀번호
 			.loginProcessingUrl("/loginSuccess") //로그인폼 액션값과 일치
 			.defaultSuccessUrl("/") //로그인이 성공했을 때 이동되는 페이지
-			.failureUrl("/login")
+			.failureUrl("/loginForm") //로그인이 실패했을 때 이동되는 페이지
 			.permitAll()
 			.and() 
 			.logout() 
-			.logoutUrl("/logout") //로그아웃 매퍼
+			.logoutUrl("/logout") //로그아웃
 			.logoutSuccessUrl("/") //로그아웃 성공시 이동되는 페이지
 			.invalidateHttpSession(true); //Http세션 초기화
 		return http.build();
 	}
-
+	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();

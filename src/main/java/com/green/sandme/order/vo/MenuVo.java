@@ -13,6 +13,7 @@ public class MenuVo {
     String menuNt4;
     String menuNt5;
     String menuNt6;
+    int menuPrice;
     
 	public MenuVo(int menuNum, String menuName, String menuEngName, String menuEx, String menukcal, String menuPicUrl,
 			String menuNt1, String menuNt2, String menuNt3, String menuNt4, String menuNt5, String menuNt6) {
@@ -101,5 +102,11 @@ public class MenuVo {
 	}
 	public void setMenuNt6(String menuNt6) {
 		this.menuNt6 = menuNt6;
+	}
+	public int getMenuPrice() {
+		return menuPrice;
+	}
+	public void setMenuPrice(int menuPrice) {
+		this.menuPrice = menuPrice;
 	}
 }

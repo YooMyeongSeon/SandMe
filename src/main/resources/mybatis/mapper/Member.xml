@@ -3,15 +3,15 @@
   
 <mapper namespace="com.green.sandme.member.dao.memberDao">
 
-	<!-- 회원가입 정보입력 -->
-	<insert id="RegisterUser" parameterType="com.green.sandme.member.vo.memberVo">
-		INSERT INTO SANDME_MEMBERTBL
-		VALUES(SANDME_MEMBERSEQ.NEXTVAL, #{memberEmail}, #{memberPwd}, #{memberTel}, #{memberName})		
+	<!-- 회원가입 -->
+	<insert id="RegisterMember" parameterType="com.green.sandme.member.vo.memberVo">
+		INSERT INTO member_tbl
+		VALUES(member_seq.NEXTVAL, #{memberEmail}, #{memberPwd}, #{memberTel}, #{memberName})		
 	</insert>
 
 	<!-- 로그인 -->
-	<select id="LoginUser" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
-		SELECT * FROM SANDME_MEMBERTBL
+	<select id="LoginMember" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
+		SELECT * FROM member_tbl
 		WHERE memberEmail = #{memberEmail}
 	</select>
 	

@@ -18,7 +18,6 @@ public class MainController {
 	
 	@RequestMapping("/")
 	public String main(Model model) {
-		
 		List<BestVo> list = sqlSession.selectList("com.green.sandme.main.dao.MainDao.selectBest");
 		
 		model.addAttribute("list", list);

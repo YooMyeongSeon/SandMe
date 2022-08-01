@@ -29,12 +29,12 @@ public class MemberController {
 		return "/joinForm";
 	}
 	
+	//약관동의 후 챕터2로 이동
 	@PostMapping("/join")
 	public String joinFormChapter02(Model model) {
 		model.addAttribute("chapter", "chapter02");
 		return "/joinForm";
 	}
-	
 	
 	//회원가입 처리	  
 	@PostMapping("/joinProcess")
@@ -56,14 +56,14 @@ public class MemberController {
 		 memberService.RegisterUser(mVo);
 		 
 		 model.addAttribute("memberName", memberName);
-		 return "registerPage";
+		 model.addAttribute("chapter", "chapter03");
+		 return "joinForm";
 	}
 	
-	//로그인 화면
-	@GetMapping("/login")
+	//로그인 폼으로 이동
+	@GetMapping("/loginForm")
 	public String loginForm() {
-		System.out.println("로그인 성공");
-		return "/loginform";
+		return "loginForm";
 	}
 
 }
