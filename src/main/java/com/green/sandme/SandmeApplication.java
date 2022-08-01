@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,18 +37,22 @@ public class SandmeApplication {
         return sessionFactory.getObject();
     }
 	
+
+	
 	//비밀번호 해시처리(시큐리티는 비밀번호를 해시처리하지 않으면 가입불가)  
 	@Bean 
 	BCryptPasswordEncoder encoderPassword() { 
 		return new BCryptPasswordEncoder(); 
 	}
+	
+	
 	  
 	@Bean 
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception { 
 		http.cors() //교차 출처 리소스 공유
 			.configurationSource(corsConfigurationSource())
 			.and().csrf().disable() //취약점 막기
-			.authorizeRequests() //페이지 권한 설정
+			.authorizeRequests() //페이지 권한 설정(특정 경로에 특정 권한을 가진 사용자만이 접근 가능)
 			.anyRequest().permitAll() //특정 권한 사용자만 접근가능한 리소스를 설정 그 외 나머지는 인증후 접근 가능
 			.and()  //로그인 페이지와 기타 로그인 처리 및 성공 실패 처리를 사용 
 			.formLogin() //따로 만든 로그인 페이지 사용할때 미설정시 시큐리티가 기본으로 제공하는 페이지 
@@ -80,4 +85,5 @@ public class SandmeApplication {
 		
 		return source;
 	}
+	
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,20 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	//관리자 로그인 페이지 이동
+	@GetMapping("/adminPage")             //세션정보확인
+	public String adminPage(Authentication authentication) {
+		if(authentication != null) {  //세션에 로그인 정보가 있는지 확인
+			memberVo mVo = (memberVo) authentication.getPrincipal(); //로그인 정보를 가져와서 멤버vo로 정보를 변환해서 저장
+			if(mVo.getAdmin().equals("Y")) { 
+				return "/adminPage";
+			}
+		}
+		return "redirect:/";
+	}
+	
+	
 	
 	//회원가입 페이지 이동
 	@GetMapping("/join")
@@ -96,12 +111,6 @@ public class MemberController {
 		return "/loginform";
 	}
 	
-	
-	//회원정보 변경 페이지 이동  
-//	@GetMapping("/updateUser")
-//	public String UpdateUser() {
-//		return "/updateUser";
-//	}
   
 	//회원정보 수정 처리
 	@GetMapping("/updatepro")

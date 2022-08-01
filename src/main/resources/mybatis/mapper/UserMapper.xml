@@ -6,7 +6,7 @@
 	<!-- 회원가입 정보입력 -->
 	<insert id="RegisterUser" parameterType="com.green.sandme.member.vo.memberVo">
 		INSERT INTO SANDME_MEMBERTBL
-		VALUES(SANDME_MEMBERSEQ.NEXTVAL, #{memberEmail}, #{memberPwd}, #{memberTel}, #{memberName})		
+		VALUES(SANDME_MEMBERSEQ.NEXTVAL, #{memberEmail}, #{memberPwd}, #{memberTel}, #{memberName}, 'N')		
 	</insert>
 
 	<!-- 로그인 -->
@@ -14,6 +14,13 @@
 		SELECT * FROM SANDME_MEMBERTBL
 		WHERE memberEmail = #{memberEmail}
 	</select>
+	
+	<!-- 관리자 로그인 -->
+	<select id="admin_login" parameterType="com.green.sandme.member.vo.adminVo" resultType="String">
+		SELECT adminID FROM ADMIN_TBL
+		WHERE adminId = #{adminId} and adminPwd = #{adminPwd}
+	</select>
+	
 	
 	<!-- 회원가입 결과 출력 -->
 	<select id="RegisterPage" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
