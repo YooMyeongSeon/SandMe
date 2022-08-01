@@ -199,26 +199,5 @@ public class OrderController {
 		out.print(data);
 	}
 	
-	
-	// 수량 변경
-	@PostMapping("modifyCount")
-	public String modifyCartCount(@RequestParam("cartNUm") int cartNum, 
-								  @RequestParam("num") int num,
-								  Model model) {
-		
-		CartVO cart = new CartVO();
-		cart.setCartCount(num);
-		
-		sqlSession.update("com.green.sandme.member.cart.dao.CartDao.updateCartCount", cart);
-		
-		// 수량 * 가격
-		int sumPrice = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.selectSumPrice",cartNum);
-		
-		System.out.println(sumPrice);
-		
-		model.addAttribute("sumPrice",sumPrice);
-		
-		return "member/cartList";
-		
-	}
+
 }

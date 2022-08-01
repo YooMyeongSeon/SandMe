@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.green.sandme.member.cart.vo.CartOrderVO;
 import com.green.sandme.member.cart.vo.CartVO;
 import com.green.sandme.member.cart.vo.CartVOForList;
 
@@ -22,43 +24,104 @@ public class CartListController {
 @Autowired
 private SqlSession sqlSession;
 	
-	// 장바구니 테이블 전체 조회 -> 삭제 확인 용도
-	/*
-	 * @GetMapping("/cartTable") public String cartTable(Model model) { List<CartVO>
-	 * allList = sqlSession.selectList("cart.selectAll");
-	 * model.addAttribute("allList", allList);
-	 * 
-	 * return "cartTable"; }
-	 * 
-	 * 
-	 * //회원 정보 입력 페이지
-	 * 
-	 * @GetMapping("/loginForm") public String member() { return "member/loginForm";
-	 * }
-	 * 
-	 * 
-	 * // 로그인 후 장바구니 목록 페이지
-	 * 
-	 * @PostMapping("/cartList") public String cartList(Model model, int memberNum){
-	 * 
-	 * // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu List<CartVOForList> cartList
-	 * =
-	 * sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.SelectCart",
-	 * memberNum);
-	 * 
-	 * 
-	 * System.out.println(cartList.size()); //System.out.println(cartList.get(0));
-	 * 
-	 * 
-	 * // 만약에 cartList가 비어있다면 // "cartNullChk"에 'nothing'을 담아 보낸 후 html에서 if문을 사용
-	 * if(cartList.size() == 0) { model.addAttribute("cartNullChk", "nothing"); }
-	 * else { model.addAttribute("cartList", cartList); } //
-	 * 
-	 * return "member/cartList";
-	 * 
-	 * }
-	 */
+
+	@PostMapping("/cart/insertOrder")
+	public String pk(@RequestParam("menuPrice") int menuPrice,
+					 @RequestParam("cartCount") int cartCount,
+					 @RequestParam("cartNum") int cartNum,
+					 Model model) {
+
+		System.out.println(menuPrice);
+		System.out.println(cartCount);
+		System.out.println(cartNum);
+		
+		int totalPrice = (menuPrice * cartCount);
+		String orderId = "kim@naver.com"; 
+		
+		CartOrderVO Cov = new CartOrderVO();
+		
+		Cov.setOrderId(orderId);
+		Cov.setTotalPrice(totalPrice);
+		Cov.setCartNum(cartNum);
+		
+		int total = Cov.getTotalPrice();
+		int cart = Cov.getCartNum();
+		String Id = Cov.getOrderId();
+		
+		System.out.println(Id);
+		
+		//sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.insertOrder", Cov);
+		
+		//List<CartOrderVO> orderList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectOrder",cartNum);
+		
+		//model.addAttribute("orderList",orderList);
+		
+		model.addAttribute("totalPrice",total);
+		model.addAttribute("cartNum",cart);
+		model.addAttribute("orderId", Id);
+
+		
+		return "member/practice";
+	}
 	
+	// 카카오 페이 성공 페이지 이동
+	@GetMapping("/member/kakaopaysuccess")
+	public String kakaopaySuccess() {
+		
+		return "/member/kakaopaysuccess";
+	}
+	
+	
+	// 카카오 페이 실패 페이지 이동 -> 다시 장바구니로
+	@GetMapping("/member/kakaopayfail")
+	public String kakaopayFail() {
+		
+		return "/member/kakaopayfail";
+	}
+	
+
+
+	// 장바구니 테이블 전체 조회 -> 삭제 확인 용도
+	
+	  @GetMapping("/cartTable") 
+	  public String cartTable(Model model) { 
+		  List<CartVO> allList = sqlSession.selectList("cart.selectAll");
+		  model.addAttribute("allList", allList);
+	  
+		  return "cartTable"; 
+	  }
+	  
+	 
+	  
+	  //회원 정보 입력 페이지
+	  
+	  @GetMapping("/loginForm") 
+	  public String member() { 
+		  return "member/loginForm";
+	  }
+	  
+	   
+	  // 로그인 후 장바구니 목록 페이지
+	  
+	  @PostMapping("/cartList") 
+	  public String cartList(Model model, int memberNum){
+	  
+	  // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu 
+		  List<CartVOForList> cartList =
+				  sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.pSelectCart",memberNum);
+	  
+	  
+			  System.out.println(cartList.size()); 
+			  
+			  if(cartList.size() == 0) { 
+				  model.addAttribute("cartNullChk", "nothing"); 
+			  }
+			  	else { model.addAttribute("cartList", cartList); } //
+			  
+			  	return "member/cartList";
+	  
+	  }
+	 
 	
 	// 장바구니 목록 -> 메뉴 선택 페이지
 	

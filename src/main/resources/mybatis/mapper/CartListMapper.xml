@@ -17,13 +17,42 @@
 
  
  <!-- 장바구니 목록 조회 -->
-     <select id="SelectCart" resultType="com.green.sandme.member.cart.vo.CartVO" parameterType="int">
+    <select id="SelectCart" resultType="com.green.sandme.member.cart.vo.CartVO" parameterType="int">
 		SELECT m.menuName, m.menuPrice, c.custom, c.cartCount, c.cartAddress, c.cartNum, c.cartCount
 		FROM cart_tbl c INNER JOIN menu_tbl m
 		ON c.cartNum = m.menuNum
 		WHERE m.menuNum = #{sandMenu}
     </select>  
     
+    
+<!-- 회원 정보를 가지고 장바구니 목록 조회 --> 
+	<select id="pSelectCart" resultType="com.green.sandme.member.cart.vo.CartVOForList" parameterType="int">
+		SELECT m.memberNum, c.cartNum, c.custom, c.cartAddress, c.cartCount, me.menuName, me.menuPrice
+		FROM cart_tbl c LEFT OUTER JOIN menu_tbl me
+		ON c.cartMenu = me.menuNum
+		INNER JOIN member_tbl m
+		ON c.memberNum = m.memberNum
+		WHERE m.memberNum = #{memberNum}
+	</select>  
+    
+    
+    
+    
+     
+    
+    <!-- 나중에 회원정보까지 들어왔을 때 사용할 장바구니 목록 쿼리문 -->
+<!--     <select id="SelectCart" resultType="com.green.sandme.member.cart.vo.CartVO" parameterType="int">
+		SELECT m.menuName, m.menuPrice, c.custom, c.cartCount, c.cartAddress, c.cartNum, c.cartCount
+		FROM cart_tbl c INNER JOIN menu_tbl m
+		ON c.cartNum = m.menuNum
+		INNER JOIN member_tbl me
+		ON c.memberNum = me.memberNum
+		WHERE m.menuNum = #{sandMenu}
+		AND c.memberNum = ${memberNum}
+    </select>   -->
+    
+    
+
     
 
 
@@ -32,22 +61,34 @@
     	DELETE FROM cart_tbl
     	WHERE cartNum =  #{cartNum}
     </delete>
-
-<!-- 장바구니 수량 업데이트 -->
+<!-- 
+ 장바구니 수량 업데이트
 	<update id="updateCartCount" parameterType="com.green.sandme.member.cart.vo.CartVO">
 		UPDATE cart_tbl SET cartCount = #{cartCount}
 		WHERE cartNum = #{cartNum}
 	</update>
  
  
- <!-- 장바구니 수량*가격 -->
+ 장바구니 수량*가격
  	<select id="selectSumPrice" parameterType="int">
  		SELECT c.cartCount * m.menuPrice
 		FROM cart_tbl c INNER JOIN menu_tbl m
 		ON c.cartMenu = m.menuNum
 		WHERE c.cartNum = #{cartNum}
- 	</select>
+ 	</select> -->
+ 	
+<!-- 장바구니 -> 주문서 작성 order_menu_tbl에 저장 --> 	
+	<insert id="insertOrder" parameterType="com.green.sandme.member.cart.vo.CartOrderVO">
+		INSERT INTO order_menu_tbl (orderNum, orderPrice, cartNum)
+		VALUES(order_menu_seq.nextval, #{totalPrice}, #{cartNum})
+	</insert>
  
+ <!-- 조회 -->
+ 	<select id="selectOrder" parameterType="int" resultType="com.green.sandme.member.cart.vo.CartOrderVO">
+ 		SELECT totalPrice, cartNum, orderId
+ 		FROM order_menu_tbl
+ 		WHERE cartNum = #{cartNum}
+ 	</select>
  
  
  

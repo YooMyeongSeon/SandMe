@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+</head>
+<body>
+<h1>임의 주문내역서</h1>
+<table border="1px">
+	<tr>
+		<th>장바구니 번호</th>
+		<th>가격</th>
+		<th>사용자 아이디</th>
+	</tr>
+	<!-- <tr th:each="order : ${orderList}">
+		<td th:text="${order.cartNum}">  <input type="number" id="cartNum" value="${order.cartNum}" readonly="readonly">  </td>
+		<td th:text="${order.totalPrice}"> <input type="number" id="totalPrice" value="${order.totalPrice}" readonly="readonly"> </td>
+	</tr> -->
+	<tr>
+		<td  th:id="cartNum" th:text="${cartNum}" th:value="${cartNum}"></td>
+		<td th:id="totalPrice" th:text="${totalPrice}" th:value="${totalPrice}"></td>
+		<td th:id="orderId" th:text="${orderId}" th:value="${orderId}"></td>
+	</tr>
+</table> 
+
+<button id="apibtn" th:onclick="kakaopay()">카카오페이</button> 
+</body>
+<script type="text/javascript">
+
+function kakaopay(){
+	
+	
+	let totalPrice =  $("#totalPrice").text();
+
+	console.log(totalPrice);
+	
+	let orderId = $("#orderId").text();
+	console.log(orderId);
+	
+	
+	$.ajax({
+		url:'/kakaopayp',
+		method : 'POST',
+		async : true,
+		data : { 
+			total : totalPrice, 
+			orderId : orderId	
+		},
+		dataType:'json',
+		success:function(req){
+			alert(req.tid); //결제 고유 번호
+			var box = req.next_redirect_pc_url;
+			window.open(box); // 새창 열기
+		},
+		error:function(error){
+			alert(error);
+		}
+	});
+	
+}
+
+
+</script>
+</html>

@@ -16,8 +16,15 @@ public class CartVO {
 	private String menuName;
 	private int menuPrice;
 	private int sumPrice;
+	private String menuEngName;
 	
 	
+	public String getMenuEngName() {
+		return menuEngName;
+	}
+	public void setMenuEngName(String menuEngName) {
+		this.menuEngName = menuEngName;
+	}
 	public int getSumPrice() {
 		return sumPrice;
 	}
