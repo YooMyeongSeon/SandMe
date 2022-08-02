@@ -6,9 +6,14 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.green.sandme.member.cart.vo.CartOrderVO;
 
 @RestController
 public class CartController {
@@ -34,6 +39,27 @@ public class CartController {
 		 }
 
 	  }
+	
+	// 주문서 이동
+	@GetMapping("/cart/insertOrder/{memberNum}")
+	public ModelAndView cartToorder(@RequestParam("cartNum") int cartNum,
+					 @PathVariable("memberNum") Integer memberNum) throws Exception{
+		
+		System.out.println("cartNum: "+cartNum);
+		System.out.println("memberNum :" +memberNum);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<CartOrderVO> cartOrder = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartOrder",memberNum);
+		
+		mav.addObject("cartOrder",cartOrder);
+		mav.addObject("memberNum",memberNum);
+		mav.setViewName("member/orderForm");
+		
+		System.out.println(mav.getViewName());
+		
+		return mav;
+	}
 
 
 

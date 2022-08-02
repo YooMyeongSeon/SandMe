@@ -8,9 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.green.sandme.member.cart.vo.CartOrderVO;
 import com.green.sandme.member.cart.vo.CartVO;
 import com.green.sandme.member.cart.vo.CartVOForList;
 
@@ -23,61 +21,6 @@ public class CartListController {
 	
 @Autowired
 private SqlSession sqlSession;
-	
-
-	@PostMapping("/cart/insertOrder")
-	public String pk(@RequestParam("menuPrice") int menuPrice,
-					 @RequestParam("cartCount") int cartCount,
-					 @RequestParam("cartNum") int cartNum,
-					 Model model) {
-
-		System.out.println(menuPrice);
-		System.out.println(cartCount);
-		System.out.println(cartNum);
-		
-		int totalPrice = (menuPrice * cartCount);
-		String orderId = "kim@naver.com"; 
-		
-		CartOrderVO Cov = new CartOrderVO();
-		
-		Cov.setOrderId(orderId);
-		Cov.setTotalPrice(totalPrice);
-		Cov.setCartNum(cartNum);
-		
-		int total = Cov.getTotalPrice();
-		int cart = Cov.getCartNum();
-		String Id = Cov.getOrderId();
-		
-		System.out.println(Id);
-		
-		//sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.insertOrder", Cov);
-		
-		//List<CartOrderVO> orderList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectOrder",cartNum);
-		
-		//model.addAttribute("orderList",orderList);
-		
-		model.addAttribute("totalPrice",total);
-		model.addAttribute("cartNum",cart);
-		model.addAttribute("orderId", Id);
-
-		
-		return "member/practice";
-	}
-	
-	// 카카오 페이 성공 페이지 이동
-	@GetMapping("/member/kakaopaysuccess")
-	public String kakaopaySuccess() {
-		
-		return "/member/kakaopaysuccess";
-	}
-	
-	
-	// 카카오 페이 실패 페이지 이동 -> 다시 장바구니로
-	@GetMapping("/member/kakaopayfail")
-	public String kakaopayFail() {
-		
-		return "/member/kakaopayfail";
-	}
 	
 
 
@@ -122,6 +65,26 @@ private SqlSession sqlSession;
 	  
 	  }
 	 
+	// 카카오 페이 성공 페이지 이동
+		@GetMapping("/member/kakaopaysuccess")
+		public String kakaopaySuccess() {
+			
+			return "/member/kakaopaysuccess";
+		}
+		
+		
+		// 카카오 페이 실패 페이지 이동 -> 다시 장바구니로
+		@GetMapping("/member/kakaopayfail")
+		public String kakaopayFail() {
+			
+			return "/member/kakaopayfail";
+		}
+		
+		//카카오 페이 결제 취소 페이지 이동
+	  
+	  
+	  
+	  
 	
 	// 장바구니 목록 -> 메뉴 선택 페이지
 	

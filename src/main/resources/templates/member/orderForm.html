@@ -10,17 +10,21 @@
 <table border="1px">
 	<tr>
 		<th>장바구니 번호</th>
+		<th>회원 번호</th>
 		<th>가격</th>
-		<th>사용자 아이디</th>
+		<th>메뉴</th>
+		<th>커스텀</th>
+		<th>수량</th>
+		<th>주소</th>
 	</tr>
-	<!-- <tr th:each="order : ${orderList}">
-		<td th:text="${order.cartNum}">  <input type="number" id="cartNum" value="${order.cartNum}" readonly="readonly">  </td>
-		<td th:text="${order.totalPrice}"> <input type="number" id="totalPrice" value="${order.totalPrice}" readonly="readonly"> </td>
-	</tr> -->
-	<tr>
-		<td  th:id="cartNum" th:text="${cartNum}" th:value="${cartNum}"></td>
-		<td th:id="totalPrice" th:text="${totalPrice}" th:value="${totalPrice}"></td>
-		<td th:id="orderId" th:text="${orderId}" th:value="${orderId}"></td>
+	<tr th:each="cartOrder : ${cartOrder}">
+		<td th:id="cartNum" th:text="${cartOrder.cartNum}" th:value="${cartOrder.cartNum}"></td>
+		<td th:id="memberNum" th:text="${cartOrder.memberNum}" th:value="${cartOrder.memberNum}"></td>
+		<td th:id="totalPrice" th:text="${cartOrder.menuPrice}" th:value="${cartOrder.menuPrice}"></td>
+		<td th:id="cartMenu" th:text="${cartOrder.cartMenu}" th:value="${cartOrder.cartMenu}"></td>
+		<td th:id="custom" th:text="${cartOrder.custom}" th:value="${cartOrder.custom}"></td>
+		<td th:id="cartCount" th:text="${cartOrder.cartCount}" th:value="${cartOrder.cartCount}"></td>
+		<td th:id="cartAddress" th:text="${cartOrder.cartAddress}" th:value="${cartOrder.cartAddress}"></td>
 	</tr>
 </table> 
 
@@ -32,7 +36,6 @@ function kakaopay(){
 	
 	
 	let totalPrice =  $("#totalPrice").text();
-
 	console.log(totalPrice);
 	
 	let orderId = $("#orderId").text();
@@ -49,7 +52,7 @@ function kakaopay(){
 		},
 		dataType:'json',
 		success:function(req){
-			alert(req.tid); //결제 고유 번호
+			//alert(req.tid); //결제 고유 번호
 			var box = req.next_redirect_pc_url;
 			window.open(box); // 새창 열기
 		},
