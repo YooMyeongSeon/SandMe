@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.sandme.member.cart.vo.CartOrderVO;
+import com.green.sandme.member.cart.vo.CartVO;
 
 @RestController
 public class CartController {
@@ -40,8 +41,11 @@ public class CartController {
 
 	  }
 	
+	
+	
 	// 주문서 이동
-	@GetMapping("/cart/insertOrder/{memberNum}")
+	// 매핑 주소에 memberNum을 담아서 이동
+/*	@GetMapping("/cart/insertOrder/{memberNum}")
 	public ModelAndView cartToorder(@RequestParam("cartNum") int cartNum,
 					 @PathVariable("memberNum") Integer memberNum) throws Exception{
 		
@@ -60,7 +64,32 @@ public class CartController {
 		
 		return mav;
 	}
-
+*/
+	
+	@GetMapping("/cart/insertOrder")
+	public ModelAndView cartToorder(@RequestParam("chkNum[]") List<Integer> cartNum,
+					 				@RequestParam("memberNum") Integer memberNum) throws Exception{
+		
+		System.out.println("cartNum: "+cartNum.size());
+		System.out.println("memberNum :" +memberNum);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(cartNum); 
+		
+		List<CartOrderVO> cartOrder = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartOrder",memberNum);
+		
+		
+		
+		
+		mav.addObject("cartOrder",cartOrder);
+		mav.addObject("memberNum",memberNum);
+		mav.setViewName("member/orderForm");
+		
+		System.out.println(mav.getViewName());
+		
+		return mav;
+	}
 
 
 }

@@ -21,7 +21,7 @@
 		<td th:id="cartNum" th:text="${cartOrder.cartNum}" th:value="${cartOrder.cartNum}"></td>
 		<td th:id="memberNum" th:text="${cartOrder.memberNum}" th:value="${cartOrder.memberNum}"></td>
 		<td th:id="totalPrice" th:text="${cartOrder.menuPrice}" th:value="${cartOrder.menuPrice}"></td>
-		<td th:id="cartMenu" th:text="${cartOrder.cartMenu}" th:value="${cartOrder.cartMenu}"></td>
+		<td th:id="menuName" th:text="${cartOrder.menuName}" th:value="${cartOrder.menuName}"></td>
 		<td th:id="custom" th:text="${cartOrder.custom}" th:value="${cartOrder.custom}"></td>
 		<td th:id="cartCount" th:text="${cartOrder.cartCount}" th:value="${cartOrder.cartCount}"></td>
 		<td th:id="cartAddress" th:text="${cartOrder.cartAddress}" th:value="${cartOrder.cartAddress}"></td>
@@ -38,8 +38,8 @@ function kakaopay(){
 	let totalPrice =  $("#totalPrice").text();
 	console.log(totalPrice);
 	
-	let orderId = $("#orderId").text();
-	console.log(orderId);
+	let memberNum = $("#memberNum").text();
+	console.log(memberNum);
 	
 	
 	$.ajax({
@@ -48,7 +48,7 @@ function kakaopay(){
 		async : true,
 		data : { 
 			total : totalPrice, 
-			orderId : orderId	
+			memberNum : memberNum	
 		},
 		dataType:'json',
 		success:function(req){

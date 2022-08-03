@@ -19,14 +19,16 @@
 		
 		<div th:if="${cartNullChk == 'nothing'}">
 			<p>장바구니가 비어있습니다.</p>
+			<input type="button" value="메뉴 추가" th:onclick="<!-- memberNum을 가지고 메뉴 선택 페이지로 이동 -->">
 		</div>
 
 		
 		<div th:unless="${cartNullChk == 'nothing'}">
 			장바구니 수량이 비어있지 않을 때
+			<form action="cart/insertOrder" method="get">
 				<table border="1">
 		         	<tr>
-		        		<th> <input type="checkbox" name="all" id="all"> 전체 선택 </th>
+		        		<th> <input type="checkbox" name="all" id="all" onclick="itemSum()" th:data-sum="${cartList[0].menuPrice}"> 전체 선택 </th>
 		        		<th>메뉴 이름-메뉴 테이블</th>
 		                <th>커스텀 정보 - 카트 테이블</th>
 		                <th>주소 - 카트 테이블</th> 
@@ -34,25 +36,31 @@
 		                <th>가격 - 메뉴 테이블</th>    
 		           </tr>
 		           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
-		           		<td><input type="checkbox" name="chkNum" th:value="${cart.cartNum}" 
+		           		<td><input type="checkbox" name="chkNum[]" th:value="${cart.cartNum}" 
 		           				   onclick="itemSum()" th:data-sum="${cart.menuPrice}" 
 		           				   th:id="chkbox" th:data-cartnum="${cart.cartNum}"> <span th:text="${cart.cartNum}"></span></td>
 						<td th:text="${cart.menuName}" th:value="${cart.menuName}"></td>
 						<td th:text="${cart.custom}" th:value="${cart.custom}"></td>
 						<td th:text="${cart.cartAddress}" th:value="${cart.cartAddress}"></td>
+						<!-- 장바구니 수량 -->
 						<td th:text="${cart.cartCount}" th:value="${cart.cartCount}"></td>
 						<td  th:text="${cart.menuPrice}" th:value="${cart.menuPrice}"></td> 
-					</tr>   	 
+					</tr>   	
 				</table>
 				<br>
 				<br>
 				<!-- 장바구니 전체 정보 (총 결제 금액, 선택 수량)-->
 				<div id="sum_price"> 총 결제 금액 : </div>
 				<div id="amount">수량 :</div>
+				<input type="submit" value="주문서"> 
+				<input type="hidden"  name="memberNum" th:value="${cartList[0].memberNum}">
+			</form>
 				<br>
- 			<input type="button" value="메뉴 추가"> <!-- 회원 번호를 가지고 다시 메뉴 선택 페이지로 이동 -->
-		 	<input type="hidden" th:id="memberNum" th:value="${cartList[0].memberNum}">
-		 	<button  th:id="order"  th:onclick="|location.href='@{/cart/insertOrder/{memberNum}(memberNum=${cartList[0].memberNum},cartNum=${cartList[0].cartNum})}'|">결제 - 주문서 작성 페이지로 이동</button>	
+			<input type="hidden" th:id="memberNum" th:value="${cartList[0].memberNum}">	
+ 			<input type="button" value="메뉴 추가" th:onclick="<!-- memberNum을 가지고 메뉴 선택 페이지로 다시 이동 -->">
+ 			<!-- 매핑주소에 memberNum을 가지고 주문서 작성 페이지로 이동 -->
+		 	<!-- <button  th:id="order"  th:onclick="|location.href='@{/cart/insertOrder/{memberNum}(memberNum=${cartList[0].memberNum},cartNum=${cartList[0].cartNum})}'|">주문서 작성 페이지로 이동</button>	 -->
+			<button th:id="order" th:onclick="order()">주문서 작성 페이지 이동</button>
 			<button th:onclick="delcart()">선택 삭제</button>				
 		</div> 
 		
@@ -109,7 +117,7 @@
 		
 		// 만약에 cartNum의 길이가 0이라면 선택된 항목이 없으므로 alert
 		if(cartNum.length==0){
-			alert("선택 항목이 없습니다.")
+			alert("선택한 메뉴가 없습니다.")
 		}else {
 			if(confirm("정말 삭제하시겠습니까?")){	
 				$.ajax({
@@ -139,35 +147,54 @@
 	
 
 	// 체크 선택 하면 -> 총 결제 금액 계산
+	// 전체체크 박스 체크 여부에 따라 itemSum()으로 이동해 총 결제 금액, 수량 계산
+	$("#all").click(function(){
+		let chk = $("#all").prop("checked");
+		if(chk){
+			$("input[name='chkNum']").prop("checked",true);
+			itemSum();
+		} else {
+			$("input[name='chkNum']").prop("checked",false);
+			itemSum();
+		}
+	})
 	
-
+	
 	function itemSum(){
-			let totalSum = 0;
-			let totalCount = $("input[name='chkNum']:checked").length;
 
-			
-			for(let i = 0; i < totalCount; i++){
-				if($("input[name='chkNum']:checked")){
-					totalSum += parseInt($("input[name='chkNum']:checked")[i].dataset.sum);
-				}
+		let totalSum = 0;
+		let totalCount = $("input[name='chkNum']:checked").length;
+		
+		for(let i = 0; i < totalCount; i++){
+			if($("input[name='chkNum']:checked")){
+				totalSum += parseInt($("input[name='chkNum']:checked")[i].dataset.sum);
 			}
-			$('#sum_price').html("총 결제 금액 : " + totalSum + "원");
-			$("#amount").html("수량 : " + totalCount + "개");
+		}
+		$('#sum_price').html("총 결제 금액 : " + totalSum + "원");
+		$("#amount").html("수량 : " + totalCount + "개");
 		
 	}
 	
+
 	
-	// 체크 박스 체크 여부 alert창
+	// 체크 박스 체크 여부 alert 창 출력
 	$(document).ready(function(){
 		$("#order").click(function(){
 			if($("input[name='chkNum']:checked").is(":checked")){
 				return true;
 			}else {
-				alert("메뉴를 선택해주세요");
+				alert("메뉴를 한 개 이상 선택해주세요");
 				location.reload();
 				return false;
 			}
 		})
+	})
+	
+	
+	// 수량 변경
+	$(".plus_btn").on("click",function(){
+		let quantity = $(this).parent("td").find("input").val();
+		$(this).parent("td").find("input").val(++quantity);
 	})
 	
 	
@@ -245,42 +272,41 @@
 
 	 // 장바구니 -> 주문서
 	 // 장바구니 번호, 회원 번호
-/* 	 function pay(){
+ 	 function order(){
 		 
 		// 장바구니 번호
 
-		let cartNum = $("input[name='chkNum']:checked").val();
+		
+ 		 let cartNum = new Array();
+		 let list = $("input[name='chkNum']");
+			
+			
+			for(let i = 0; i < list.length; i++){
+				if(list[i].checked){
+					cartNum.push(list[i].value);
+				}
+			}
 		
 		console.log(cartNum);
 			
 			
 		//회원 번호
 		let memberNum = $('#memberNum').val();
-		console.log(memberNum); 
+		//console.log(memberNum); 
 		
 		
-		if(cartNum==0){
+		if(cartNum.length==0){
 			alert("메뉴를 선택해주세요");
 		}else {
 			if(confirm("주문서 작성 페이지로 이동")){
-				$.ajax({
-					url : "/cart/insertOrder",
-					type : "GET",
-					async : true,
-					data : {
-						cartNum : cartNum,
-						memberNum : memberNum,
-					},
-					success : function() {
-					}
-				})
+				location.href="/cart/insertOrder/"+memberNum+cartNum;
 			} else {
 				alert("주문서 페이지 이동 실패");
 			}
 			
 		}
 
-	 } */
+	 } 
 	 
 	 
 	 

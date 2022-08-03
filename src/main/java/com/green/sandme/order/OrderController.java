@@ -137,7 +137,7 @@ public class OrderController {
 			
 			System.out.println(custom);
 			
-			// 자동으로 장바구니에 수량 +1
+			// 기본으로 장바구니에 수량 +1
 			int count = 1;
 			
 			// 객체에 저장

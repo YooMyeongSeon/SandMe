@@ -3,13 +3,20 @@ package com.green.sandme.member.cart.vo;
 public class CartOrderVO {
 	// 주문서
 	private int cartNum;
-	private int cartMenu;
+	private String menuName;
 	private int cartCount;  
 	private String custom;
 	private String cartAddress;
 	private int memberNum;
 	private int menuPrice;
 	
+	
+	public String getMenuName() {
+		return menuName;
+	}
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
 	public int getMenuPrice() {
 		return menuPrice;
 	}
@@ -21,12 +28,6 @@ public class CartOrderVO {
 	}
 	public void setCartNum(int cartNum) {
 		this.cartNum = cartNum;
-	}
-	public int getCartMenu() {
-		return cartMenu;
-	}
-	public void setCartMenu(int cartMenu) {
-		this.cartMenu = cartMenu;
 	}
 	public int getCartCount() {
 		return cartCount;

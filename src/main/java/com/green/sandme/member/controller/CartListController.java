@@ -2,12 +2,17 @@ package com.green.sandme.member.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.green.sandme.member.cart.vo.CartVO;
 import com.green.sandme.member.cart.vo.CartVOForList;
@@ -21,33 +26,43 @@ public class CartListController {
 	
 @Autowired
 private SqlSession sqlSession;
-	
 
-
-	// 장바구니 테이블 전체 조회 -> 삭제 확인 용도
-	
-	  @GetMapping("/cartTable") 
-	  public String cartTable(Model model) { 
-		  List<CartVO> allList = sqlSession.selectList("cart.selectAll");
-		  model.addAttribute("allList", allList);
-	  
-		  return "cartTable"; 
-	  }
-	  
 	 
 	  
 	  //회원 정보 입력 페이지
 	  
 	  @GetMapping("/loginForm") 
-	  public String member() { 
-		  return "member/loginForm";
+	  public  String member() throws Exception { 
+		  return "/member/loginForm";
 	  }
 	  
 	   
 	  // 로그인 후 장바구니 목록 페이지
 	  
 	  @PostMapping("/cartList") 
-	  public String cartList(Model model, int memberNum){
+	  public String cartList(Model model, int memberNum) throws Exception {
+	  
+	  // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu 
+		  List<CartVOForList> cartList =
+				  sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.pSelectCart",memberNum);
+	  
+	  
+			  //System.out.println(cartList.size()); 
+			  
+			  if(cartList.size() == 0) { 
+				  model.addAttribute("cartNullChk", "nothing"); 
+			  }
+			  	else { 
+			  		model.addAttribute("cartList", cartList); 
+			  } 
+			  
+			  	return "member/cartList";
+	  
+	  }
+
+	  /*	  
+	  @GetMapping("/cartList/{memberNum}") 
+	  public ModelAndView cartList(@PathVariable("memberNum") Integer memberNum) throws Exception {
 	  
 	  // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu 
 		  List<CartVOForList> cartList =
@@ -56,83 +71,53 @@ private SqlSession sqlSession;
 	  
 			  System.out.println(cartList.size()); 
 			  
-			  if(cartList.size() == 0) { 
-				  model.addAttribute("cartNullChk", "nothing"); 
-			  }
-			  	else { model.addAttribute("cartList", cartList); } //
+			  ModelAndView mav = new ModelAndView();
 			  
-			  	return "member/cartList";
-	  
+			  if(cartList.size() == 0) { 
+				  mav.addObject("cartNullChk", "nothing"); 
+			  }
+			  	else { 
+			  		mav.addObject("cartList", cartList); 
+			  } 
+			  mav.setViewName("member/cartList");
+			  return mav;
 	  }
+	  */	  
 	 
-	// 카카오 페이 성공 페이지 이동
-		@GetMapping("/member/kakaopaysuccess")
-		public String kakaopaySuccess() {
-			
-			return "/member/kakaopaysuccess";
+	  // 카카오 페이 성공 페이지 이동 -> 주문내역서
+	  // 매핑 주소에 memnberNum
+		@GetMapping("/member/kakaopaysuccess/{memberNum}")
+		public ModelAndView kakaopaySuccess(@PathVariable("memberNum") Integer memberNum) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("memberNum",memberNum);
+			mav.setViewName("/member/kakaopaysuccess");
+			return mav;
 		}
+		
+		
 		
 		
 		// 카카오 페이 실패 페이지 이동 -> 다시 장바구니로
-		@GetMapping("/member/kakaopayfail")
-		public String kakaopayFail() {
-			
-			return "/member/kakaopayfail";
+		// 매핑 주소에 memnberNum
+		@GetMapping("/member/kakaopayfail/{memberNum}")
+		public ModelAndView kakaopayFail(@PathVariable("memberNum") Integer memberNum) throws Exception  {
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("memberNum",memberNum);
+			mav.setViewName("/member/kakaopayfail");
+			return mav;
 		}
 		
-		//카카오 페이 결제 취소 페이지 이동
-	  
-	  
-	  
-	  
-	
-	// 장바구니 목록 -> 메뉴 선택 페이지
-	
-	
-	
-/*	@PostMapping("/cartList")
-	public String cartList(HttpSession session, String memberEmail, String memberPwd) {
-		
-		//List<MemberVO> memList = (List<MemberVO>) sqlSession.selectMap("cart.checkLogin", memberEmail, memberPwd);
-		
-		
-		if(memberEmail != null && memberPwd != null) {
+		//카카오 페이 결제 취소 페이지 이동 -> 다시 장바구니로
+		// 매핑 주소에 memnberNum
+		@GetMapping("/member/kakaopaycancle/{memberNum}")
+		public ModelAndView kakaopayCancle(@PathVariable("memberNum") Integer memberNum) throws Exception  {
 			
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("memberNum",memberNum);
+			mav.setViewName("/member/kakaopaycancle");
 			
-
-			return "cartList";
+			return mav;
 		}
-		
-		
-		
-		return "loginForm";
-	}
-	*/
-  
-
-	  // 결제창 페이지 이동
-//	  @PostMapping("/order")
-//	  public String orderPage(Model model, @RequestParam int memberNum) {
-//		  
-//		  // 장바구니 목록
-//		  List<CartVO> cartList = sqlSession.selectList("cart.SelectCart", memberNum);
-//		  // 회원 정보
-//		  List<MemberVO> member = sqlSession.selectList("cart.selectMember", memberNum);
-//		  // 지점 정보
-//		  List<StoreVO> storeList = sqlSession.selectList("cart.orderStore", memberNum);
-//		  
-//		  
-//		  model.addAttribute("cartList",cartList);
-//		  model.addAttribute("member",member);
-//		  model.addAttribute("storeList", storeList);
-//		  
-//		  return "orderPage";
-//	  }
 	  
-
-	  
-	 
-	
-
 
 }

@@ -48,17 +48,13 @@
     
 	
 <!-- 주문서에서 조회 -->
- 	<select id="selectCartOrder" parameterType="int" resultType="com.green.sandme.member.cart.vo.CartOrderVO">
+ 	<select id="selectCartOrder" parameterType="com.green.sandme.member.cart.vo.CartOrderVO" resultType="com.green.sandme.member.cart.vo.CartOrderVO">
  		SELECT c.memberNum, c.cartNum, c.custom, c.cartAddress, c.cartCount, m.menuName, m.menuPrice
 		FROM cart_tbl c INNER JOIN menu_tbl m
-		ON c.cartMenu = m.menuNum
-		WHERE c.memberNum = (
-		        SELECT me.memberNum
-		        FROM member_tbl me INNER JOIN cart_tbl c
-		        ON me.memberNum = c.memberNum
-		        WHERE me.memberNum = #{memberNum}
-		        GROUP BY me.memberNum
-		)
+		ON c.cartMenu = m.menuNum 
+		INNER JOIN member_tbl me
+		ON c.memberNum = me.memberNum
+		WHERE me.memberNum IN #{memberNum} AND c.cartNum IN (#{cartNum})
  	</select>	
 	
 	
@@ -105,38 +101,7 @@
  		WHERE cartNum = #{cartNum}
  	</select> -->
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-    
 
-	
 <!-- 회원 정보 가져오기 -->
 	<select id="selectMember" resultType="com.green.sandme.member.cart.vo.MemberVO" parameterType="int">
 		SELECT memberTel, memberNum
