@@ -17,8 +17,6 @@ public class memberVo implements UserDetails {
 	private String memberName;
 	private String admin;
 	
-	
-	
 	public String getAdmin() {
 		return admin;
 	}

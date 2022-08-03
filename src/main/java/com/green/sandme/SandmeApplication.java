@@ -25,7 +25,7 @@ public class SandmeApplication {
 		SpringApplication.run(SandmeApplication.class, args);
 	}
 	
-	@Bean
+	@Bean //마이바티스
     SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
@@ -35,14 +35,13 @@ public class SandmeApplication {
         
         return sessionFactory.getObject();
     }
-
-	//비밀번호 해시처리(시큐리티는 비밀번호를 해시처리하지 않으면 가입불가)  
-	@Bean 
+  
+	@Bean //비밀번호 해시처리(시큐리티는 비밀번호를 해시처리 하지 않으면 가입 불가) 
 	BCryptPasswordEncoder encoderPassword() { 
 		return new BCryptPasswordEncoder(); 
 	}
 
-	@Bean 
+	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception { 
 		http.cors() //교차 출처 리소스 공유
 			.configurationSource(corsConfigurationSource())
@@ -76,6 +75,7 @@ public class SandmeApplication {
 		configuration.setAllowCredentials(true);
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		
 		source.registerCorsConfiguration("/**", configuration);
 		
 		return source;

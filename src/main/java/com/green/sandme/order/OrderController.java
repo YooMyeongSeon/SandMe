@@ -25,7 +25,7 @@ public class OrderController {
 	@Autowired
 	SqlSession sqlSession;
 	
-	@RequestMapping("/order") //주문 페이지
+	@RequestMapping("/order") //주문 페이지로 이동
 	public String oder(@RequestParam("order")String order, Model model) {		
 		if (order == null || order.equals("home")) {
 			model.addAttribute("order", "home");
@@ -153,7 +153,7 @@ public class OrderController {
 		return "order";
 	}
 	
-	@PostMapping("/order/home") //배달 주문 매장 검색 기능
+	@PostMapping("/order/home") //배달 주문 매장 검색 기능(에이잭스)
 	public void oderHome(@RequestBody String address, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		
@@ -166,7 +166,7 @@ public class OrderController {
 		out.print(data);
 	}
 	
-	@PostMapping("/order/pickUp") //방문 포장 매장 검색 기능
+	@PostMapping("/order/pickUp") //방문 포장 매장 검색 기능(에이잭스)
 	public void oderPickUp(@RequestBody String address, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		

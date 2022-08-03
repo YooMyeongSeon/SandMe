@@ -2,12 +2,17 @@
 <header th:fragment="headerFragment">
     <div id="hdLogo">
         <a href="/"><img src="img/logo.svg"></a>
-        <div id="hdLeft">
+        <div sec:authorize="isAnonymous()" class="hdLeft">
             <ul>
-            	<li sec:authorize="isAnonymous()"><a href="/loginForm">로그인</a></li>
-            	<li sec:authorize="isAuthenticated()"><a href="/logout">로그아웃</a></li>
-            	<li sec:authorize="isAnonymous()"><a href="/join">회원 가입</a></li>
-            	<li sec:authorize="isAuthenticated()"><a href="/">회원 정보</a></li>
+            	<li><a href="/loginForm">로그인</a></li>
+            	<li><a href="/join">회원 가입</a></li>
+            </ul>
+        </div>
+        <div sec:authorize="isAuthenticated()" class="hdLeft" id="hdLeftLogin">
+            <ul>
+            	<li><a href="/logout">로그아웃</a></li>
+            	<li><a th:href="@{/memberInfo(memberNum=${#authentication.principal.memberNum})}">회원 정보</a></li>
+            	<li><a href="/">장바구니</a></li>
             </ul>
         </div>
         <div id="hdRight">

@@ -38,4 +38,9 @@
     	SELECT * FROM order_tbl WHERE orderNum = #{seq}
     </select>
     
+    <!-- 회원 번호로 주문서 가져오기 -->
+    <select id="selectOrderBymemberNum" resultType="com.green.sandme.order.vo.OrderVo" parameterType="Int">
+    	SELECT * FROM order_tbl WHERE memberNum = #{memberNum}
+    </select>
+    
 </mapper>

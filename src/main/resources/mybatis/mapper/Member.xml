@@ -15,19 +15,25 @@
 		WHERE memberEmail = #{memberEmail}
 	</select>
 	
+	<!-- 아이디 중복확인 -->
+	<select id="checkUserId" parameterType="String" resultType="int">
+		SELECT count(*) FROM member_tbl
+		WHERE memberEmail = #{memberEmail}
+	</select>
+	
+	<!-- 회원 번호로 회원 정보 가져오기 -->
+	<select id="selectMemberByNum" parameterType="int" resultType="com.green.sandme.member.vo.memberVo">
+		SELECT * FROM member_tbl WHERE memberNum = #{memberNum}
+	</select>
+	
+	
+	
 	<!-- 관리자 로그인 -->
 	<select id="admin_login" parameterType="com.green.sandme.member.vo.adminVo" resultType="String">
 		SELECT adminID FROM ADMIN_TBL
 		WHERE adminId = #{adminId} and adminPwd = #{adminPwd}
 	</select>
-	
-	
-	<!-- 회원가입 결과 출력 -->
-	<select id="RegisterPage" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
-		SELECT * FROM SANDME_MEMBERTBL
-		WHERE memberEmail = #{memberEmail}
-	</select>
-	
+
 	<!-- 마이페이지 이름 출력 -->
 	<select id="Mypage" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
 		SELECT * FROM SANDME_MEMBERTBL
@@ -56,13 +62,4 @@
 		WHERE memberNum = #{memberNum}
 	</delete>
 	
-	<!-- 아이디 중복확인 -->
-	<select id="checkUserId" parameterType="String" resultType="int">
-		SELECT count(*) FROM SANDME_MEMBERTBL
-		WHERE memberEmail = #{memberEmail}
-	</select>
-
-
-	
-
 </mapper>  

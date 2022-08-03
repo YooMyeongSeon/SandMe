@@ -71,29 +71,36 @@ header { /* 헤더 ↓ */
     width: 350px;
     margin-top: 40px;
 }
-#hdLeft { /* 헤더 좌측 ↓ */
+.hdLeft { /* 헤더 좌측 ↓ */
     position: absolute; left: 0px; top: 70px;
     width: 200px;
     height: 40px;
     border-radius: 20px;
     border: 1px solid #C9CACA;
 }
-#hdLeft > ul > li {
+.hdLeft > ul > li {
 	margin-top: 10px;
 	width: 75px;
 	height: 20px;
     display: inline-block;
     font-size: 10pt;
 }
-#hdLeft > ul > li > a {
+.hdLeft > ul > li > a {
     color: #009223;
 }
-#hdLeft > ul > li:first-child {
+.hdLeft > ul > li:not(:last-child) {
     padding-right: 15px;
     border-right: 1px solid #FFCE32;
 }
-#hdLeft > ul > li:last-child {
+.hdLeft > ul > li:last-child {
     padding-left: 15px;
+}
+#hdLeftLogin {
+    width: 300px;
+}
+#hdLeftLogin > ul > li:nth-child(2) {
+	width: 	90px;
+	padding: 0px 15px;
 }
 #hdRight { /* 헤더 우측 ↓ */
 	position: absolute; right: 0px; top: 70px;

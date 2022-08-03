@@ -720,7 +720,7 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 						</tr>
 						<tr>
 							<td><label for="memberEmail">이메일 아이디</label></td>
-							<td><input type="email" maxlength="30" placeholder="이메일 아이디 입력" name="memberEmail"  id="memberEmail"></td>
+							<td><input type="email" maxlength="30" placeholder="이메일 아이디 입력" name="memberEmail"  id="memberEmail"><input type="hidden" name="overlapEmail"  id="overlapEmail" value="No"></td>
 						</tr>
 						<tr>
 							<td><label for="memberPwd">비밀번호</label></td>
@@ -745,14 +745,11 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 			</form>
 			<script>
 				function check() {	
-					let emailEffectiveness = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-					
 					if ($('#memberEmail').val() == "") {
 						alert('이메일 아이디가 입력되지 않았습니다.');
 						$('#memberEmail').focus();
-					} else if(emailEffectiveness.test($('#memberEmail').val()) == false) {
-						alert('이메일 형식이 올바르지 않습니다.');
-						$('#memberEmail').val("");
+					} else if($('#overlapEmail').val() == "No") {
+						alert('이메일 중복이 확인되지 않았습니다.');
 						$('#memberEmail').focus();
 					} else if($('#memberPwd').val() == "") {
 						alert('비밀번호가 입력되지 않았습니다.');
@@ -776,8 +773,35 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 					}
 				}
 				
-				function overlapCheck() {
-					alert('아이디 중복 확인');
+ 				function overlapCheck() {
+ 					let emailEffectiveness = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+ 					
+ 					if ($('#memberEmail').val() == "") {
+						alert('이메일 아이디가 입력되지 않았습니다.');
+						$('#memberEmail').focus();
+					} else if(emailEffectiveness.test($('#memberEmail').val()) == false) {
+						alert('이메일 형식이 올바르지 않습니다.');
+						$('#memberEmail').val("");
+						$('#memberEmail').focus();
+					} else {
+						let memberEmail = $("#memberEmail").val();
+						let data = {memberEmail : memberEmail}
+						
+						$.ajax({
+							type : "post",
+							url : "idChk",
+							data : data,
+							success : function(result) {
+								if (result != "fail") {
+									alert('사용 가능한 아이디 입니다.');
+									$('#overlapEmail').val("Yes");
+									$('#memberEmail').prop('readonly', true);
+								} else {
+									alert('이미 존재하는 아이디 입니다.');
+								}
+							}
+						});
+					}
 				}
 			</script>
 		</div>
