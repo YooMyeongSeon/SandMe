@@ -595,8 +595,30 @@
     	}
     	
     	function inCart() {
-    		$('#chapter').val("inCart");
-    		$('#chapter02_02').submit();
+    		let memberNum = $('#memberNum').val();
+    		let order = $('#order').val();
+    		let address = $('#inputAddress').val();
+			
+    		let data = {"memberNum" : memberNum, "order" : order, "address" : address};
+    		
+			$.ajax({
+				url : "cartCheck",
+				type : "post",
+				async : true,
+				data : JSON.stringify(data),
+				datetype : "text",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					if (data != "fail") {
+						alert('사용 가능한 아이디 입니다.');
+					} else {
+						alert('이미 존재하는 아이디 입니다.');
+					}
+				}
+			});
+			
+/* 			$('#chapter').val("inCart");
+    		$('#chapter02_02').submit(); */
     	}
     </script>
 </body>

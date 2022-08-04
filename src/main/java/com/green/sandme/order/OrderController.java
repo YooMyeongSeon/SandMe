@@ -1,7 +1,6 @@
 package com.green.sandme.order;
 
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.green.sandme.member.cart.vo.CartVo;
-import com.green.sandme.member.cart.vo.CartListVo;
 import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
 import com.green.sandme.order.vo.OrderVo;
@@ -186,7 +184,6 @@ public class OrderController {
 
 			sqlSession.insert("com.green.sandme.member.cart.dao.CartDao.insertCart", cVo);
 			
-//			model.addAttribute("memberNum", memberNum);
 			return "redirect:/cartList?memberNum=" + memberNum;
 		}
 
@@ -222,13 +219,13 @@ public class OrderController {
 	
 	@GetMapping("/cartList") //장바구니 리스트로 이동
 	public String cartList(@RequestParam("memberNum") int memberNum, Model model) throws Exception {
-		List<CartListVo> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartList", memberNum);
+//		List<CartListVo> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartList", memberNum);
 		
-		if(cartList.size() == 0) { 
-			model.addAttribute("cartNullChk", "nothing"); 
-		} else { 
-			model.addAttribute("cartList", cartList); 
-		} 
+//		if(cartList.size() == 0) { 
+//			model.addAttribute("cartNullChk", "nothing"); 
+//		} else { 
+//			model.addAttribute("cartList", cartList); 
+//		} 
 		
 		return "cartList";
 	}

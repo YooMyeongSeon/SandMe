@@ -21,7 +21,10 @@
 		        GROUP BY me.memberNum)
 	</select>  
 	
-
+	<!-- 카트 체크 -->
+	<select id="cartCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and cartOrder = #{order}
+	</select>
 
 
 

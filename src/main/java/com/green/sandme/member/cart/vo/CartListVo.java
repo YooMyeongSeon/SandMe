@@ -1,20 +1,15 @@
 package com.green.sandme.member.cart.vo;
 
-public class CartListVo {	
+public class CartListVo {
 	private int cartNum;
-	private int cartMenu;
-	private int cartCount;
-	private String custom;
+	private int memberNum;
 	private String cartOrder;
 	private String cartAddress;
-	private int cartShop;
-	private int memberNum;
-	private String memberName;
-	private int menuNum;
-	private String menuName;
-	private int menuPrice;
-	private int totalPrice;
-	private String menuEngName;
+	private String cartShop;
+	private String cartMenu;
+	private String cartCustom;
+	private String cartDrink;
+	private int cartQuantity;
 	
 	public int getCartNum() {
 		return cartNum;
@@ -22,23 +17,11 @@ public class CartListVo {
 	public void setCartNum(int cartNum) {
 		this.cartNum = cartNum;
 	}
-	public int getCartMenu() {
-		return cartMenu;
+	public int getMemberNum() {
+		return memberNum;
 	}
-	public void setCartMenu(int cartMenu) {
-		this.cartMenu = cartMenu;
-	}
-	public int getCartCount() {
-		return cartCount;
-	}
-	public void setCartCount(int cartCount) {
-		this.cartCount = cartCount;
-	}
-	public String getCustom() {
-		return custom;
-	}
-	public void setCustom(String custom) {
-		this.custom = custom;
+	public void setMemberNum(int memberNum) {
+		this.memberNum = memberNum;
 	}
 	public String getCartOrder() {
 		return cartOrder;
@@ -52,52 +35,34 @@ public class CartListVo {
 	public void setCartAddress(String cartAddress) {
 		this.cartAddress = cartAddress;
 	}
-	public int getCartShop() {
+	public String getCartShop() {
 		return cartShop;
 	}
-	public void setCartShop(int cartShop) {
+	public void setCartShop(String cartShop) {
 		this.cartShop = cartShop;
 	}
-	public int getMemberNum() {
-		return memberNum;
+	public String getCartMenu() {
+		return cartMenu;
 	}
-	public void setMemberNum(int memberNum) {
-		this.memberNum = memberNum;
+	public void setCartMenu(String cartMenu) {
+		this.cartMenu = cartMenu;
 	}
-	public String getMemberName() {
-		return memberName;
+	public String getCartCustom() {
+		return cartCustom;
 	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
+	public void setCartCustom(String cartCustom) {
+		this.cartCustom = cartCustom;
 	}
-	public int getMenuNum() {
-		return menuNum;
+	public String getCartDrink() {
+		return cartDrink;
 	}
-	public void setMenuNum(int menuNum) {
-		this.menuNum = menuNum;
+	public void setCartDrink(String cartDrink) {
+		this.cartDrink = cartDrink;
 	}
-	public String getMenuName() {
-		return menuName;
+	public int getCartQuantity() {
+		return cartQuantity;
 	}
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
-	}
-	public int getMenuPrice() {
-		return menuPrice;
-	}
-	public void setMenuPrice(int menuPrice) {
-		this.menuPrice = menuPrice;
-	}
-	public int getTotalPrice() {
-		return totalPrice;
-	}
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	public String getMenuEngName() {
-		return menuEngName;
-	}
-	public void setMenuEngName(String menuEngName) {
-		this.menuEngName = menuEngName;
+	public void setCartQuantity(int cartQuantity) {
+		this.cartQuantity = cartQuantity;
 	}
 }
