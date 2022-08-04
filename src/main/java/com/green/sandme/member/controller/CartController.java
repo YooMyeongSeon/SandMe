@@ -2,19 +2,18 @@ package com.green.sandme.member.controller;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.sandme.member.cart.vo.CartOrderVO;
-import com.green.sandme.member.cart.vo.CartVO;
 
 @RestController
 public class CartController {
@@ -74,19 +73,21 @@ public class CartController {
 		System.out.println("memberNum :" +memberNum);
 		
 		ModelAndView mav = new ModelAndView();
-		
-		System.out.println(cartNum); 
-		
-		List<CartOrderVO> cartOrder = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartOrder",memberNum);
-		
-		
-		
-		
-		mav.addObject("cartOrder",cartOrder);
-		mav.addObject("memberNum",memberNum);
-		mav.setViewName("member/orderForm");
-		
-		System.out.println(mav.getViewName());
+
+
+		List<Integer> cartNumList = new ArrayList<>();
+		for(int i=0; i<cartNum.size(); i++) {
+			cartNumList.add(cartNum.get(i));
+			System.out.println(cartNumList);
+			if(! cartNumList.isEmpty()) {
+				List<CartOrderVO> cartOrders = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartOrder",cartNumList);
+				CartOrderVO totalPrice = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.cartTotalPrice",cartNumList);
+				mav.addObject("cartOrder",cartOrders);
+				mav.addObject("totalPrice",totalPrice);
+				mav.addObject("memberNum",memberNum);//modelandview로 memberNum은 이동시키고 받아온 장바구니로 select
+				mav.setViewName("member/orderForm");
+			}
+		}
 		
 		return mav;
 	}

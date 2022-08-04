@@ -33,18 +33,28 @@
 		                <th>커스텀 정보 - 카트 테이블</th>
 		                <th>주소 - 카트 테이블</th> 
 		                <th>수량</th>
-		                <th>가격 - 메뉴 테이블</th>    
+		                <th>수량 변경시 가격</th>
+		                <th>원래 메뉴 가격 - 메뉴 테이블</th>    
 		           </tr>
 		           <tr th:each="cart : ${cartList}" th:id="'cart'+${cart.cartNum}">
-		           		<td><input type="checkbox" name="chkNum[]" th:value="${cart.cartNum}" 
-		           				   onclick="itemSum()" th:data-sum="${cart.menuPrice}" 
-		           				   th:id="chkbox" th:data-cartnum="${cart.cartNum}"> <span th:text="${cart.cartNum}"></span></td>
+		           		<td>
+		           			<input type="checkbox" name="chkNum[]" th:value="${cart.cartNum}" onclick="itemSum()" th:data-sum="${cart.menuPrice}" 
+		           				   th:id="chkbox" th:data-cartnum="${cart.cartNum}"> <span th:text="${cart.cartNum}"></span>
+		           		</td>
 						<td th:text="${cart.menuName}" th:value="${cart.menuName}"></td>
 						<td th:text="${cart.custom}" th:value="${cart.custom}"></td>
 						<td th:text="${cart.cartAddress}" th:value="${cart.cartAddress}"></td>
 						<!-- 장바구니 수량 -->
-						<td th:text="${cart.cartCount}" th:value="${cart.cartCount}"></td>
-						<td  th:text="${cart.menuPrice}" th:value="${cart.menuPrice}"></td> 
+						<td>
+							<input type="button" th:onclick='count("plus")' value="+">
+							<div id="result">0</div>
+							<input type="button" th:onclick='count("minus")' value="-">
+						</td>
+						<td>
+							<input type="hidden" th:name="price" th:value="${cart.menuPrice}" readonly="readonly">
+							<div id="total_price">1</div>
+						</td> 
+						<td th:text="${cart.menuPrice}" th:value="${cart.menuPrice}"></td> 
 					</tr>   	
 				</table>
 				<br>
@@ -52,15 +62,12 @@
 				<!-- 장바구니 전체 정보 (총 결제 금액, 선택 수량)-->
 				<div id="sum_price"> 총 결제 금액 : </div>
 				<div id="amount">수량 :</div>
-				<input type="submit" value="주문서"> 
+				<input type="submit" value="주문서" th:id="order" th:onclick="order()"> 
 				<input type="hidden"  name="memberNum" th:value="${cartList[0].memberNum}">
 			</form>
 				<br>
 			<input type="hidden" th:id="memberNum" th:value="${cartList[0].memberNum}">	
  			<input type="button" value="메뉴 추가" th:onclick="<!-- memberNum을 가지고 메뉴 선택 페이지로 다시 이동 -->">
- 			<!-- 매핑주소에 memberNum을 가지고 주문서 작성 페이지로 이동 -->
-		 	<!-- <button  th:id="order"  th:onclick="|location.href='@{/cart/insertOrder/{memberNum}(memberNum=${cartList[0].memberNum},cartNum=${cartList[0].cartNum})}'|">주문서 작성 페이지로 이동</button>	 -->
-			<button th:id="order" th:onclick="order()">주문서 작성 페이지 이동</button>
 			<button th:onclick="delcart()">선택 삭제</button>				
 		</div> 
 		
@@ -73,12 +80,12 @@
 // 선택 상품, 전체 선택 상품 삭제
 
 	 $(function(){
-		 let chk = document.getElementsByName("chkNum");
+		 let chk = document.getElementById("chkbox");
 		 let chkrow = chk.length;
 		 
 		 // 전체 삭제 체크박스를 누르면 chk_list에 항목 수 만큼 저장
 		 $("input[name='all']").click(function(){
-			let chk_list = $("input[name='chkNum']");
+			let chk_list = $("#chkbox");
 			for(let i=0; i <chk_list.length; i++){
 				chk_list[i].checked = this.checked;
 			}
@@ -86,8 +93,8 @@
 		 
 		 // checked 된 delNum의 수가 chkrow의 수와 같다는 건 전체선택 되었다는 것
 		 // 따라서, 전체 체크박스도 체크 해줌
-		 $("input[name='chkNum']").click(function(){
-			 if($("input[name='chkNum']:checked").length == chkrow){
+		 $("#chkbox").click(function(){
+			 if($("#chkbox :checked").length == chkrow){
 				 $("input[name='all']")[0].checked = true;
 			 }
 			 else {
@@ -105,7 +112,7 @@
 	function delcart(){
 
 		let cartNum = new Array();
-		let list = $("input[name='chkNum']");
+		let list = $("#chkbox");
 		
 		
 		for(let i = 0; i < list.length; i++){
@@ -151,10 +158,10 @@
 	$("#all").click(function(){
 		let chk = $("#all").prop("checked");
 		if(chk){
-			$("input[name='chkNum']").prop("checked",true);
+			$("input[name='chkNum[]']").prop("checked",true);
 			itemSum();
 		} else {
-			$("input[name='chkNum']").prop("checked",false);
+			$("input[name='chkNum[]']").prop("checked",false);
 			itemSum();
 		}
 	})
@@ -163,11 +170,11 @@
 	function itemSum(){
 
 		let totalSum = 0;
-		let totalCount = $("input[name='chkNum']:checked").length;
+		let totalCount = $("input[name='chkNum[]']:checked").length;
 		
 		for(let i = 0; i < totalCount; i++){
-			if($("input[name='chkNum']:checked")){
-				totalSum += parseInt($("input[name='chkNum']:checked")[i].dataset.sum);
+			if($("input[name='chkNum[]']:checked")){
+				totalSum += parseInt($("input[name='chkNum[]']:checked")[i].dataset.sum);
 			}
 		}
 		$('#sum_price').html("총 결제 금액 : " + totalSum + "원");
@@ -180,7 +187,7 @@
 	// 체크 박스 체크 여부 alert 창 출력
 	$(document).ready(function(){
 		$("#order").click(function(){
-			if($("input[name='chkNum']:checked").is(":checked")){
+			if($("input[name='chkNum[]']:checked").is(":checked")){
 				return true;
 			}else {
 				alert("메뉴를 한 개 이상 선택해주세요");
@@ -192,125 +199,49 @@
 	
 	
 	// 수량 변경
-	$(".plus_btn").on("click",function(){
-		let quantity = $(this).parent("td").find("input").val();
-		$(this).parent("td").find("input").val(++quantity);
-	})
-	
-	
-	
-	// 장바구니 -> 주문서 페이지
-	/*
-	  $(function(){
-		 let chk = document.getElementsByName("chkNum");
-		 let chkrow = chk.length;
-		 
-	
-		 $("input[name='all']").click(function(){
-			let chk_list = $("input[name='chkNum']");
-			for(let i=0; i <chk_list.length; i++){
-				chk_list[i].checked = this.checked;
-			}
-		 });
+	function count(type){
+		
+		const result = document.getElementById('result');
+		let count = result.innerText;
+		
+		
+		let eachPrice = 0;
+		
+		let price  = parseInt($("input[name='price']").val());
 
-		 $("input[name='chkNum']").click(function(){
-			 if($("input[name='chkNum']:checked").length == chkrow){
-				 $("input[name='all']")[0].checked = true;
-			 }
-			 else {
-				 $("input[name='all']")[0].checked = false;
-			 }
-		 });
-	 }); 
-	
-	
-	 function pay(menuName,custom,cartAddress,cartCount,menuPrice,memberNum){
-
-		// 장바구니 번호
-		 let cartNum = new Array();
-			let list = $("input[name='chkNum']");
-			
-			
-			for(let i = 0; i < list.length; i++){
-				if(list[i].checked){
-					cartNums.push(list[i].value);
+		console.log(price);
+		
+		
+		if(type === 'plus'){
+			count = parseInt(count)+1;
+			for(let i=0; i<=5; i++){
+				eachPrice = parseInt(price*count);
+				if(count>5){
+					alert("최대 주문 수량은 5개 이하입니다.");
+					return false;
 				}
 			}
-
-			
-			//회원 번호
-			let memberNum =$('#memberNum').val();
-			
-
-			
-			if(cartNums.length==0){
-				alert("메뉴를 선택해주세요");
-			}else {
-				if(confirm("주문서 작성 페이지로 이동")){
-					$.ajax({
-						url : "/cart/insertOrder",
-						type : "POST",
-						async : true,
-						data : {
-							"cartNum" : cartNum,
-							"menuName" : menuName,
-							"custom" : custom,
-							"cartAddress" : cartAddress,
-							"cartCount" : cartCount,
-							"menuPrice" : menuPrice,
-							"memberNum" : memberNum,
-						}				
-					})
-				} else {
-					alert("주문서 페이지 이동 실패");
-				}
-				
-			}
-
-	 }
-	 */
-
-	 // 장바구니 -> 주문서
-	 // 장바구니 번호, 회원 번호
- 	 function order(){
-		 
-		// 장바구니 번호
-
-		
- 		 let cartNum = new Array();
-		 let list = $("input[name='chkNum']");
-			
-			
-			for(let i = 0; i < list.length; i++){
-				if(list[i].checked){
-					cartNum.push(list[i].value);
+		}else if(type === 'minus'){
+			count = parseInt(count)-1;
+			eachPrice -= parseInt(price);
+			for(let i=0; i<=5; i++){
+				eachPrice = parseInt(price*count);
+				if(count<=0){
+					alert("최소 주문 수량은 1개 이상입니다.");
+					return false;
 				}
 			}
-		
-		console.log(cartNum);
-			
-			
-		//회원 번호
-		let memberNum = $('#memberNum').val();
-		//console.log(memberNum); 
-		
-		
-		if(cartNum.length==0){
-			alert("메뉴를 선택해주세요");
-		}else {
-			if(confirm("주문서 작성 페이지로 이동")){
-				location.href="/cart/insertOrder/"+memberNum+cartNum;
-			} else {
-				alert("주문서 페이지 이동 실패");
-			}
-			
 		}
+		
+		result.innerText = count;
+		$('#total_price').html(eachPrice + "원");
+	}
+	
+	// 수량 변경시 금액 변경
+	
 
-	 } 
-	 
-	 
-	 
-	 
+
+
 
 </script> 
 </body>

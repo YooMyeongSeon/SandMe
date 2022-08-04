@@ -9,8 +9,17 @@ public class CartOrderVO {
 	private String cartAddress;
 	private int memberNum;
 	private int menuPrice;
+	private int totalPrice;
 	
 	
+	
+	
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	public String getMenuName() {
 		return menuName;
 	}

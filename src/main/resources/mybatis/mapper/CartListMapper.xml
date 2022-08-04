@@ -50,12 +50,28 @@
 <!-- 주문서에서 조회 -->
  	<select id="selectCartOrder" parameterType="com.green.sandme.member.cart.vo.CartOrderVO" resultType="com.green.sandme.member.cart.vo.CartOrderVO">
  		SELECT c.memberNum, c.cartNum, c.custom, c.cartAddress, c.cartCount, m.menuName, m.menuPrice
-		FROM cart_tbl c INNER JOIN menu_tbl m
-		ON c.cartMenu = m.menuNum 
-		INNER JOIN member_tbl me
-		ON c.memberNum = me.memberNum
-		WHERE me.memberNum IN #{memberNum} AND c.cartNum IN (#{cartNum})
+				FROM cart_tbl c INNER JOIN menu_tbl m
+				ON c.cartMenu = m.menuNum 
+				INNER JOIN member_tbl me
+				ON c.memberNum = me.memberNum								
+				WHERE c.cartNum IN 
+			<foreach collection="list" item="cartNum" open="(" separator="," close=")">
+				#{cartNum}
+			</foreach>		
  	</select>	
+	
+<!-- 장바구니 총 금액 계산 -->	
+	<select id="cartTotalPrice" parameterType="com.green.sandme.member.cart.vo.CartOrderVO" resultType="com.green.sandme.member.cart.vo.CartOrderVO">
+		SELECT NVL(SUM(menuPrice * cartCount), 0) totalPrice
+		FROM cart_tbl c, menu_tbl m
+		WHERE c.cartMenu = m.menuNum  
+		AND c.cartNum IN 
+		<foreach collection="list" item="cartNum" open="(" separator="," close=")">
+				#{cartNum}
+		</foreach>
+	</select>
+	
+	
 	
 	
 

@@ -18,11 +18,11 @@ public class KakaoPayController {
 	
 
 
-	   @RequestMapping("/kakaopayp")
-	   public String kakaopay(@RequestParam("total") int total,
+	   @RequestMapping("/kakaopayP")
+	   public String kakaopay(@RequestParam("totalPrice") int totalPrice,
 			   				  @RequestParam("memberNum") String memberNum) {
 		  
-		   System.out.println("가격" + total);
+		   System.out.println("가격" + totalPrice);
 		   System.out.println("사용자 아이디 :" + memberNum);
 
 		  
@@ -43,7 +43,7 @@ public class KakaoPayController {
 						+ "&partner_user_id=partner_user_id" // 가맹점 회원 id
 						+ "&item_name=sandme" // 상품명
 						+ "&quantity=1" // 상품 수량
-						+ "&total_amount="+total+"" // 총 금액
+						+ "&total_amount="+totalPrice+"" // 총 금액
 						+ "&vat_amount=200" // 부가세
 						+ "&tax_free_amount=0" // 상품 비과세 금액
 						+ "&approval_url=http://localhost:8090/member/kakaopaysuccess/"+memberNum+"" // 결제 성공 시
