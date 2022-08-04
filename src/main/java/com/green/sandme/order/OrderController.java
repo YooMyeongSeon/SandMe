@@ -146,7 +146,7 @@ public class OrderController {
 			
 			
 			
-			return "main";
+			return "";
 		}
 
 		model.addAttribute("order", order);

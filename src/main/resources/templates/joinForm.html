@@ -798,6 +798,8 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 									$('#memberEmail').prop('readonly', true);
 								} else {
 									alert('이미 존재하는 아이디 입니다.');
+									$('#memberEmail').val("");
+									$('#memberEmail').focus();
 								}
 							}
 						});

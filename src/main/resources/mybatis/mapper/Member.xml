@@ -26,40 +26,19 @@
 		SELECT * FROM member_tbl WHERE memberNum = #{memberNum}
 	</select>
 	
-	
-	
-	<!-- 관리자 로그인 -->
-	<select id="admin_login" parameterType="com.green.sandme.member.vo.adminVo" resultType="String">
-		SELECT adminID FROM ADMIN_TBL
-		WHERE adminId = #{adminId} and adminPwd = #{adminPwd}
-	</select>
-
-	<!-- 마이페이지 이름 출력 -->
-	<select id="Mypage" parameterType="String" resultType="com.green.sandme.member.vo.memberVo">
-		SELECT * FROM SANDME_MEMBERTBL
-		WHERE memberEmail = #{memberEmail}
-	</select>
-	
-	<!-- 회원 정보 수정 폼 출력 -->
-	<select id="UserInfo" parameterType="int" resultType="com.green.sandme.member.vo.memberVo">
-		SELECT memberNum,  memberName, memberEmail, memberPwd, memberTel FROM SANDME_MEMBERTBL
-		WHERE memberNum = #{memberNum}
-	</select>	
-
 	<!-- 회원 정보 수정 -->
-	<update id="UpdateUser" parameterType="com.green.sandme.member.vo.memberVo" >
-		UPDATE SANDME_MEMBERTBL
+	<update id="UpdateMember" parameterType="com.green.sandme.member.vo.memberVo">
+		UPDATE member_tbl
 		SET memberName = #{memberName},
-			memberEmail = #{memberEmail}, 
 			memberPwd = #{memberPwd},
 			memberTel = #{memberTel}
 		WHERE memberNum = #{memberNum}
 	</update>
 	
 	<!-- 회원 탈퇴 -->
-	<delete id="DeleteUser" parameterType="int">
-		DELETE FROM SANDME_MEMBERTBL
+	<delete id="DeleteMember" parameterType="int">
+		DELETE FROM member_tbl
 		WHERE memberNum = #{memberNum}
 	</delete>
-	
+
 </mapper>  

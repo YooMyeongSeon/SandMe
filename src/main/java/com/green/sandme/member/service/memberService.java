@@ -47,24 +47,15 @@ public class memberService implements UserDetailsService{
 		return mVo;
 	}
 	
-	
-	
-	
-	
 	//회원정보 수정
 	@Transactional
-	public void UpdateUser(memberVo mVo) throws Exception{
-		sqlSession.update("com.green.sandme.member.dao.memberDao.UpdateUser", mVo);
-	}
-		
-	//회원정보 정보 출력
-	public memberVo UserInfo(int memberNum) throws Exception{
-		return sqlSession.selectOne("com.green.sandme.member.dao.memberDao.UserInfo",memberNum);
+	public void UpdateMember(memberVo mVo) throws Exception {
+		sqlSession.update("com.green.sandme.member.dao.memberDao.UpdateMember", mVo);
 	}
 
 	//회원 탈퇴
 	@Transactional
-	public void DeleteUser(int memberNum) throws Exception{
-		sqlSession.delete("com.green.sandme.member.dao.memberDao.DeleteUser",memberNum);
+	public void deleteMember(int memberNum) throws Exception {
+		sqlSession.delete("com.green.sandme.member.dao.memberDao.DeleteMember", memberNum);
 	}
 }

@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +48,7 @@ public class MemberController {
 	//아이디 중복 확인
 	@PostMapping("/idChk")
 	@ResponseBody
-	public String checkUserId(String memberEmail) throws Exception {
+	public String checkMemberId(String memberEmail) throws Exception {
 		int result = memberService.checkUserId(memberEmail);
 		
 		if(result != 0) {
@@ -60,8 +60,8 @@ public class MemberController {
 	
 	//회원가입 처리	  
     @PostMapping("/joinProcess")
-    public String RegisterUser(@RequestParam("memberEmail") String memberEmail, 
-            @RequestParam("memberPwd") String memberPwdout,
+    public String RegisterMember(@RequestParam("memberEmail") String memberEmail, 
+			@RequestParam("memberPwd") String memberPwdout,
             @RequestParam("memberTel") String memberTel,
             @RequestParam("memberName") String memberName,
             Model model) throws Exception{
@@ -94,82 +94,66 @@ public class MemberController {
 		memberVo mVo = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.selectMemberByNum", memberNum);
 		List<OrderVo> oVo = sqlSession.selectList("com.green.sandme.order.dao.OrderDao.selectOrderBymemberNum", memberNum);
 		
-		model.addAttribute("oVo", oVo);
-		model.addAttribute("mVo", mVo);
+		model.addAttribute("memberInfo", "info");
+		model.addAttribute("oVo", oVo); //주문 내역 전송
+		model.addAttribute("mVo", mVo); //회원 정보 전송
 		return "memberInfo";
 	}
 	
-	//회원정보 수정 처리
-//	@GetMapping("/updatepro")
-//	public RedirectView UpdateUser(
-//								@RequestParam("memberNum") int memberNum,
-//								@RequestParam("memberEmail") String memberEmail,
-//								@RequestParam("memberPwd") String memberPwdout,
-//								@RequestParam("memberTel") String memberTel,
-//								@RequestParam("memberName") String memberName) throws Exception {
-//		 
-//
-//		
-//		 System.out.println(memberName);
-//		 System.out.println(memberNum);
-//		 System.out.println(memberPwdout);
-//		 
-//		 String memberPwd = bcryptPasswordEncoder.encode(memberPwdout);
-//		 
-//		 memberVo mVo = new memberVo();
-//				
-//		 mVo.setMemberNum(memberNum);
-//		 mVo.setMemberEmail(memberEmail);
-//		 mVo.setMemberPwd(memberPwd);
-//		 mVo.setMemberTel(memberTel);
-//		 mVo.setMemberName(memberName);
-//		 
-//		 memberService.UpdateUser(mVo);
-//		 
-//		 String url = "/";
-//
-//	     return new RedirectView(url);
-//	}	  
-   
-	//정보변경페이지 (정보출력)
-//	 @GetMapping("/updateUser/{memberNum}")
-//	 public String UserInfo(@PathVariable("memberNum")int memberNum, Model model) throws Exception {
-//		 
-//		 memberVo mVo = memberService.UserInfo(memberNum);
-//		 
-//		 model.addAttribute("mVo",mVo);
-//	    
-//		return "updateUser.html";
-//	 }
-//	  
-//	 //회원탈퇴 페이지
-//	 @GetMapping("/deleteform")
-//	 public String Deleteform() {
-//		 return "/deleteform";
-//	 }
-	  
-//	 //회원 탈퇴
-//	 @GetMapping("/deleteProcess")
-//	 public RedirectView DeleteUser(@RequestParam("memberNum") int memberNum) throws Exception{
-//
-//		 memberService.DeleteUser(memberNum);
-//		 
-//		 String url = "/";
-//
-//	     return new RedirectView(url);
-//	 }
-	 
-	 
-	 
-	//관리자 로그인 페이지 이동
-	@GetMapping("/adminPage")             //세션정보확인
-	public String adminPage(Authentication authentication) {
-		if(authentication != null) {  //세션에 로그인 정보가 있는지 확인
-	memberVo mVo = (memberVo) authentication.getPrincipal(); //로그인 정보를 가져와서 멤버vo로 정보를 변환해서 저장
-	if(mVo.getAdmin().equals("Y")) { 
-	return "/adminPage";
-		}
+	//회원정보 수정 페이지
+	@GetMapping("/updateMember")
+	public String updateMember(@RequestParam("memberNum")int memberNum, Model model) { 
+		memberVo mVo = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.selectMemberByNum", memberNum);
+		
+		model.addAttribute("memberInfo", "update");
+		model.addAttribute("mVo",mVo);
+		return "memberInfo";
 	}
-	return "redirect:/";
+
+	//회원정보 수정 처리
+	@PostMapping("/updateProcess")
+	public String updateMemberProcess(@RequestParam("memberNum") int memberNum,
+			@RequestParam("memberEmail") String memberEmail,
+			@RequestParam("memberPwd") String memberPwdout,
+			@RequestParam("memberTel") String memberTel,
+			@RequestParam("memberName") String memberName,
+			Model model) throws Exception {
+		
+		String memberPwd = bcryptPasswordEncoder.encode(memberPwdout);
+		 
+		memberVo mVo = new memberVo();
+				
+		mVo.setMemberNum(memberNum);
+		mVo.setMemberEmail(memberEmail);
+		mVo.setMemberPwd(memberPwd);
+		mVo.setMemberTel(memberTel);
+		mVo.setMemberName(memberName);
+		
+		List<OrderVo> oVo = sqlSession.selectList("com.green.sandme.order.dao.OrderDao.selectOrderBymemberNum", memberNum); 
+		memberService.UpdateMember(mVo);
+		 
+		model.addAttribute("memberInfo", "info");
+		model.addAttribute("oVo", oVo); //주문 내역 전송
+		model.addAttribute("mVo", mVo); //회원 정보 전송
+	    return "memberInfo";
+	}
+	
+	//회원 탈퇴 페이지
+	@GetMapping("/deleteMember")
+	public String deleteMemberForm(@RequestParam("memberNum") int memberNum, Model model) {
+		memberVo mVo = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.selectMemberByNum", memberNum);
+		
+		model.addAttribute("memberInfo", "delete");
+		model.addAttribute("mVo",mVo);
+		return "memberInfo";
+	}
+	
+	//회원 탈퇴 처리
+	@GetMapping("/deleteProcess")
+	public String deleteMember(@RequestParam("memberNum") int memberNum) throws Exception {
+		memberService.deleteMember(memberNum);
+		
+		SecurityContextHolder.clearContext();
+		return "redirect:/";
 	}
 }
