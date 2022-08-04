@@ -150,3 +150,19 @@ create table order_tbl(orderNum number PRIMARY KEY,
 create sequence order_seq nocache;
 
 select * from order_tbl;
+
+----------------------------------------------------------------------------------------------------장바구니 테이블
+
+CREATE TABLE cart_tbl(
+    cartNum NUMBER PRIMARY KEY,
+    cartMenu NUMBER NOT NULL,
+    cartCount NUMBER,
+    custom VARCHAR2(400),
+    cartOrder VARCHAR2(20),
+    cartAddress VARCHAR2(200),
+    cartShop NUMBER NOT NULL,
+    memberNum NUMBER NOT NULL);
+    
+CREATE SEQUENCE cart_seq nocache;
+
+SELECT * FROM cart_tbl;

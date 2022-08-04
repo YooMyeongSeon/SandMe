@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.green.sandme.member.cart.vo.CartVO;
+import com.green.sandme.member.cart.vo.CartVOForList;
 import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
 import com.green.sandme.order.vo.OrderVo;
@@ -236,5 +238,33 @@ public class OrderController {
 		String data = gson.toJson(oAv);
 		PrintWriter out = response.getWriter();
 		out.print(data);
+	}
+	
+	@GetMapping("/cartList")
+	  public String cartList(@RequestParam("memberNum") int memberNum, Model model) throws Exception {
+	  
+	  // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu 
+		  List<CartVOForList> cartList =
+				  sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.pSelectCart", memberNum);
+
+			  if(cartList.size() == 0) { 
+				  model.addAttribute("cartNullChk", "nothing"); 
+			  }
+			  	else { 
+			  		model.addAttribute("cartList", cartList); 
+			  } 
+			  
+			  	return "cartList";
+	  
+	}
+	
+	@GetMapping("/kakaopaysuccess")
+	public String paySuccess() {
+		return "pay/kakaopaysuccess";
+	}
+	
+	@GetMapping("/kakaopayfail")
+	public String payFail() {
+		return "pay/kakaopayfail";
 	}
 }

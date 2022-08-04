@@ -329,8 +329,8 @@
 				<input type="hidden" name="inputCustom" th:value="${custom}">
 				<input type="hidden" name="inputDrink" th:value="${drink}">
 				<input type="hidden" name="inputquantity" th:value="${quantity}">
-				<input type="hidden" name="inputTotalPrice" th:value="${totalPrice}">
-				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}">
+				<input type="hidden" name="inputTotalPrice" th:value="${totalPrice}" id="inputTotalPrice">
+				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
 				<input type="hidden" name="menuNum" th:value="${mVo.menuNum}">
 				<div id="tableWrap">
 					<p>주문 내역</p>
@@ -401,8 +401,35 @@
 					if (!$('#paymentConsent').is(":checked")) {
 						alert("구매조건 및 결제진행 동의가 동의되지 않았습니다.");
 					} else {
-						$('#chapter03Form').submit();
+						let totalPrice = $("#inputTotalPrice").val();					
+						let memberNum = $("#memberNum").val();
+
+						$.ajax({
+							url:'/kakaopayP',
+							method : 'POST',
+							async : true,
+							data : { 
+								totalPrice : totalPrice, 
+								memberNum : memberNum	
+							},
+							dataType:'json',
+							success:function(req){
+								let box = req.next_redirect_pc_url;
+								window.open(box); //결제창 열기
+							},
+							error:function(error){
+								alert(error);
+							}
+						});
 					}
+				}
+				
+				function chapter03Submit() {
+					$('#chapter03Form').submit();
+				}
+				
+				function chapter03Fail() {
+					alert("결제에 실패했습니다.");
 				}
 			</script>
 			<div id="map" style="display:none;"></div>

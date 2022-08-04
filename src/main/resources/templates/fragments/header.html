@@ -12,7 +12,7 @@
             <ul>
             	<li><a href="/logout">로그아웃</a></li>
             	<li><a th:href="@{/memberInfo(memberNum=${#authentication.principal.memberNum})}">회원 정보</a></li>
-            	<li><a href="/">장바구니</a></li>
+            	<li><a th:href="@{/cartList(memberNum=${#authentication.principal.memberNum})}">장바구니</a></li>
             </ul>
         </div>
         <div id="hdRight">
