@@ -318,6 +318,7 @@
 				<input type="hidden" name="inputSandMenu" th:value="${mVo.menuNum}">
 				<input type="submit" value="주문하기" class="btn2">
 				<input type="button" value="장바구니" class="btn2" onclick="inCart()">
+				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
 			</form>
 		</div>
 		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->

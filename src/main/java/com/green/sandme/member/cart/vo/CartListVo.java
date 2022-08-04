@@ -1,11 +1,9 @@
 package com.green.sandme.member.cart.vo;
 
-public class CartVO {
-	// 장바구니 정보
-	
+public class CartListVo {	
 	private int cartNum;
 	private int cartMenu;
-	private int cartCount;  // 장바구니 수량
+	private int cartCount;
 	private String custom;
 	private String cartOrder;
 	private String cartAddress;
@@ -15,40 +13,9 @@ public class CartVO {
 	private int menuNum;
 	private String menuName;
 	private int menuPrice;
-	private int sumPrice;
+	private int totalPrice;
 	private String menuEngName;
 	
-	
-	public String getMenuEngName() {
-		return menuEngName;
-	}
-	public void setMenuEngName(String menuEngName) {
-		this.menuEngName = menuEngName;
-	}
-	public int getSumPrice() {
-		return sumPrice;
-	}
-	public void setSumPrice(int sumPrice) {
-		this.sumPrice = sumPrice;
-	}
-	public String getMenuName() {
-		return menuName;
-	}
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
-	}
-	public int getMenuPrice() {
-		return menuPrice;
-	}
-	public void setMenuPrice(int menuPrice) {
-		this.menuPrice = menuPrice;
-	}
-	public int getMenuNum() {
-		return menuNum;
-	}
-	public void setMenuNum(int menuNum) {
-		this.menuNum = menuNum;
-	}
 	public int getCartNum() {
 		return cartNum;
 	}
@@ -103,15 +70,34 @@ public class CartVO {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-	
-
-	
-	
-	
-	
-
-	
-	
-	
-
+	public int getMenuNum() {
+		return menuNum;
+	}
+	public void setMenuNum(int menuNum) {
+		this.menuNum = menuNum;
+	}
+	public String getMenuName() {
+		return menuName;
+	}
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+	public int getMenuPrice() {
+		return menuPrice;
+	}
+	public void setMenuPrice(int menuPrice) {
+		this.menuPrice = menuPrice;
+	}
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public String getMenuEngName() {
+		return menuEngName;
+	}
+	public void setMenuEngName(String menuEngName) {
+		this.menuEngName = menuEngName;
+	}
 }

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
-import com.green.sandme.member.cart.vo.CartVO;
-import com.green.sandme.member.cart.vo.CartVOForList;
+import com.green.sandme.member.cart.vo.CartVo;
+import com.green.sandme.member.cart.vo.CartListVo;
 import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
 import com.green.sandme.order.vo.OrderVo;
@@ -66,8 +66,6 @@ public class OrderController {
 			int shop = Integer.parseInt(request.getParameter("inputShop"));
 			int sandMenu = Integer.parseInt(request.getParameter("selectsandMenu")); // 선택한 샌드위치 메뉴를 통해 
 			
-			System.out.println(sandMenu);
-			
 			MenuVo mVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectMenu", sandMenu);
 			
 			model.addAttribute("shop", shop);
@@ -86,8 +84,6 @@ public class OrderController {
 			String drink = request.getParameter("drink");
 			
 			MenuVo mVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectMenu", sandMenu);
-			
-			System.out.println(sandMenu);
 			
 			String[] vegelist = request.getParameterValues("vegetable[]");
 			String vege = "";
@@ -151,63 +147,47 @@ public class OrderController {
 			model.addAttribute("oVo", oVo);
 			model.addAttribute("chapter", "chapter04");
 		} else if (chapter.equals("inCart")) { //--------------------------------------------------장바구니 기능
-			if(order.equals("home")) {
+			CartVo cVo = new CartVo();
+			
+			int memberNum = Integer.parseInt(request.getParameter("memberNum"));
+			
+			cVo.setMemberNum(memberNum);
+			cVo.setCartOrder(order);
+			
+			if (order.equals("home")) {
 				String address = request.getParameter("inputAddress");
-				model.addAttribute("address", address);
+				cVo.setCartAddress(address);
+			} else {
+				cVo.setCartAddress("Null");
 			}
 			
-			// 매장
-			int shop = Integer.parseInt(request.getParameter("inputShop"));
-			// 메뉴 선택 - menuNum
-			int sandMenu = Integer.parseInt(request.getParameter("inputSandMenu"));
-			// 매장 주소
-			String address = request.getParameter("inputAddress");
+			cVo.setShopNum(Integer.parseInt(request.getParameter("inputShop")));
+			cVo.setMenuNum(Integer.parseInt(request.getParameter("inputSandMenu")));
 			
-			// 세부 메뉴 선택
 			String[] vegelist = request.getParameterValues("vegetable[]");
 			String vege = "";
 			
-			for (int i=0; i<vegelist.length; i++) {
-				vege += vegelist[i] + ", ";
+			if (vegelist != null) {
+				for (int i=0; i<vegelist.length; i++) {
+					vege += vegelist[i] + ", ";
+				}
+			} else {
+				vege = "야채 선택 안함, ";
 			}
 			
 			String custom = "빵 : " + request.getParameter("bread") +
 					", 야채 : " + vege +
 					"소스 : " + request.getParameter("sauce") +
-					", 치즈 : " + request.getParameter("cheese") +
-					", 음료 : " + request.getParameter("drink");
+					", 치즈 : " + request.getParameter("cheese");
 			
-			System.out.println(custom);
+			cVo.setCartCustom(custom);
+			cVo.setCartDrink(request.getParameter("drink"));
+			cVo.setCartQuantity(Integer.parseInt(request.getParameter("quantity")));
+
+			sqlSession.insert("com.green.sandme.member.cart.dao.CartDao.insertCart", cVo);
 			
-			// 기본으로 장바구니에 수량 +1
-			int count = 1;
-			
-			// 객체에 저장
-			CartVO cart = new CartVO();
-			cart.setCartCount(count);
-			cart.setCartAddress(address);
-			cart.setCartShop(shop);
-			cart.setCartMenu(sandMenu);
-			cart.setCustom(custom);
-			
-			// mapper에서 parameterType으로 부여
-			sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.insertCart", cart);
-			
-			// 장바구니 목록 가져오기
-			List<CartVO> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.SelectCart", sandMenu);
-			
-			
-			model.addAttribute("shop",shop);
-			model.addAttribute("sandMenu",sandMenu);
-			
-			// 빈 장바구니 여부 체크
-			if(cartList.size() == 0) {
-				model.addAttribute("cartNullChk", "nothing");
-			} else {
-				model.addAttribute("cartList", cartList);
-			}
-			
-			return "member/cartList";
+//			model.addAttribute("memberNum", memberNum);
+			return "redirect:/cartList?memberNum=" + memberNum;
 		}
 
 		model.addAttribute("order", order);
@@ -240,22 +220,17 @@ public class OrderController {
 		out.print(data);
 	}
 	
-	@GetMapping("/cartList")
-	  public String cartList(@RequestParam("memberNum") int memberNum, Model model) throws Exception {
-	  
-	  // 회원에 따른 장바구니 정보 - cartNum, cartCount, cartMenu 
-		  List<CartVOForList> cartList =
-				  sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.pSelectCart", memberNum);
-
-			  if(cartList.size() == 0) { 
-				  model.addAttribute("cartNullChk", "nothing"); 
-			  }
-			  	else { 
-			  		model.addAttribute("cartList", cartList); 
-			  } 
-			  
-			  	return "cartList";
-	  
+	@GetMapping("/cartList") //장바구니 리스트로 이동
+	public String cartList(@RequestParam("memberNum") int memberNum, Model model) throws Exception {
+		List<CartListVo> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartList", memberNum);
+		
+		if(cartList.size() == 0) { 
+			model.addAttribute("cartNullChk", "nothing"); 
+		} else { 
+			model.addAttribute("cartList", cartList); 
+		} 
+		
+		return "cartList";
 	}
 	
 	@GetMapping("/kakaopaysuccess")
