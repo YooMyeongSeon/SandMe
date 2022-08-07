@@ -1,6 +1,7 @@
 package com.green.sandme.order;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
+import com.green.sandme.member.cart.vo.CartListVo;
 import com.green.sandme.member.cart.vo.CartVo;
 import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
@@ -219,14 +221,14 @@ public class OrderController {
 	
 	@GetMapping("/cartList") //장바구니 리스트로 이동
 	public String cartList(@RequestParam("memberNum") int memberNum, Model model) throws Exception {
-//		List<CartListVo> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartList", memberNum);
+		List<CartListVo> cartList = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartList", memberNum);
 		
-//		if(cartList.size() == 0) { 
-//			model.addAttribute("cartNullChk", "nothing"); 
-//		} else { 
-//			model.addAttribute("cartList", cartList); 
-//		} 
-		
+		if(cartList.size() == 0) { 
+			model.addAttribute("cartList", "nothing"); 
+		} else { 
+			model.addAttribute("cartList", cartList); 
+		} 
+
 		return "cartList";
 	}
 	
@@ -238,5 +240,21 @@ public class OrderController {
 	@GetMapping("/kakaopayfail")
 	public String payFail() {
 		return "pay/kakaopayfail";
+	}
+
+	@PostMapping("/cartOrder")
+	public String cartOrder(HttpServletRequest request, Model model) throws Exception {
+//		List<CartListVo> cartList = new ArrayList<>();
+
+//		for (int i = 0; i < CartNum.size(); i++) {
+//			cartList.add(sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.selectCartListByCartNum", CartNum.get(i)));
+//		}
+//
+//		if (cartList.get(0).getCartOrder().equals("배달 주문")) {
+//			model.addAttribute("address", cartList.get(0).getCartAddress());
+//		}
+		
+		model.addAttribute("chapter", "chapter03_cart");
+		return "order";
 	}
 }

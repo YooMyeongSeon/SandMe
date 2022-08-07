@@ -10,34 +10,48 @@
 
 	<!-- 장바구니 리스트 조회 --> 
 	<select id="selectCartList" resultType="com.green.sandme.member.cart.vo.CartListVo" parameterType="int">
-		SELECT c.memberNum, c.cartNum, c.custom, c.cartAddress, c.cartCount, m.menuName, m.menuPrice
-		FROM cart_tbl c INNER JOIN menu_tbl m
-		ON c.cartMenu = m.menuNum
-		WHERE c.memberNum = (
-		        SELECT me.memberNum
-		        FROM member_tbl me INNER JOIN cart_tbl c
-		        ON me.memberNum = c.memberNum
-		        WHERE me.memberNum = #{memberNum}
-		        GROUP BY me.memberNum)
+		SELECT c.cartNum, m.memberNum, c.cartOrder, c.cartAddress, s.shopName, s.shopNum, n.menuNum, n.menuName, n.menuPicUrl, c.cartCustom, c.cartDrink, c.cartQuantity, n.menuPrice from
+		cart_tbl c, member_tbl m, menu_tbl n, shop_tbl s where c.memberNum = m.memberNum and c.shopNum = s.shopnum and c.menuNum = n.menunum and m.memberNum = #{memberNum} order by cartNum
 	</select>  
+	
+	<!-- 장바구니 리스트 조회(주문용) --> 
+	<select id="selectCartListByCartNum" resultType="com.green.sandme.member.cart.vo.CartListVo" parameterType="int">
+		SELECT c.cartNum, m.memberNum, c.cartOrder, c.cartAddress, s.shopName, s.shopNum, n.menuNum, n.menuName, n.menuPicUrl, c.cartCustom, c.cartDrink, c.cartQuantity, n.menuPrice from
+		cart_tbl c, member_tbl m, menu_tbl n, shop_tbl s where c.memberNum = m.memberNum and c.shopNum = s.shopnum and c.menuNum = n.menunum and c.cartNum = #{cartNum} order by cartNum
+	</select> 
 	
 	<!-- 카트 체크 -->
 	<select id="cartCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
-		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and cartOrder = #{order}
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum}
 	</select>
 
-
-
-
+	<!-- 카트 오더 체크 -->
+	<select id="cartOrderCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and cartOrder = #{order}
+	</select>
+	
+	<!-- 카트 매장 체크 -->
+	<select id="cartShopCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and shopNum = #{shop}
+	</select>
+	
+	<!-- 카트 주소 체크 -->
+	<select id="cartAddressCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and cartAddress = #{address}
+	</select>
+	
+	<!-- 카트 삭제 -->
+	<delete id="deleteCartByMemberNum" parameterType="int">
+		delete FROM cart_tbl WHERE memberNum = #{memberNum}
+	</delete>
  
 	
 	<!-- 장바구니 목록 삭제 -->    
-<!--     <delete id="deleteCart" parameterType="int">
-    	DELETE FROM cart_tbl
-    	WHERE cartNum =  #{cartNum}
-    </delete>
+	<delete id="deleteCart" parameterType="int">
+    	DELETE FROM cart_tbl WHERE cartNum = #{cartNum}
+	</delete>
     
-	주문서에서 조회
+<!--	주문서에서 조회
  	<select id="selectCartOrder" parameterType="com.green.sandme.member.cart.vo.CartOrderVO" resultType="com.green.sandme.member.cart.vo.CartOrderVO">
  		SELECT c.memberNum, c.cartNum, c.custom, c.cartAddress, c.cartCount, m.menuName, m.menuPrice
 				FROM cart_tbl c INNER JOIN menu_tbl m

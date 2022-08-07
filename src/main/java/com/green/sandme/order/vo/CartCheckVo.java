@@ -3,8 +3,9 @@ package com.green.sandme.order.vo;
 public class CartCheckVo {
 	private int memberNum;
 	private String order;
+	private int shop;
 	private String address;
-	
+
 	public int getMemberNum() {
 		return memberNum;
 	}
@@ -16,6 +17,12 @@ public class CartCheckVo {
 	}
 	public void setOrder(String order) {
 		this.order = order;
+	}
+	public int getShop() {
+		return shop;
+	}
+	public void setShop(int shop) {
+		this.shop = shop;
 	}
 	public String getAddress() {
 		return address;

@@ -3,14 +3,38 @@ package com.green.sandme.member.cart.vo;
 public class CartListVo {
 	private int cartNum;
 	private int memberNum;
+	
 	private String cartOrder;
 	private String cartAddress;
-	private String cartShop;
-	private String cartMenu;
+	private String shopName;
+	private int shopNum;
+	
+	private int menuNum;
+	private String menuName;
+	private String menuPicUrl;
 	private String cartCustom;
 	private String cartDrink;
 	private int cartQuantity;
-	
+	private int menuPrice;
+
+	public int getMenuNum() {
+		return menuNum;
+	}
+	public void setMenuNum(int menuNum) {
+		this.menuNum = menuNum;
+	}
+	public int getShopNum() {
+		return shopNum;
+	}
+	public void setShopNum(int shopNum) {
+		this.shopNum = shopNum;
+	}
+	public String getMenuPicUrl() {
+		return menuPicUrl;
+	}
+	public void setMenuPicUrl(String menuPicUrl) {
+		this.menuPicUrl = menuPicUrl;
+	}
 	public int getCartNum() {
 		return cartNum;
 	}
@@ -27,6 +51,12 @@ public class CartListVo {
 		return cartOrder;
 	}
 	public void setCartOrder(String cartOrder) {
+		if (cartOrder.equals("home")) {
+			cartOrder = "배달 주문";
+		} else {
+			cartOrder = "방문 포장";
+		}
+		
 		this.cartOrder = cartOrder;
 	}
 	public String getCartAddress() {
@@ -35,17 +65,17 @@ public class CartListVo {
 	public void setCartAddress(String cartAddress) {
 		this.cartAddress = cartAddress;
 	}
-	public String getCartShop() {
-		return cartShop;
+	public String getShopName() {
+		return shopName;
 	}
-	public void setCartShop(String cartShop) {
-		this.cartShop = cartShop;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
-	public String getCartMenu() {
-		return cartMenu;
+	public String getMenuName() {
+		return menuName;
 	}
-	public void setCartMenu(String cartMenu) {
-		this.cartMenu = cartMenu;
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
 	public String getCartCustom() {
 		return cartCustom;
@@ -64,5 +94,17 @@ public class CartListVo {
 	}
 	public void setCartQuantity(int cartQuantity) {
 		this.cartQuantity = cartQuantity;
+	}
+	public int getMenuPrice() {
+		return menuPrice;
+	}
+	public void setMenuPrice(int menuPrice) {
+		if (!cartDrink.equals("음료 선택 안함")) {
+			menuPrice += 2000;
+		}
+		
+		menuPrice *= cartQuantity;
+		
+		this.menuPrice = menuPrice;
 	}
 }

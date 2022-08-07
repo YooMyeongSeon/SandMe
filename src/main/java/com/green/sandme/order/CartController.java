@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,54 +17,51 @@ public class CartController {
 	@Autowired
 	SqlSession sqlSession;
 	
-	@PostMapping("/cartCheck")
+	@PostMapping("/cartCheck") //카트 담기 체크
 	@ResponseBody
 	public String cartCheck(@RequestBody CartCheckVo data) throws Exception {
-		int orderResult = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.cartCheck", data);
+		int cartCheck = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.cartCheck", data);
 		
-		System.out.println(orderResult);
-		
-//		if(result != 0) {
-//			return "fail";
-//		} else {
-//			return "success";
-//		}
-		
-		return "success";
+		if (cartCheck == 0) { //장바구니에 상품이 없다면,
+			return "success";
+		} else { //장바구니에 이미 상품이 있다면,
+			int orderCheck = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.cartOrderCheck", data);
+			
+			if (orderCheck == 0) { //장바구니에 상품이 다른 오더라면,
+				return "fail";
+			} else { //장바구니에 상품이 같은 오더라면,
+				int shopCheck = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.cartShopCheck", data);
+				
+				if (shopCheck == 0) { //장바구니에 상품이 다른 매장이라면
+					return "fail";
+				} else { //장바구니에 상품이 같은 매장이라면
+					if (data.getOrder().equals("home")) { //오더가 배달 주문이라면
+						int addressCheck = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.cartAddressCheck", data);
+						
+						if (addressCheck == 0) { //주소가 다른 주소라면
+							return "fail";
+						} else { //주소가 같은 주소라면
+							return "success";
+						}
+					} else { //오더가 매장 주문이라면
+						return "success";
+					}
+				}
+			}
+		}
 	}
 	
-	@PostMapping("/cart/delete") 
+	@PostMapping("/cartDeleteInsert") //카트 삭제 후 삽입
 	@ResponseBody
-	public void deleteCart(@RequestParam(value="cartNum[]") List<Integer> cartNum) throws Exception {  
-		for(int i=0; i<cartNum.size(); i++) {
-			sqlSession.delete("com.green.sandme.member.cart.dao.CartDao.deleteCart", cartNum.get(i));
-		 }
-	  }
+	public void cartDeleteInsert(@RequestBody int memberNum) throws Exception {
+		sqlSession.delete("com.green.sandme.member.cart.dao.CartDao.deleteCartByMemberNum", memberNum);
+	}
 	
-//	@GetMapping("/cart/insertOrder")
-//	public ModelAndView cartToorder(@RequestParam("chkNum[]") List<Integer> cartNum,
-//					 				@RequestParam("memberNum") Integer memberNum) throws Exception{
-//		
-//		System.out.println("cartNum: "+cartNum.size());
-//		System.out.println("memberNum :" +memberNum);
-//		
-//		ModelAndView mav = new ModelAndView();
-//
-//
-//		List<Integer> cartNumList = new ArrayList<>();
-//		for(int i=0; i<cartNum.size(); i++) {
-//			cartNumList.add(cartNum.get(i));
-//			System.out.println(cartNumList);
-//			if(! cartNumList.isEmpty()) {
-//				List<CartOrderVO> cartOrders = sqlSession.selectList("com.green.sandme.member.cart.dao.CartDao.selectCartOrder",cartNumList);
-//				CartOrderVO totalPrice = sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.cartTotalPrice",cartNumList);
-//				mav.addObject("cartOrder",cartOrders);
-//				mav.addObject("totalPrice",totalPrice);
-//				mav.addObject("memberNum",memberNum);//modelandview로 memberNum은 이동시키고 받아온 장바구니로 select
-//				mav.setViewName("member/orderForm");
-//			}
-//		}
-//		
-//		return mav;
-//	}
+	@PostMapping("/cartDelete") 
+	@ResponseBody
+	public void deleteCart(@RequestBody List<Integer> delCartNum) throws Exception {
+		for(int i = 0; i < delCartNum.size(); i++) {
+			sqlSession.delete("com.green.sandme.member.cart.dao.CartDao.deleteCart", delCartNum.get(i));
+		}
+	}
 }
