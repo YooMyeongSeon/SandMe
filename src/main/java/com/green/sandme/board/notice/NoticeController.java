@@ -17,60 +17,48 @@ public class NoticeController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// 공지사항 목록 보기
-	@RequestMapping("/noticeList")
+	@RequestMapping("/noticeList") //공지사항 목록 보기
 	public String noticeList(Model model) {
 		List<NoticeVO> noticeList = sqlSession.selectList("com.green.sandme.board.notice.dao.BoardDao.getNotice");
 		model.addAttribute("noticeList", noticeList);
 		return "board/notice/noticeList";
 	}
 	
-	// 공지사항 상세보기 (원래코드)
-	@RequestMapping("/noticeView")
+	@RequestMapping("/noticeView") //공지사항 상세 보기
 	public String noticeView(Model model, int noticeNum) {
 		sqlSession.update("com.green.sandme.board.notice.dao.BoardDao.updateViewCnt", noticeNum);
 		NoticeVO nVo = sqlSession.selectOne("com.green.sandme.board.notice.dao.BoardDao.viewNotice", noticeNum);
 		model.addAttribute("nVo", nVo);
 		return "board/notice/noticeView";
 	}
-	/////////////////////////////////////////////////////////////////////////
 	
-	//게시글 작성 화면 호출
-	@RequestMapping("/noticeWriteForm")		
+	@RequestMapping("/noticeWriteForm") //공지사항 작성 폼
     public String openNoticeWrite() {
     	return "board/notice/noticeWrite";
     }
 	
-	// 작성된 게시글 등록 기능 메소드
-	@PostMapping("/noticeWrite")		
+	@PostMapping("/noticeWrite") //공지사항 작성
     public String insertnotice(NoticeVO nVo) {
     	sqlSession.insert("com.green.sandme.board.notice.dao.BoardDao.insertNotice", nVo);
     	return "redirect:noticeList";
     }
 	
-	// //////////////////////////////////////////////////////////////////////////
-	
-	@RequestMapping("/noticeUpdateForm")
+	@RequestMapping("/noticeUpdateForm") //공지사항 수정 폼
 	public String noticeUpdateForm(Model model, int noticeNum) {
 		NoticeVO nVo = sqlSession.selectOne("com.green.sandme.board.notice.dao.BoardDao.viewNotice", noticeNum);
 		model.addAttribute("nVo", nVo);
 		return "board/notice/noticeUpdate";
 	}
 	
-	// 게시글 수정 기능
-	@RequestMapping("/noticeUpdate")		
+	@RequestMapping("/noticeUpdate") //공지사항 수정		
     public String updateNotice(NoticeVO nVo) {
     	sqlSession.update("com.green.sandme.board.notice.dao.BoardDao.updateNotice", nVo);
     	return "forward:noticeView";
     }
 	
-	///////////////////////////////////////////////////////////////////////////////////
-	// 게시글 삭제 기능
-	@RequestMapping("/noticeDelete")
+	@RequestMapping("/noticeDelete") //공지사항 삭제
 	public String deleteNotice(int noticeNum) {
 		sqlSession.delete("com.green.sandme.board.notice.dao.BoardDao.deleteNotice", noticeNum);
 		return "redirect:noticeList";
 	}
-	
-
 }
