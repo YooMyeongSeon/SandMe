@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+#chapterBoxHeader { /* 회원가입 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#chapterBox { /* 챕터 1 : 약관 동의 ↓ */
+	width: 1200px;
+	margin: 50px auto 120px;
+	border: 1px solid #C9CACA;
+	padding: 50px;
+}
+#clause01Box {
+	height: 60px;
+}
+#clause01Box > input {
+	width: 30px;
+	height: 30px;
+	float: left;
+}
+#clause01Box > label {
+	font-size: 16pt;
+	float: left;
+	margin-left: 10px;
+	font-family: 'S-CoreDream-6Bold';
+}
+.clauseCheckBox {
+	height: 40px;
+}
+.clauseCheckBox > input {
+	width: 20px;
+	height: 20px;
+	float: left;
+}
+.clauseCheckBox > label {
+	float: left;
+	margin-left: 10px;
+}
+.clauseText {
+	width: 1100px;
+	height: 200px;
+	padding: 20px;
+	border: 1px solid #C9CACA;
+    resize: none;
+    margin-bottom: 40px;
+    color: #C9CACA;
+    line-height: 16pt;
+    font-family: 'S-CoreDream-3Light';
+    text-align: justify;
+}
+#ageRestriction {
+	background-color: #EFEFEF;
+	padding: 40px 60px;
+	height: 160px;
+	text-align: justify;
+}
+#ageRestriction > p:first-child {
+	font-family: 'S-CoreDream-6Bold';
+	margin-bottom: 10px;
+}
+#ageRestriction > p:last-child {
+	font-size: 10pt;
+	line-height: 16pt;
+}
+#btnWrap {
+	text-align: center;
+}
+.btn {
+	width: 160px;
+	height: 50px;
+	margin: 40px 10px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+}
+#infoForm {
+	position: relative;
+}
+#infoForm > table { /* 챕터 2 : 정보 입력 ↓ */
+	margin: 0px auto;
+	border-collapse: collapse;
+}
+#formHead {
+	font-size: 16pt;
+	font-family: 'S-CoreDream-6Bold';
+	text-align: center;
+}
+#infoForm > table > tbody > tr > td:first-child {
+	width: 150px;
+	height: 80px;
+}
+#infoForm > table > tbody > tr > td {
+	border-bottom: 1px solid #C9CACA;
+}
+#infoForm > table > tbody > tr > td > input {
+	width: 400px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	margin: 0px 2.5px;
+}
+.btn2 {
+	width: 160px;
+	height: 50px;
+	margin: 40px 10px;
+	border: 1px solid #C9CACA;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #C9CACA;
+	cursor: pointer;
+}
+#overBtn {
+	width: 100px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	background-color: #009223;
+	color: white;
+	cursor: pointer;
+	position: absolute; top: 100px; right: 160px;
+}
+#joinSuccess { /* 챕터 3 : 가입 완료 ↓ */
+	text-align: center;
+}
+#joinSuccess > p:first-child {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 20pt;
+	color: #009223;
+	margin-bottom: 15px;
+}

@@ -11,4 +11,11 @@
 		select shopNum, shopName, shopAddress, shopTel, shopOpen from shop_tbl where shopName = #{address}
     </select>
     
+<<<<<<< HEAD
+=======
+    <select id="selectMenu" resultType="com.green.sandme.order.vo.MenuVo" parameterType="int">
+		select * from menu_tbl where menuNum = #{sandMenu}
+    </select>
+    
+>>>>>>> origin/MS
 </mapper>

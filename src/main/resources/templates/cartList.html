@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_cart.css"> <!-- 장바구니 스타일 시트 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
+	<section>
+		<div id="cartHeader">
+			<div id="TitleDeco"></div>
+			<div>
+				<p id="Title">장바구니</p>
+				<p>장바구니에 담은 상품을 확인할 수 있습니다.</p>
+			</div>
+		</div>
+		<div th:if="${cartList == 'nothing'}" id="cartBoxNothing">
+			<p>장바구니가 비어있습니다.</p>
+		</div>
+		<div th:unless="${cartList == 'nothing'}" id="cartBox">
+			<form action="cartOrder" method="post" id="cartForm">
+				<table>
+					<tbody>
+						<tr>
+							<th>주문 유형</th>
+							<td th:text="${cartList[0].cartOrder}">cartOrder</td>
+							<th>주문 매장</th>
+							<td th:text="${cartList[0].shopName}">shopName</td>
+						</tr>
+						<tr th:if="${cartList[0].cartOrder == '배달 주문'}">
+							<th>배달 주소</th>
+							<td th:text="${cartList[0].cartAddress}" colspan="3">cartAddress</td>
+						</tr>
+					</tbody>
+				</table>
+				<div th:each="cart, i: ${cartList}" class="cartWrap" th:id="cartIndex + ${i.index}">
+					<input type="checkbox" th:id="cart + ${i.index}" th:name="cartCheckNum + ${i.index}">
+					<img th:src="@{${cart.menuPicUrl}}">				
+					<p><span th:text="${cart.menuName}">menuName</span>　<span style="color:#C9CACA;">|</span>　수량 : <span th:text="${cart.cartQuantity}">cartQuantity</span>개</p>
+					<p th:text="${cart.cartCustom}">cartCustom</p>
+					<p>음료 : <span th:text="${cart.cartDrink}">cartDrink</span></p>
+					<p><span th:text="${#numbers.formatInteger(cart.menuPrice, 0, 'COMMA')}">menuPrice</span><span style="font-size: 12pt; color: #009223;">원</span></p>
+					<input type="hidden" th:value="${cart.menuPrice}" th:id="cartPrice + ${i.index}">
+					<input type="hidden" th:id="num + ${i.index}" th:value="${cart.cartNum}" th:name="cartNum + ${i.index}">
+				</div>
+				<div id="cartPriceBox">
+					<input type="checkbox" name="allCheck" id="allCheck"><label for="allCheck">전체 선택　<span style="color:#C9CACA;">|</span></label>
+					<p>총 금액 : <span id="totalPrice">0</span>원</p>
+					<button class="btn" onclick="cartSubmit()" type="button">선택 주문</button>
+					<button class="btn2" onclick="delCart()"  type="button">선택 삭제</button>
+				</div>
+				<input type="hidden" id="hiddenTotalPrice" value="0">
+				<input type="hidden" th:value="${cartList.size}" id="cartSize" name="cartSize">
+			</form>
+		</div>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
+	</section>
+	<script>
+		//천단위 콤마찍는 기능
+		function addComma(value){
+			value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			return value;
+		}
+	
+		//체크박스 기능
+		$(document).ready(function(){
+		    $("#allCheck").change(function(){
+		        if($("#allCheck").is(":checked")){
+		        	let totalPrice = Number($('#hiddenTotalPrice').val());
+		        	
+		        	for (let i = 0; i < $('#cartSize').val(); i++) {
+		        		let cartId = "#cart" + i;
+		        		let priceId = "#cartPrice" + i;
+		        		
+		        		if (!$(cartId).is(":checked")) {
+		        			$(cartId).prop("checked", true);
+			        		totalPrice += Number($(priceId).val());
+		        		}
+		        	}
+
+		        	$('#hiddenTotalPrice').val(totalPrice);
+		        	
+		        	totalPrice = addComma(totalPrice);
+		        	$('#totalPrice').text(totalPrice);
+		        } else {
+		        	let totalPrice = Number($('#hiddenTotalPrice').val());
+		        	
+		        	for (let i = 0; i < $('#cartSize').val(); i++) {
+		        		let cartId = "#cart" + i;
+		        		let priceId = "#cartPrice" + i;
+		        		$(cartId).prop("checked", false);
+		        		totalPrice -= Number($(priceId).val());
+		        	}
+
+					$('#hiddenTotalPrice').val(totalPrice);
+		        	
+		        	totalPrice = addComma(totalPrice);
+		        	$('#totalPrice').text(totalPrice);
+		        }
+		    });
+		});
+		
+		//체크박스 함수(개별)
+		for (let i = 0; i < $('#cartSize').val(); i++) {
+			let cartId = "#cart" + i;
+			let priceId = "#cartPrice" + i;
+			
+			$(document).ready(function(){
+				$(cartId).change(function(){
+					let totalPrice = Number($('#hiddenTotalPrice').val());
+			    	
+					if($(cartId).is(":checked")){
+						totalPrice += Number($(priceId).val());
+			    	} else {
+						totalPrice -= Number($(priceId).val());
+			    	}
+					
+					$('#hiddenTotalPrice').val(totalPrice);
+					
+			    	totalPrice = addComma(totalPrice);
+			    	$('#totalPrice').text(totalPrice);
+			    });
+			});
+		}
+		
+		//카트 삭제 기능
+		function delCart() {
+			let delCartNum = new Array();
+			
+			for(let i = 0; i < $('#cartSize').val(); i++) {
+				let cartId = "#cart" + i;
+				let delNum = "#num" + i;
+				
+				if ($(cartId).is(":checked")) {
+					delCartNum.push($(delNum).val());
+				}
+			}
+			
+ 			if (delCartNum.length == 0) {
+				alert("상품이 선택되지 않았습니다.")
+			} else {
+				if (confirm("상품을 장바구니에서 삭제하시겠습니까?")) {	
+					$.ajax({
+						url : "/cartDelete",
+						type : "post",
+						async : true,
+						data : JSON.stringify(delCartNum),
+						contentType: "application/json; charset=UTF-8",
+						success : function(result) {
+							location.reload();
+						}
+					})
+				} 
+			}
+		}
+
+		//카트 주문 기능
+		function cartSubmit() {
+			$('#cartForm').submit();
+		}
+	</script> 
+</body>
+</html>

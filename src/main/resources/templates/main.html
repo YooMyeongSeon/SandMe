@@ -1,37 +1,111 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SandMe</title>
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
     <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
     <link rel="stylesheet" href="./css/style_main.css"> <!-- 메인 스타일 시트 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> <!--메인롤링배너-->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> <!--메인롤링배너-->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> <!-- 메인롤링배너 -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> <!-- 메인롤링배너 -->
 </head>
 <body>
-	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
     <section>
-        <div id="mainbanner">
-			<img src="./img/test.jpg">
+    	<div id="mainBanner"> <!-- 메인배너 ↓ -->
+            <div class="swiper mySwiper">  
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"> <!-- 메인배너1 ↓ -->
+                        <div class="mainBannerImg"><img src="./img/mainBanner_01.jpg"></div>
+                    </div>
+                    <div class="swiper-slide"> <!-- 메인배너2 ↓ -->
+                        <div class="mainBannerImg"><img src="./img/mainBanner_02.jpg"></div>
+                    </div>
+                    <div class="swiper-slide"> <!-- 메인배너3 ↓ -->
+                        <div class="mainBannerImg"><img src="./img/mainBanner_03.jpg"></div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" th:onclick="return false" id="mainBtL"><img src="./img/mainBt.svg"></a>
+            <a href="#" th:onclick="return false" id="mainBtR"><img src="./img/mainBt.svg"></a>
+            <a href="order?order=home" id="mainOrder"><img src="./img/mainOrder.svg"><span>주문 하기</span></a>
         </div>
-        <div id="BestMenu">
-        	<table>
-				<tr th:each="best : ${list}">
-			        <td th:text="${best.menu}">menu</td>
-			        <td th:text="${best.price}">price</td>
-			    </tr>
-		    </table>
+        <div id="mainMenu">
+	        <div id="mainMenuTitleDeco"><p>SandMe's Menu</p></div>
+        	<div class="swiper mySwiper2">  
+                <div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="mainMenus"><img src="./img/menu/menu01.png"><p class="mainMenusName">베지</p><p class="mainMenusInfo">갓 구운 빵과 신선한 8가지 야채로<br> 즐기는 깔끔한 한끼</p></div>
+		        		<div class="mainMenus"><img src="./img/menu/menu02.png"><p class="mainMenusName">로스트 치킨</p><p class="mainMenusInfo">오븐에 구워 담백한 저칼로리<br> 닭가슴살의 건강한 풍미</p></div>
+		        		<div class="mainMenus"><img src="./img/menu/menu03.png"><p class="mainMenusName">비엘티</p><p class="mainMenusInfo">페퍼로니, 살라미 그리고 햄이 만들어내는<br> 최상의 조화! 샌드미의 베스트셀러!</p></div>
+		        		<div class="mainMenus"><img src="./img/menu/menu04.png"><p class="mainMenusName">풀드 포크 바비큐</p><p class="mainMenusInfo">미국 스타일의 풀드 포크 바비큐가<br> 가득 들어간 샌드위치</p></div>
+	        		</div>
+	        		<div class="swiper-slide">
+						<div class="mainMenus"><img src="./img/menu/menu05.png"><p class="mainMenusName">쉬림프</p><p class="mainMenusInfo">통새우가 5마리 들어가 한 입 베어<br> 먹을 때 마다 진짜 새우의 풍미가 가득</p></div>
+		        		<div class="mainMenus"><img src="./img/menu/menu06.png"><p class="mainMenusName">스파이시 쉬림프</p><p class="mainMenusInfo">빨간맛에 빠진 쉬림프! 이국적인<br> 매콤함이 더해진 스파이시 쉬림프!</p></div>
+		        		<div class="mainMenus"><img src="./img/menu/menu07.png"><p class="mainMenusName">참치</p><p class="mainMenusInfo">남녀노소 누구나 좋아하는 담백한 참치와<br> 고소한 마요네즈의 완벽한 조화</p></div>
+		        		<div class="mainMenus"><img src="./img/menu/menu08.png"><p class="mainMenusName">에그마요</p><p class="mainMenusInfo">부드러운 달걀과 고소한 마요네즈가<br> 만나 더 부드러운 스테디셀러</p></div>
+	        		</div>
+                </div>
+            </div>
+            <a href="#" th:onclick="return false" id="mainMenuBtL"><img src="./img/mainMenuBt.svg"></a>
+            <a href="#" th:onclick="return false" id="mainMenuBtR"><img src="./img/mainMenuBt.svg"></a>
         </div>
-        <div id="tendency">
-
+        <div id="mainEtc">
+        	<div id="mainEtcNotice">
+        		<div>
+        			<div id="mainEtcNoticeTitleDeco"><p>What's New</p></div>
+        			<p>샌드미의 다양한 소식들을<br> 빠르게 전달해드립니다.</p>
+        		</div>
+        		<div>
+        			<a href="#" th:onclick="return false"><span>공지사항 1</span></a><br>
+        			<a href="#" th:onclick="return false"><span>공지사항 2</span></a><br>
+        			<a href="#" th:onclick="return false"><span>공지사항 3</span></a><br>
+        			<a href="#" th:onclick="return false"><span>공지사항 4</span></a><br>
+        			<a href="#" th:onclick="return false"><span>more</span></a>
+        		</div>
+        	</div>
+			<div id="mainEtcShop">
+				<p>샌드미 매장 찾기</p>
+				<p>나와 가장 가까운 샌드미를 찾아보세요</p>
+				<a href="#" th:onclick="return false"><span>more</span></a>
+				<img src="./img/location.svg">
+			</div>
         </div>
+        <th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
     </section>
-    <th:block th:replace="fragments/footer :: footerFragment"></th:block>
     <script>
-
+	    let bt_pv = $("#mainBtL"); /* 메인 배너 스크립트 ↓ */
+	    let bt_nt = $("#mainBtR");
+	    let swiper = new Swiper(".mySwiper", {navigation: {nextEl: "#mainBtR", prevEl: "#mainBtL"},
+	        on: {activeIndexChange: function() {
+	            if (this.realIndex == 0) {
+	                bt_pv.css("opacity","0.25");
+	            } else if (this.realIndex == 1) {
+	                bt_pv.css("opacity","1");
+	                bt_nt.css("opacity","1");
+	            } else {
+	                bt_nt.css("opacity","0.25");
+	            }
+	        }}
+	    });
+	    
+	    let bt_pv2 = $("#mainMenuBtL"); /* 메인 메뉴 스크립트 ↓ */
+	    let bt_nt2 = $("#mainMenuBtR");
+	    let swiper2 = new Swiper(".mySwiper2", {navigation: {nextEl: "#mainMenuBtR", prevEl: "#mainMenuBtL"},
+	        on: {activeIndexChange: function() {
+	            if (this.realIndex == 0) {
+	                bt_pv2.css("opacity","0.25");
+	                bt_nt2.css("opacity","1");
+	            } else {
+					bt_pv2.css("opacity","1");
+	                bt_nt2.css("opacity","0.25");
+	            }
+	        }}
+	    });
     </script>
 </body>
 </html>

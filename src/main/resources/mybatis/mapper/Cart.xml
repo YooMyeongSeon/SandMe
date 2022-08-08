@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.green.sandme.member.cart.dao.CartDao">
+
+	<!-- 장바구니에 저장 -->
+	<insert id="insertCart" parameterType="com.green.sandme.member.cart.vo.CartVo">
+		INSERT INTO cart_tbl VALUES(cart_seq.nextval, #{memberNum}, #{cartOrder}, #{cartAddress}, #{shopNum}, #{menuNum}, #{cartCustom}, #{cartDrink}, #{cartQuantity})
+	</insert>
+
+	<!-- 장바구니 리스트 조회 --> 
+	<select id="selectCartList" resultType="com.green.sandme.member.cart.vo.CartListVo" parameterType="int">
+		SELECT c.cartNum, m.memberNum, c.cartOrder, c.cartAddress, s.shopName, s.shopAddress, s.shopNum, n.menuNum, n.menuName, n.menuPicUrl, c.cartCustom, c.cartDrink, c.cartQuantity, n.menuPrice from
+		cart_tbl c, member_tbl m, menu_tbl n, shop_tbl s where c.memberNum = m.memberNum and c.shopNum = s.shopnum and c.menuNum = n.menunum and m.memberNum = #{memberNum} order by cartNum
+	</select>  
+	
+	<!-- 장바구니 리스트 조회(주문용) --> 
+	<select id="selectCartListByCartNum" resultType="com.green.sandme.member.cart.vo.CartListVo" parameterType="int">
+		SELECT c.cartNum, m.memberNum, c.cartOrder, c.cartAddress, s.shopName, s.shopAddress, s.shopNum, n.menuNum, n.menuName, n.menuPicUrl, c.cartCustom, c.cartDrink, c.cartQuantity, n.menuPrice from
+		cart_tbl c, member_tbl m, menu_tbl n, shop_tbl s where c.memberNum = m.memberNum and c.shopNum = s.shopnum and c.menuNum = n.menunum and c.cartNum = #{cartNum} order by cartNum
+	</select> 
+	
+	<!-- 카트 체크 -->
+	<select id="cartCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum}
+	</select>
+
+	<!-- 카트 오더 체크 -->
+	<select id="cartOrderCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and cartOrder = #{order}
+	</select>
+	
+	<!-- 카트 매장 체크 -->
+	<select id="cartShopCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and shopNum = #{shop}
+	</select>
+	
+	<!-- 카트 주소 체크 -->
+	<select id="cartAddressCheck" parameterType="com.green.sandme.order.vo.CartCheckVo" resultType="int">
+		SELECT count(*) FROM cart_tbl WHERE memberNum = #{memberNum} and cartAddress = #{address}
+	</select>
+	
+	<!-- 카트 삭제 -->
+	<delete id="deleteCartByMemberNum" parameterType="int">
+		delete FROM cart_tbl WHERE memberNum = #{memberNum}
+	</delete>
+ 
+	<!-- 장바구니 목록 삭제 -->    
+	<delete id="deleteCart" parameterType="int">
+    	DELETE FROM cart_tbl WHERE cartNum = #{cartNum}
+	</delete>
+</mapper>
