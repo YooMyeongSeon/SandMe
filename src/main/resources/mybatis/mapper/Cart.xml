@@ -49,4 +49,5 @@
 	<delete id="deleteCart" parameterType="int">
     	DELETE FROM cart_tbl WHERE cartNum = #{cartNum}
 	</delete>
+	
 </mapper>

@@ -41,5 +41,6 @@
     <!-- 주문 내역 다시 가져오기 -->
     <select id="selectOrder" resultType="com.green.sandme.order.vo.OrderVo" parameterType="Int">
     	SELECT * FROM order_tbl WHERE orderNum = #{seq}
-    </select>    
+    </select>   
+     
 </mapper>

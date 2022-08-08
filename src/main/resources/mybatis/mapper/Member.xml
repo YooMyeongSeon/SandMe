@@ -51,4 +51,5 @@
     <select id="selectOrderMenuByMemberNum" resultType="com.green.sandme.member.vo.MemberOrderMenuVo" parameterType="Int">
     	SELECT m.menupicurl, m.menuname, o.orderquantity, o.ordercustom, o.orderdrink, m.menuprice FROM orderMenu_tbl o, menu_tbl m WHERE o.menunum = m.menunum and orderNum = #{orderNum}
     </select>
+    
 </mapper>  
