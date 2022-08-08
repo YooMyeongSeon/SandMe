@@ -1,5 +1,69 @@
 @charset "UTF-8";
 
-section {
-    padding-top: 210px;
+#noticeHeader { /* 로그인 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#Title ~ P {
+	line-height: 20pt;	
+}
+#noticeListWrap {
+	width: 1200px;
+	margin: 0px auto 120px;
+}
+#noticeList {
+	border-collapse: collapse;
+	width: 1200px;
+	text-align: center;
+	border-top: 4px solid #009223;
+}
+#noticeList >tbody > tr > td {
+	height: 60px;
+}
+#noticeList >tbody > tr > td:first-child {
+	color: #FFCE32;
+	font-family: 'S-CoreDream-6Bold';
+	width: 120px;
+}
+#noticeList >tbody > tr > td:nth-child(2) {
+	width: 960px;
+	text-align: left;
+	padding-left: 20px;
+}
+#noticeList >tbody > tr > td:nth-child(3) {
+	width: 120px;
+	color: #C9CACA;
+}
+#noticeList >tbody > tr {
+	border-top: 1px solid #C9CACA;
+	border-bottom: 1px solid #C9CACA;
+}
+#noticeListBtnWrap {
+	text-align: center;
+}
+.btn {
+	width: 200px;
+	height: 50px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+	margin-top: 50px;
 }

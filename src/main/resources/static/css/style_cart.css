@@ -59,7 +59,7 @@ td {
 .cartWrap {
 	width: 800px;
 	height: 200px;
-	border-top: 1px solid #C9CACA;
+	border-top: 4px solid #009223;
 	margin: 0px auto 25px;
 }
 .cartWrap > input[type=checkbox] {

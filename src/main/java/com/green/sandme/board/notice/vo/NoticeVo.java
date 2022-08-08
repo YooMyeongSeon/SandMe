@@ -1,13 +1,12 @@
 package com.green.sandme.board.notice.vo;
 
-public class NoticeVO {
+public class NoticeVo {
 	private int noticeNum;
 	private String noticeUser;
 	private String noticeTitle;
 	private String noticeContent;
 	private int noticeReadNum;
 	private String noticeDate;
-
 	
 	public int getNoticeNum() {
 		return noticeNum;
@@ -45,5 +44,4 @@ public class NoticeVO {
 	public void setNoticeReadNum(int noticeReadNum) {
 		this.noticeReadNum = noticeReadNum;
 	}
-	
 }

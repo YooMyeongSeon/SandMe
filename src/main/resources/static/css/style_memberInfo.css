@@ -135,14 +135,16 @@ table {
 }
 .memberOrder {
 	width: 800px;
-	margin: 0px auto 25px;
+	margin: 0px auto;
 	border-collapse: collapse;
+}
+.memberOrder > tbody > tr:first-child {
+	border-top: 4px solid #009223;
 }
 .memberOrder > tbody > tr {
 	border-top: 1px solid #C9CACA;
 }
 .memberOrder > tbody > tr > th, .memberOrder > tbody > tr > td {
-	border-bottom: 1px solid #C9CACA;
 	height: 60px;
 	text-align: left;
 }
@@ -156,8 +158,8 @@ table {
 .orderWrap {
 	width: 800px;
 	height: 200px;
-	border-top: 1px solid #C9CACA;
 	margin: 0px auto 25px;
+	border-top: 1px solid #C9CACA;
 }
 .orderWrap > img {
 	width: 200px;

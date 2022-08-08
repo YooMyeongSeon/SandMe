@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.green.sandme.board.notice.dao.BoardDao"> 
+<mapper namespace="com.green.sandme.board.dao.noticeDao">
+
  	<!-- Notice -->
- 	<!-- 공지사항 목록 쿼리문-->
-    <select id="getNotice" resultType="com.green.sandme.board.notice.vo.NoticeVO">
-       SELECT * 
-       FROM noticeTbl ORDER BY noticeNum DESC
+ 	
+ 	<!-- 공지사항 목록 보기 -->
+    <select id="selectNoticeList" resultType="com.green.sandme.board.notice.vo.NoticeVo">
+       SELECT * FROM noticeTbl ORDER BY noticeNum DESC
     </select>
  	
  	<!-- 공지사항 상세보기를 위한 쿼리문 -->
-    <select parameterType="int" id="viewNotice" resultType="com.green.sandme.board.notice.vo.NoticeVO">
+    <select parameterType="int" id="viewNotice" resultType="com.green.sandme.board.notice.vo.NoticeVo">
        SELECT * 
        FROM noticeTbl
        WHERE noticeNum = #{noticeNum}
@@ -26,13 +25,13 @@
 	</update> 
 	
 	<!-- 공지사항을 등록하는 쿼리문 -->
-	<insert id="insertNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVO">
+	<insert id="insertNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVo">
 		INSERT INTO noticeTbl VALUES
 		(notice_seq.nextval, #{noticeUser}, #{noticeTitle}, #{noticeContent}, 0 , sysdate)
 	</insert>
 	
     <!-- 공지사항을 수정하는 쿼리문 -->
-	<update id="updateNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVO">
+	<update id="updateNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVo">
 		UPDATE noticeTbl
 		SET noticeTitle = #{noticeTitle},noticeContent = #{noticeContent},noticeDate = sysdate
 		WHERE noticeNum = #{noticeNum}
