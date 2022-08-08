@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>문의 리스트</title>
+<link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+<link rel="stylesheet" href="./css/style_notice.css"> <!-- 메인 스타일 시트 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<section>
+		<br><br><h3>고객 1:1 문의 목록</h3><br><br>
+		<table border=1 style=" text-align:center; width:1500px; border-collapse:collapse;">
+				<tr>
+					<th>No.</th>
+					<th>문의유형</th>
+					<th>이메일</th>
+					<th>전화번호</th>
+					<th>제목</th>
+					<th>내용</th>
+					<th>답변유형</th>
+					<th>작성일</th>
+					<th>삭제</th>
+				</tr>
+		        <tr th:each="qnaList:${qnaList}">
+		            <td><span th:text="${qnaList.qnaNum}"></span></td>
+		            <td><span th:text="${qnaList.qnaType}"></span></td>
+		            <td><span th:text="${qnaList.qnaEmail}"></span></td>
+		            <td><span th:text="${qnaList.qnaTel}"></span></td>
+		            <td><span th:text="${qnaList.qnaTitle}"></span></td>
+		            <td><span th:text="${qnaList.qnaContent}"></span></td>
+		            <td><span th:text="${qnaList.qnaAnswer}"></span></td>
+		            <td><span th:text="${qnaList.qnaDate}"></span></td>    
+		            <td><button th:onclick="'location.href=\''+ @{qnaDelete(qnaNum=${qnaList.qnaNum})} + '\''">삭제</button></td>
+				</tr>
+		</table>
+	</section>
+	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>

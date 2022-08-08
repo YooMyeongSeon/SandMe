@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>SandMe - Event</title>
+<link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+<link rel="stylesheet" href="./css/style_notice.css"> <!-- 메인 스타일 시트 -->
+<style>
+.event_list_wrapper .event_list_content ul{overflow:hidden; margin-left:-30px;}
+.event_list_wrapper .event_list_content ul li{float:left; margin:0 -30px 30px 180px;}
+.event_list_wrapper .event_list_content ul li a{display:block; position:relative; width:370px; height:320px; background-color:#ffffff; overflow:hidden;}
+.event_list_wrapper .event_list_content ul li a:after{content:''; position:absolute; left:-10px; right:-10px; top:-10px; bottom:-10px; border:8px solid #FCCC4B; transition-duration:0.2s}
+.event_list_wrapper .event_list_content ul li a:hover:after{left:0; top:0; right:0; bottom:0}
+.event_list_wrapper .event_list_content ul li .event_img{width:370px; height:192px; overflow:hidden;}
+.event_list_wrapper .event_list_content ul li .event_img img{width:100%; height:100%;}
+.event_list_wrapper .event_list_content ul li .event_info{padding:10px 26px 0 26px;}
+.event_list_wrapper .event_list_content ul li .event_info .title{color:#292929; font-weight:300; line-height:28px; font-size:18px; letter-spacing:-0.04em; display:block; padding-top:9px;}
+.event_list_wrapper .event_list_content ul li .event_info .date{position:absolute; left:26px; bottom:23px}
+.event_list_wrapper .event_list_content ul li .event_info .date {color:#009223; font-size:16px; font-family:font_sw; font-weight:bold; position:relative; top:1px;}
+.event_list_wrapper .event_list_content ul li.close .event_info .ev_close{color:rgb(255, 255, 255); font-size:16px; font-weight:300; position:absolute; left:26px; bottom:24px; letter-spacing:-0.05em}
+.event_list_wrapper .event_list_content ul li.close .event_img{background-color:#000}
+.event_list_wrapper .event_list_content ul li.close .event_img img{filter:grayscale(100); opacity:0.6}
+.event_list_wrapper .event_list_content ul li{border:1px;}
+
+.subTitle{text-align:center; font-size:50px;}
+.event_list_wrapper{background-color:#f6f6f6;padding-bottom:130px}
+.event_list_wrapper .tab_wrapper{text-align:center; padding:100px 0 57px;}
+.event_list_wrapper .tab_wrapper ul{overflow:hidden; display:inline-block; border-radius:50px;}
+.event_list_wrapper .tab_wrapper ul li{float:left; background-color:#fff; position:relative;}
+.event_list_wrapper .tab_wrapper ul li a{display:block; color:rgb(111, 111, 111); width:220px; text-align:center; font-size:18px; font-weight:300; height:45px; line-height:45px; position:relative; z-index:3;}
+.event_list_wrapper .tab_wrapper ul li:after{content:''; position:absolute; left:0; top:15px; width:2px; height:15px; background-color:#dddddd;}
+.event_list_wrapper .tab_wrapper ul li:first-child:after{display:none}
+.event_list_wrapper .tab_wrapper ul li:first-child{border-radius:50px 0 0 50px;}
+.event_list_wrapper .tab_wrapper ul li:first-child a{border-radius:50px 0 0 50px;}
+.event_list_wrapper .tab_wrapper ul li:last-child{border-radius:0 50px 50px 0;}
+.event_list_wrapper .tab_wrapper ul li:last-child a{border-radius:0 50px 50px 0;}
+.event_list_wrapper .tab_wrapper ul li.active a{color:#fff; font-weight:bold; background-color:rgb(87, 203, 31); right:-1px;}
+</style>
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<section>
+		<div id="content">
+			<h2 class="subTitle">Event</h2>
+			<div class="event_list_wrapper">
+				<div class="content">
+					<div class="event_list_content">
+						<ul id="eventListContent">
+							<li>
+								<a href=#>
+									<div class="event_img"><img src="img/event/event1.png" alt="event1"/></div>
+									<div class="event_info">
+										<strong class="title">나만의 햄&치즈 표현하기!</strong>
+										<div class="date">
+											2022.08.03 ~ 2022.08.24
+										</div>
+										<p class="ev_close">&nbsp;</p>
+									</div>
+								</a>
+							</li>
+							
+							<li>
+								<a href=#>
+									<div class="event_img"><img src="img/event/event2.png" alt="event2"/></div>
+									<div class="event_info">
+										<strong class="title">가을 신메뉴로 먹고 싶은 샌드위치는?</strong>
+										<div class="date">
+											<span>2022.08.15 ~ 2022.08.22</span>
+										</div>
+										<p class="ev_close">&nbsp;</p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href=#>
+									<div class="event_img"><img src="img/event/event3.png" alt="event3"/></div>
+									<div class="event_info">
+										<strong class="title">코리안 그릴드 비프 샌드위치 출시!!</strong>
+										<div class="date">
+											<span>여름 신메뉴 이벤트 당선작이 출시되었습니다</span>
+										</div>
+										<p class="ev_close">&nbsp;</p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href=#>
+									<div class="event_img"><img src="img/event/event4.png" alt="event4"/></div>
+									<div class="event_info">
+										<strong class="title">샌드미에서 먹고 싶은 키즈메뉴는?</strong>
+										<div class="date">
+											<span>2022.08.1 ~ 2022.08.17</span>
+										</div>
+										<p class="ev_close">&nbsp;</p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href=#>
+									<div class="event_img"><img src="img/event/event5.png" alt="event5"/></div>
+									<div class="event_info">
+										<strong class="title">쿠팡이츠 3000원 할인!</strong>
+										<div class="date">
+											<span>2022.08.01 ~ 2022.08.31</span>
+										</div>
+										<p class="ev_close">&nbsp;</p>
+									</div>
+								</a>
+							</li>
+							<li>	
+								<a href="#">
+									<div class="event_img"><img src="img/event/event6.png" alt="event6"/></div>
+									<div class="event_info">
+										<strong class="title">채널ENA 수목드라마 '이상한 변호사 우영우'</strong>
+										<div class="date">
+											<span>샌드미와 '이상한 변호사 우영우'가 함께합니다!</span>
+										</div>
+										<p class="ev_close">&nbsp;</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</section>
+	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>

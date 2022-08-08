@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>공지사항 작성</title>
+<link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+<link rel="stylesheet" href="./css/style_notice.css"> <!-- 메인 스타일 시트 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<section>
+		<form action="/noticeWrite" method="post">
+			글제목: <input type="text" name="noticeTitle"><br>
+			작성자: <input type="text" name="noticeUser"><br>
+			글내용: <textarea rows="5" cols="30" name="noticeContent"></textarea>
+			<br><br>
+			<input type="submit" value="저장">
+		</form>
+		<button onclick="location.href='/noticeList'">목록</button>
+	</section>
+	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>

@@ -4,46 +4,73 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.green.sandme.board.notice.dao.BoardDao"> 
- 	
+ 	<!-- Notice -->
  	<!-- 공지사항 목록 쿼리문-->
-    <select id="getBoard" resultType="com.green.sandme.board.notice.vo.BoardVO">
+    <select id="getNotice" resultType="com.green.sandme.board.notice.vo.NoticeVO">
        SELECT * 
-       FROM boardTbl order by boardNum DESC
+       FROM noticeTbl ORDER BY noticeNum DESC
     </select>
  	
  	<!-- 공지사항 상세보기를 위한 쿼리문 -->
-    <select parameterType="int" id="viewBoard" resultType="com.green.sandme.board.notice.vo.BoardVO">
+    <select parameterType="int" id="viewNotice" resultType="com.green.sandme.board.notice.vo.NoticeVO">
        SELECT * 
-       FROM boardTbl
-       WHERE boardNum = #{boardNum}
+       FROM noticeTbl
+       WHERE noticeNum = #{noticeNum}
     </select>
     
     <!-- 조회수를 증가시키기 위한 쿼리문 -->
     <update id="updateViewCnt" parameterType="int">
-        update boardTbl
-        SET boardReadNum = boardReadNum + 1
-        WHERE boardNum = #{boardNum}
+        update noticeTbl
+        SET noticeReadNum = noticeReadNum + 1
+        WHERE noticeNum = #{noticeNum}
 	</update> 
 	
-
-
-    <!-- 공지사항을 수정하는 쿼리문 -->
-	<update id="updateBoard" parameterType="com.green.sandme.board.notice.vo.BoardVO">
-		UPDATE boardTbl
-		SET boardTitle = #{boardTitle},boardContent = #{boardContent},boardDate = sysdate
-		WHERE boardNum = #{boardNum}
-	</update>
-	
 	<!-- 공지사항을 등록하는 쿼리문 -->
-	<insert id="insertBoard" parameterType="com.green.sandme.board.notice.vo.BoardVO">
-		INSERT INTO boardTbl VALUES
-		(board_seq.nextval, #{boardUser}, #{boardTitle}, #{boardContent}, 0, sysdate)
+	<insert id="insertNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVO">
+		INSERT INTO noticeTbl VALUES
+		(notice_seq.nextval, #{noticeUser}, #{noticeTitle}, #{noticeContent}, 0 , sysdate)
 	</insert>
-	 
+	
+    <!-- 공지사항을 수정하는 쿼리문 -->
+	<update id="updateNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVO">
+		UPDATE noticeTbl
+		SET noticeTitle = #{noticeTitle},noticeContent = #{noticeContent},noticeDate = sysdate
+		WHERE noticeNum = #{noticeNum}
+	</update>
+		 
 	<!-- 공지사항을 삭제하는 쿼리문 -->
-	<delete parameterType="int" id="deleteBoard">
-       delete FROM boardTbl
-       WHERE boardNum = #{boardNum}
+	<delete parameterType="int" id="deleteNotice">
+       delete FROM noticeTbl
+       WHERE noticeNum = #{noticeNum}
+    </delete>
+    
+    <!-- 페이징을 위한 쿼리문
+    <select id="pageBoard" resultType="com.green.sandme.board.notice.vo.BoardVO">
+    	SELECT * 
+		FROM (SELECT ROWNUM as nick,boardNum,boardUser,boardTitle,boardContent,boardReadNum,boardDate
+      		  FROM (SELECT * FROM boardTbl ORDER BY BoardNum DESC))
+		WHERE nick BETWEEN(S-1)*100+(p-1)*10+1 and(S-1)*100+p*10;      -> 수정해야함
+    </select>
+     -->
+     
+
+    <!-- Ask -->
+    <!--  문의사항을 등록하는 쿼리문 -->
+	<insert id="insertQna" parameterType="com.green.sandme.board.qna.vo.QnaVO">
+		INSERT INTO qnaTbl VALUES
+		(qna_seq.nextval, #{qnaType}, #{qnaEmail},#{qnaTel}, #{qnaTitle}, #{qnaContent},#{qnaAnswer}, sysdate)
+	</insert>
+	
+	<!-- 문의사항 목록 쿼리문-->
+    <select id="getQna" resultType="com.green.sandme.board.qna.vo.QnaVO">
+       SELECT * 
+       FROM qnaTbl ORDER BY qnaNum ASC
+    </select>
+    
+    <!-- 문의사항 삭제 쿼리문 -->
+    <delete parameterType="int" id="deleteQna">
+    	DELETE FROM qnaTbl
+    	WHERE qnaNum = #{qnaNum}
     </delete>
 </mapper>
 
