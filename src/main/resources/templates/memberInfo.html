@@ -41,12 +41,39 @@
 						<td colspan="2" class="formHead"><p>주문 내역</p></td>
 					</tr>
 					<tr>
-						<td th:if="${mOVo == 'null'}" colspan="2" class="orderList">주문 내역이 없습니다.</td>
-						<td th:unless="${mOVo == 'null'}" colspan="2" class="orderList">
+						<td th:if="${mOVo == 'null'}" colspan="2" class="orderList">주문 내역이 없습니다.</td> <!-- 주문 내역이 없을 때 -->
+						<td th:unless="${mOVo == 'null'}" colspan="2" class="orderList"> <!-- 주문 내역이 있을 때 -->
 							<div th:each="order, i : ${mOVo}">
-								<p><span th:text="${order.shopName}">shopName</span></p>
-								<div th:each="orderMenu, j : ${order.orderMenu}">
-									<p><span th:text="${orderMenu.menuNum}">menuNum</span></p>
+								<table class="memberOrder">
+									<tbody>
+										<tr>
+											<th>주문 번호</th>
+											<td th:text="${order.orderNum}" colspan="3">orderNum</td>
+										</tr>
+										<tr>
+											<th>주문 유형</th>
+											<td th:text="${order.orderCategory}">orderCategory</td>
+											<th>주문 매장</th>
+											<td th:text="${order.shopName}">shopName</td>
+										</tr>
+										<tr>
+											<th>주문 시간</th>
+											<td th:text="${order.orderTime}">orderTime</td>
+											<th>주문 금액</th>
+											<td><span th:text="${#numbers.formatInteger(order.orderTotalPrice, 0, 'COMMA')}">orderTotalPrice</span>원</td>
+										</tr>
+										<tr th:if="${order.orderCategory == '배달 주문'}">
+											<th>배달 주소</th>
+											<td th:text="${order.orderAddress}" colspan="3">orderAddress</td>
+										</tr>
+									</tbody>
+								</table>
+								<div th:each="orderMenu, j : ${order.orderMenu}" class="orderWrap">
+ 									<img th:src="@{${orderMenu.menuPicUrl}}">			
+									<p><span th:text="${orderMenu.menuName}">menuName</span>　<span style="color:#C9CACA;">|</span>　<span style="color:#3E3A39;">수량 : <span th:text="${orderMenu.orderQuantity}">orderQuantity</span>개</span></p>
+									<p th:text="${orderMenu.orderCustom}">orderCustom</p>
+									<p>음료 : <span th:text="${orderMenu.orderDrink}">orderDrink</span></p>
+									<p><span th:text="${#numbers.formatInteger(orderMenu.menuPrice, 0, 'COMMA')}">menuPrice</span><span style="font-size: 12pt; color: #009223;">원</span></p>
 								</div>
 							</div>
 						</td>
@@ -88,24 +115,45 @@
 				<div id="btnWrap2"><input type="button" value="정보 수정" class="btn2" onclick="check()"><input type="button" value="취소" class="btn3" th:onclick="|location.href='@{/memberInfo(memberNum=${mVo.memberNum})}'|"></div>
 			</form>
 			<script>
-				function check() {	
-					if($('#memberPwd').val() == "") {
+				function check() {
+					let memberPwd = document.getElementById('memberPwd').value; 
+					let SC = ["!", "@", "#", "$", "%", "?", "&"];
+					let check_SC = 0;
+					let memberTel = document.getElementById('memberTel').value; 
+			           
+					for (let i = 0; i < SC.length; i++) {
+						if (memberPwd.indexOf(SC[i]) != -1) {
+							check_SC = 1;
+						}
+					}
+					
+					if ($('#memberPwd').val() == "") {
 						alert('비밀번호가 입력되지 않았습니다.');
 						$('#memberPwd').focus();
-					} else if($('#memberPwdCheck').val() == "") {
+					} else if ($('#memberPwdCheck').val() == "") {
 						alert('확인 비밀번호가 입력되지 않았습니다.');
 						$('#memberPwdCheck').focus();
-					} else if($('#memberName').val() == "") {
+					} else if (memberPwd.length < 8 || memberPwd.length>16) {
+		                alert('비밀번호는 8글자 이상, 16글자 이하만 사용 가능합니다.');
+		                document.getElementById('memberPwd').value='';
+	             	} else if (check_SC == 0) {
+	                    alert('비밀번호에 특수문자가 포함되지 않았습니다.')
+	                    document.getElementById('memberPwd').value='';
+	                    document.getElementById('memberPwdCheck').value='';
+	                } else if($('#memberName').val() == "") {
 						alert('이름이 입력되지 않았습니다.');
 						$('#memberName').focus();
 					} else if($('#memberTel').val() == "") {
 						alert('전화번호가 입력되지 않았습니다.');
 						$('#memberTel').focus();
-					}  else if($('#memberPwd').val() != $('#memberPwdCheck').val()) {
+					} else if($('#memberPwd').val() != $('#memberPwdCheck').val()) {
 						alert('확인 비밀번호가 일치하지 않습니다.');
 						$('#memberPwd').val("");
 						$('#memberPwdCheck').val("");
 						$('#memberPwd').focus();
+					} else if (isNaN($('#memberTel').val())) {
+						alert('전화번호를 숫자로만 입력해 주세요.');
+						return;
 					} else {
 						$('#memberUpdateForm').submit();
 					}

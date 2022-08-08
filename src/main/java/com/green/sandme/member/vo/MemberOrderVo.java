@@ -2,8 +2,6 @@ package com.green.sandme.member.vo;
 
 import java.util.List;
 
-import com.green.sandme.order.vo.OrderMenuVo;
-
 public class MemberOrderVo {
 	int orderNum;
 	String shopName;
@@ -12,7 +10,7 @@ public class MemberOrderVo {
 	String orderTime;
 	String orderRequest;
 	int orderTotalPrice;
-	List<OrderMenuVo> orderMenu;
+	List<MemberOrderMenuVo> orderMenu;
 	
 	public int getOrderNum() {
 		return orderNum;
@@ -30,6 +28,12 @@ public class MemberOrderVo {
 		return orderCategory;
 	}
 	public void setOrderCategory(String orderCategory) {
+		if (orderCategory.equals("home")) {
+			orderCategory = "배달 주문";
+		} else {
+			orderCategory = "방문 포장";
+		}
+
 		this.orderCategory = orderCategory;
 	}
 	public String getOrderAddress() {
@@ -56,10 +60,10 @@ public class MemberOrderVo {
 	public void setOrderTotalPrice(int orderTotalPrice) {
 		this.orderTotalPrice = orderTotalPrice;
 	}
-	public List<OrderMenuVo> getOrderMenu() {
+	public List<MemberOrderMenuVo> getOrderMenu() {
 		return orderMenu;
 	}
-	public void setOrderMenu(List<OrderMenuVo> orderMenu) {
+	public void setOrderMenu(List<MemberOrderMenuVo> orderMenu) {
 		this.orderMenu = orderMenu;
 	}
 }

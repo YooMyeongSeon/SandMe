@@ -28,11 +28,6 @@ table {
 	margin: 0px auto;
 	border-collapse: collapse;
 }
-.formHead {
-	font-size: 16pt;
-	font-family: 'S-CoreDream-6Bold';
-	text-align: center;
-}
 #memberInfoBox > table > tbody > tr > td:first-child {
 	width: 200px;
 	height: 80px;
@@ -40,8 +35,13 @@ table {
 #memberInfoBox > table > tbody > tr > td:last-child {
 	width: 600px;
 }
-#memberInfoBox > table > tbody > tr > td {
+#memberInfoBox > table > tbody > tr:not(:nth-child(4)) > td {
 	border-bottom: 1px solid #C9CACA;
+}
+.formHead {
+	font-size: 16pt;
+	font-family: 'S-CoreDream-6Bold';
+	text-align: center;
 }
 #btnWrap {
 	position: relative;
@@ -132,4 +132,59 @@ table {
 }
 #deleteBox > label {
 	float: left;
+}
+.memberOrder {
+	width: 800px;
+	margin: 0px auto 25px;
+	border-collapse: collapse;
+}
+.memberOrder > tbody > tr {
+	border-top: 1px solid #C9CACA;
+}
+.memberOrder > tbody > tr > th, .memberOrder > tbody > tr > td {
+	border-bottom: 1px solid #C9CACA;
+	height: 60px;
+	text-align: left;
+}
+.memberOrder > tbody > tr > th {
+	width: 150px;
+	color: #009223;
+}
+.memberOrder > tbody > tr > td {
+	width: 250px;
+}
+.orderWrap {
+	width: 800px;
+	height: 200px;
+	border-top: 1px solid #C9CACA;
+	margin: 0px auto 25px;
+}
+.orderWrap > img {
+	width: 200px;
+	margin: 25px 15px 0px 0px;
+	float: left;
+}
+.orderWrap > p:nth-child(2) {
+	margin: 25px 0px 10px;
+}
+.orderWrap > p:nth-child(2) > span:first-child {
+	color: #009223;
+	font-size: 20pt;
+	font-family: 'S-CoreDream-6Bold';
+	
+}
+.orderWrap > p:nth-child(3) {
+	color: #C9CACA;
+	font-size: 10pt;
+}
+.orderWrap > p:nth-child(4) {
+	color: #C9CACA;
+	font-size: 10pt;
+	margin: 5px 0px 0px;
+}
+.orderWrap > p:nth-child(5) {
+	color: #FFCE32;
+	font-size: 20pt;
+	margin-top: 20px;
+	font-family: 'S-CoreDream-6Bold';
 }

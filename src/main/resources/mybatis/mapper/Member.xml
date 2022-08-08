@@ -43,11 +43,12 @@
 	
 	<!-- 회원 번호로 주문서 가져오기 -->
     <select id="selectOrderByMemberNum" resultType="com.green.sandme.member.vo.MemberOrderVo" parameterType="Int">
-    	SELECT o.orderNum, s.shopname, o.ordercategory, o.orderaddress, o.ordertime, o.orderrequest, o.ordertotalprice FROM order_tbl o, shop_tbl s WHERE o.shopnum = s.shopnum and memberNum = #{memberNum}
+    	SELECT o.orderNum, s.shopname, o.ordercategory, o.orderaddress, o.ordertime, o.orderrequest, o.ordertotalprice
+    	FROM order_tbl o, shop_tbl s WHERE o.shopnum = s.shopnum and memberNum = #{memberNum} order by o.orderNum DESC
     </select>
 
 	<!-- 회원 번호로 주문서 메뉴 가져오기 -->
-    <select id="selectOrderMenuByMemberNum" resultType="com.green.sandme.order.vo.OrderMenuVo" parameterType="Int">
-    	SELECT * FROM orderMenu_tbl WHERE orderNum = #{orderNum}
+    <select id="selectOrderMenuByMemberNum" resultType="com.green.sandme.member.vo.MemberOrderMenuVo" parameterType="Int">
+    	SELECT m.menupicurl, m.menuname, o.orderquantity, o.ordercustom, o.orderdrink, m.menuprice FROM orderMenu_tbl o, menu_tbl m WHERE o.menunum = m.menunum and orderNum = #{orderNum}
     </select>
 </mapper>  

@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.sandme.member.service.memberService;
+import com.green.sandme.member.vo.MemberOrderMenuVo;
 import com.green.sandme.member.vo.MemberOrderVo;
 import com.green.sandme.member.vo.memberVo;
-import com.green.sandme.order.vo.OrderMenuVo;
-import com.green.sandme.order.vo.OrderVo;
 
 @Controller
 public class MemberController {
@@ -98,8 +97,8 @@ public class MemberController {
 		
 		if (!mOVo.isEmpty()) {
 			for (int i = 0; i < mOVo.size(); i++) {
-				List<OrderMenuVo> oMVo = sqlSession.selectList("com.green.sandme.member.dao.memberDao.selectOrderMenuByMemberNum", mOVo.get(i).getOrderNum());
-				mOVo.get(i).setOrderMenu(oMVo);
+				List<MemberOrderMenuVo> mOMVo = sqlSession.selectList("com.green.sandme.member.dao.memberDao.selectOrderMenuByMemberNum", mOVo.get(i).getOrderNum());
+				mOVo.get(i).setOrderMenu(mOMVo);
 			}
 			
 			model.addAttribute("mOVo", mOVo); //주문 내역 전송
@@ -141,11 +140,22 @@ public class MemberController {
 		mVo.setMemberTel(memberTel);
 		mVo.setMemberName(memberName);
 		
-		List<OrderVo> oVo = sqlSession.selectList("com.green.sandme.order.dao.OrderDao.selectOrderBymemberNum", memberNum); 
 		memberService.UpdateMember(mVo);
-		 
+		
+		List<MemberOrderVo> mOVo = sqlSession.selectList("com.green.sandme.member.dao.memberDao.selectOrderByMemberNum", memberNum);
+		
+		if (!mOVo.isEmpty()) {
+			for (int i = 0; i < mOVo.size(); i++) {
+				List<MemberOrderMenuVo> mOMVo = sqlSession.selectList("com.green.sandme.member.dao.memberDao.selectOrderMenuByMemberNum", mOVo.get(i).getOrderNum());
+				mOVo.get(i).setOrderMenu(mOMVo);
+			}
+			
+			model.addAttribute("mOVo", mOVo); //주문 내역 전송
+		} else {
+			model.addAttribute("mOVo", "null"); //주문 내역 전송
+		}
+		
 		model.addAttribute("memberInfo", "info");
-		model.addAttribute("oVo", oVo); //주문 내역 전송
 		model.addAttribute("mVo", mVo); //회원 정보 전송
 	    return "memberInfo";
 	}

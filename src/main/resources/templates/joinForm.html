@@ -744,30 +744,51 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 				<div id="btnWrap"><input type="button" value="회원가입" class="btn" onclick="check()"><input type="button" value="취소" class="btn2" onclick="location.href='/'"></div>
 			</form>
 			<script>
-				function check() {	
+				function check() {
+					let memberPwd = document.getElementById('memberPwd').value; 
+					let SC = ["!", "@", "#", "$", "%", "?", "&"];
+					let check_SC = 0;
+					let memberTel = document.getElementById('memberTel').value; 
+			           
+					for (let i = 0; i < SC.length; i++) {
+						if (memberPwd.indexOf(SC[i]) != -1) {
+							check_SC = 1;
+						}
+					}
+					
 					if ($('#memberEmail').val() == "") {
 						alert('이메일 아이디가 입력되지 않았습니다.');
 						$('#memberEmail').focus();
-					} else if($('#overlapEmail').val() == "No") {
+					} else if ($('#overlapEmail').val() == "No") {
 						alert('이메일 중복이 확인되지 않았습니다.');
 						$('#memberEmail').focus();
-					} else if($('#memberPwd').val() == "") {
+					} else if ($('#memberPwd').val() == "") {
 						alert('비밀번호가 입력되지 않았습니다.');
 						$('#memberPwd').focus();
-					} else if($('#memberPwdCheck').val() == "") {
+					} else if ($('#memberPwdCheck').val() == "") {
 						alert('확인 비밀번호가 입력되지 않았습니다.');
 						$('#memberPwdCheck').focus();
-					} else if($('#memberName').val() == "") {
+					} else if (memberPwd.length < 8 || memberPwd.length>16) {
+		                alert('비밀번호는 8글자 이상, 16글자 이하만 사용 가능합니다.');
+		                document.getElementById('memberPwd').value='';
+                 	} else if (check_SC == 0) {
+	                    alert('비밀번호에 특수문자가 포함되지 않았습니다.')
+	                    document.getElementById('memberPwd').value='';
+	                    document.getElementById('memberPwdCheck').value='';
+	                } else if($('#memberName').val() == "") {
 						alert('이름이 입력되지 않았습니다.');
 						$('#memberName').focus();
 					} else if($('#memberTel').val() == "") {
 						alert('전화번호가 입력되지 않았습니다.');
 						$('#memberTel').focus();
-					}  else if($('#memberPwd').val() != $('#memberPwdCheck').val()) {
+					} else if($('#memberPwd').val() != $('#memberPwdCheck').val()) {
 						alert('확인 비밀번호가 일치하지 않습니다.');
 						$('#memberPwd').val("");
 						$('#memberPwdCheck').val("");
 						$('#memberPwd').focus();
+					} else if (isNaN($('#memberTel').val())) {
+						alert('전화번호를 숫자로만 입력해 주세요.');
+						return;
 					} else {
 						$('#infoForm').submit();
 					}
