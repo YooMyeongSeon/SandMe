@@ -1,0 +1,71 @@
+@charset "EUC-KR";
+
+#loginHeader { /* 로그인 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#Title ~ P {
+	line-height: 20pt;	
+}
+table {
+	margin: 0px auto;
+	border-collapse: collapse;
+}
+tr:not(:last-child) {
+	border-top: 1px solid #C9CACA;
+	border-bottom: 1px solid #C9CACA;
+}
+tr > td:first-child {
+	width: 160px;
+	height: 80px;
+	font-size: 14pt;
+}
+tr:not(:last-child) > td > input {
+	width: 300px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	margin: 0px 2.5px;
+}
+tr:last-child > td {
+	text-align: center;
+	font-size: 12pt;
+}
+#rememberId {
+	margin-right: 10px;
+	width: 15px;
+	height: 15px;	
+}
+#btnWrap {
+	text-align: center;
+	margin: 20px 0px 120px;
+}
+#btn {
+	width: 160px;
+	height: 50px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+	margin-bottom: 15px;
+}

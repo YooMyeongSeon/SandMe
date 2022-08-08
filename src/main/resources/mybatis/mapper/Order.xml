@@ -3,16 +3,44 @@
 	
 <mapper namespace="com.green.sandme.order.dao.OrderDao">
  	 	
+ 	<!-- 매장별 담당 구역으로 매장 찾기 -->
     <select id="selectShopByAddress" resultType="com.green.sandme.order.vo.OrderAddressVo" parameterType="String">
 		select s.shopNum, shopName, shopAddress, shopTel, shopOpen from shop_tbl s, area_tbl a where s.shopnum = a.shopnum and a.areaname = #{address}
     </select>
     
+    <!-- 매장이름으로 매장 찾기 -->
     <select id="selectShopByName" resultType="com.green.sandme.order.vo.OrderAddressVo" parameterType="String">
 		select shopNum, shopName, shopAddress, shopTel, shopOpen from shop_tbl where shopName = #{address}
     </select>
     
+    <!-- 매장번호로 매장 찾기 -->
+    <select id="selectShopByNum" resultType="com.green.sandme.order.vo.OrderAddressVo" parameterType="Int">
+		select shopNum, shopName, shopAddress, shopTel, shopOpen from shop_tbl where shopNum = #{shopNum}
+    </select>
+    
+    <!-- 메뉴 번호로 메뉴 찾기 -->
     <select id="selectMenu" resultType="com.green.sandme.order.vo.MenuVo" parameterType="int">
 		select * from menu_tbl where menuNum = #{sandMenu}
+    </select>
+    
+    <!-- 주문 저장 -->
+    <insert id="insertOrder" parameterType="com.green.sandme.order.vo.OrderVo">
+		insert into order_tbl values(order_seq.nextval, #{memberNum}, #{shopNum}, #{orderCategory}, #{orderAddress}, #{menuNum}, #{orderCustom}, #{orderDrink}, #{orderQuantity},sysdate, #{orderRequest}, #{orderTotalPrice})
+    </insert>
+    
+    <!-- 주문한 시퀀스 가져오기 -->
+    <select id="selectOrderSeq" resultType="int">
+    	SELECT LAST_NUMBER seq FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'ORDER_SEQ'
+    </select>
+    
+    <!-- 주문 내역 다시 가져오기 -->
+    <select id="selectOrder" resultType="com.green.sandme.order.vo.OrderVo" parameterType="Int">
+    	SELECT * FROM order_tbl WHERE orderNum = #{seq}
+    </select>
+    
+    <!-- 회원 번호로 주문서 가져오기 -->
+    <select id="selectOrderBymemberNum" resultType="com.green.sandme.order.vo.OrderVo" parameterType="Int">
+    	SELECT * FROM order_tbl WHERE memberNum = #{memberNum}
     </select>
     
 </mapper>

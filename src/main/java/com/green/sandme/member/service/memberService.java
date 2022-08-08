@@ -17,23 +17,26 @@ public class memberService implements UserDetailsService{
 	@Autowired
 	SqlSession sqlSession;
 	
-	@Transactional
-	public void RegisterUser(@Param("mVo") memberVo mVo) throws Exception {
-		sqlSession.insert("com.green.sandme.member.dao.memberDao.RegisterUser", mVo);
+	//아이디 중복확인
+	public int checkUserId(String memberEmail) throws Exception{
+		int result = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.checkUserId", memberEmail);
+		return result;
 	}
 	
-	//회원가입 성공
-	public memberVo RegisterPage(String memberEmail) throws Exception{
-		return sqlSession.selectOne("com.green.sandme.member.dao.memberDao.RegisterPage", memberEmail);
+	@Transactional //회원가입
+	public void RegisterUser(@Param("mVo") memberVo mVo) throws Exception {
+		sqlSession.insert("com.green.sandme.member.dao.memberDao.RegisterMember", mVo);
 	}
 
-	@Override
+	@Override //로그인
 	public UserDetails loadUserByUsername(String memberEmail) throws UsernameNotFoundException {
 		memberVo mVo = new memberVo(); 
+		
 		try {
-			mVo = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.LoginUser", memberEmail); 
-			if (mVo == null){
-				throw new UsernameNotFoundException("유저 찾을 수 없음");
+			mVo = sqlSession.selectOne("com.green.sandme.member.dao.memberDao.LoginMember", memberEmail); 
+			
+			if (mVo == null) {
+				throw new UsernameNotFoundException("유저를 찾을 수 없습니다.");
 			}
 			
 			return mVo;
@@ -42,5 +45,17 @@ public class memberService implements UserDetailsService{
 		}
 		
 		return mVo;
+	}
+	
+	//회원정보 수정
+	@Transactional
+	public void UpdateMember(memberVo mVo) throws Exception {
+		sqlSession.update("com.green.sandme.member.dao.memberDao.UpdateMember", mVo);
+	}
+
+	//회원 탈퇴
+	@Transactional
+	public void deleteMember(int memberNum) throws Exception {
+		sqlSession.delete("com.green.sandme.member.dao.memberDao.DeleteMember", memberNum);
 	}
 }

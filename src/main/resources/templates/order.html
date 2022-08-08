@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,8 +13,13 @@
     <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 Api -->
 </head>
 <body>
+	<script sec:authorize="isAnonymous()">
+		$(document).ready(function() {
+			location.href="/loginForm";
+		});
+	</script>
 	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
-	<section>
+	<section sec:authorize="isAuthenticated()">
 		<div id="orderHead"> <!-- 오더 헤더 -->
 			<div id="orderTitleDeco"></div>
 			<div th:if="${order == 'home'}">
@@ -281,6 +286,31 @@
 						function drink04() {$('#drink04').prop("checked", true);}
 					</script>
 				</div>
+				<div id="quantityBox">
+					<p>수량</p>
+					<div class="quantityOper" onclick="quantityOperM()"><p>-</p></div>
+					<div><input type="number" id="quantity" name="quantity" value="1" readonly></div>
+					<div class="quantityOper" onclick="quantityOperP()"><p>+</p></div>
+					<script>
+						function quantityOperM() { //수량 감소 함수
+							let num = $('#quantity').val();
+							
+							if (num != 1) {
+								let result = parseInt(num) - 1;
+								$('#quantity').val(result);
+							}
+						}
+						function quantityOperP() { //수량 증가 함수
+							let num = $('#quantity').val();
+							
+							if (num != 99) {
+								let result = parseInt(num) + 1;
+								$('#quantity').val(result);
+							}
+								
+						}
+					</script>
+				</div>
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
 				<input type="hidden" name="inputShop" th:value="${shop}">
@@ -291,13 +321,127 @@
 			</form>
 		</div>
 		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
-			<form method="post">
-				
+			<form method="post" id="chapter03Form">
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${shop}">
+				<input type="hidden" name="inputAddress" th:value="${address}">
+				<input type="hidden" name="inputCustom" th:value="${custom}">
+				<input type="hidden" name="inputDrink" th:value="${drink}">
+				<input type="hidden" name="inputquantity" th:value="${quantity}">
+				<input type="hidden" name="inputTotalPrice" th:value="${totalPrice}" id="inputTotalPrice">
+				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
+				<input type="hidden" name="menuNum" th:value="${mVo.menuNum}">
+				<div id="tableWrap">
+					<p>주문 내역</p>
+					<table class="chapter03table">
+						<tbody>
+							<tr>
+								<td>샌드미 <span th:text="${oAv.shopName}">shopName</span></td>
+								<td><span th:text="${oAv.shopAddress}">shopAddress</span></td>
+							</tr>
+							<tr th:if="${order == 'home'}">
+								<td>배달 주소</td>
+								<td><span th:text="${address}">address</span></td>
+							</tr>
+							<tr>
+								<td>주문 유형</td>
+								<td th:if="${order == 'home'}">배달 주문</td>
+								<td th:if="${order == 'pickUp'}">매장 주문</td>
+							</tr>
+							<tr>
+								<td>전화 번호</td>
+								<td><span th:text="${#authentication.principal.memberTel}">memberTel</span></td>
+							</tr>
+							<tr>
+								<td>주문시 요청사항</td>
+								<td><input type="text" name="request" placeholder="요청사항 작성(최대 50자)" maxlength="50"></td>
+							</tr>
+							<tr>
+								<td>주문 메뉴</td>
+								<td><span th:text="${mVo.menuName}">menuName</span></td>
+							</tr>
+							<tr>
+								<td>상세 내역</td>
+								<td><span th:text="${custom}">custom</span></td>
+							</tr>
+							<tr>
+								<td>음료 선택</td>
+								<td><span th:text="${drink}">drink</span></td>
+							</tr>
+							<tr>
+								<td>주문 수량</td>
+								<td><span th:text="${quantity}">quantity</span> 개</td>
+							</tr>
+						</tbody>
+					</table>
+					<p id="priceTitle">결제 금액</p>
+					<table class="chapter03table" id="priceTable">
+						<tbody>
+							<tr>
+								<td>메뉴 금액</td>
+								<td><span th:text="${#numbers.formatInteger(mVo.menuPrice, 0, 'COMMA')}">menuPrice</span>원</td>
+							</tr>
+							<tr>
+								<td>총 결제 금액</td>
+								<td><span th:if="${drink != '음료 선택 안함'}" id="drinkAdd">음료 2,000원 추가　</span>
+								<span th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}">totalPrice</span><span style="font-size: 12pt;">원</span></td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="paymentConsentBox">
+						<input type="checkbox" name="paymentConsent" id="paymentConsent"><label for="paymentConsent">구매조건 및 결제진행 동의</label>
+						<p>주문할 메뉴와 가격, 매장정보를 명확히 확인하였으며 결제 진행에 동의합니다.<br>제조시간은 매장상황에 따라 상이할 수 있습니다.<br>주문자 정보가 서비스 제공을 위해 주문 매장과 라이더에게 제공됨을 동의합니다.<br><span style="color: red">주문 후 제조가 시작되면 주문을 취소할 수 없습니다.</span></p>
+						<div><input type="button" value="결제 하기" class="btn2" onclick="payment()"></div>
+					</div>
+				</div>
 			</form>
+			<script>
+				function payment() {
+					if (!$('#paymentConsent').is(":checked")) {
+						alert("구매조건 및 결제진행 동의가 동의되지 않았습니다.");
+					} else {
+						let totalPrice = $("#inputTotalPrice").val();					
+						let memberNum = $("#memberNum").val();
+
+						$.ajax({
+							url:'/kakaopayP',
+							method : 'POST',
+							async : true,
+							data : { 
+								totalPrice : totalPrice, 
+								memberNum : memberNum	
+							},
+							dataType:'json',
+							success:function(req){
+								let box = req.next_redirect_pc_url;
+								window.open(box); //결제창 열기
+							},
+							error:function(error){
+								alert(error);
+							}
+						});
+					}
+				}
+				
+				function chapter03Submit() {
+					$('#chapter03Form').submit();
+				}
+				
+				function chapter03Fail() {
+					alert("결제에 실패했습니다.");
+				}
+			</script>
 			<div id="map" style="display:none;"></div>
 		</div>
 		<div th:if="${chapter == 'chapter04'}" id="orderSearch"> <!-- 챕터4 : 주문 완료 -->
-			
+			<div id="orderSuccessBox">
+				<p>주문이 완료되었습니다.</p>
+				<p>주문 내역 및 배달에 관한 안내는 회원 정보를 통하여 확인 가능합니다.</p>
+				<p>주문 번호 : <span th:text="${oVo.orderNum}">orderNum</span></p>
+				<p>주문 시간 : <span th:text="${oVo.orderTime}">orderTime</span></p>
+			</div>
+			<button onclick="location.href='/'" class="btn2">메인 화면</button>
 			<div id="map" style="display:none;"></div>
 		</div>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
