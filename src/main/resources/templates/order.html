@@ -55,13 +55,13 @@
 					</div>
 				</div>
 				<div class="chapterPartition"></div>
-				<div th:if="${chapter == 'chapter03'}">
+				<div th:if="${chapter == 'chapter03' || chapter == 'chapter03_cart'}">
 					<div class="chapterVi">
 						<img src="img/chapter03.svg" class="chapterViImg">
 						<p><span class="Step">Step3</span> <span style="color:white;">|</span> 주문 작성</p>
 					</div>
 				</div>
-				<div th:unless="${chapter == 'chapter03'}">
+				<div th:unless="${chapter == 'chapter03' || chapter == 'chapter03_cart'}">
 					<div class="chapterDe">
 						<img src="img/chapter03(w).svg" class="chapterDeImg">
 					</div>
@@ -329,7 +329,7 @@
 				<input type="hidden" name="inputAddress" th:value="${address}">
 				<input type="hidden" name="inputCustom" th:value="${custom}">
 				<input type="hidden" name="inputDrink" th:value="${drink}">
-				<input type="hidden" name="inputquantity" th:value="${quantity}">
+				<input type="hidden" name="inputQuantity" th:value="${quantity}">
 				<input type="hidden" name="inputTotalPrice" th:value="${totalPrice}" id="inputTotalPrice">
 				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
 				<input type="hidden" name="menuNum" th:value="${mVo.menuNum}">
@@ -436,28 +436,25 @@
 			<div id="map" style="display:none;"></div>
 		</div>
 		<div th:if="${chapter == 'chapter03_cart'}" id="orderSearch"> <!-- 챕터3 : 주문 작성(장바구니 에서 주문) -->
-			<!-- <form method="post" id="chapter03Form">
+			<form action="order" method="post" id="chapter03Form">
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
-				<input type="hidden" name="inputShop" th:value="${shop}">
-				<input type="hidden" name="inputAddress" th:value="${address}">
-				<input type="hidden" name="inputCustom" th:value="${custom}">
-				<input type="hidden" name="inputDrink" th:value="${drink}">
-				<input type="hidden" name="inputquantity" th:value="${quantity}">
+				<input type="hidden" name="inputShop" th:value="${cartList[0].shopNum}">
+				<input type="hidden" name="inputAddress" th:value="${cartList[0].cartAddress}">
+				<input type="hidden" th:value="${cartList.size}" id="cartSize" name="cartSize">
 				<input type="hidden" name="inputTotalPrice" th:value="${totalPrice}" id="inputTotalPrice">
 				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
-				<input type="hidden" name="menuNum" th:value="${mVo.menuNum}">
 				<div id="tableWrap">
 					<p>주문 내역</p>
 					<table class="chapter03table">
 						<tbody>
 							<tr>
-								<td>샌드미 <span th:text="${oAv.shopName}">shopName</span></td>
-								<td><span th:text="${oAv.shopAddress}">shopAddress</span></td>
+								<td>샌드미 <span th:text="${cartList[0].shopName}">shopName</span></td>
+								<td><span th:text="${cartList[0].shopAddress}">shopAddress</span></td>
 							</tr>
 							<tr th:if="${order == 'home'}">
 								<td>배달 주소</td>
-								<td><span th:text="${address}">address</span></td>
+								<td><span th:text="${cartList[0].cartAddress}">address</span></td>
 							</tr>
 							<tr>
 								<td>주문 유형</td>
@@ -472,21 +469,36 @@
 								<td>주문시 요청사항</td>
 								<td><input type="text" name="request" placeholder="요청사항 작성(최대 50자)" maxlength="50"></td>
 							</tr>
+						</tbody>
+					</table>
+					<table th:each="cart, i: ${cartList}" th:id="cartIndex + ${i.index}" class="chapter03table">
+						<tbody>
 							<tr>
 								<td>주문 메뉴</td>
-								<td><span th:text="${mVo.menuName}">menuName</span></td>
+								<td>
+									<span th:text="${cart.menuName}">menuName</span>
+									<input type="hidden" th:name="menuNum + ${i.index}" th:value="${cart.menuNum}">
+									<input type="hidden" th:name="inputCustom + ${i.index}" th:value="${cart.cartCustom}">
+									<input type="hidden" th:name="inputDrink + ${i.index}" th:value="${cart.cartDrink}">
+									<input type="hidden" th:name="inputQuantity + ${i.index}" th:value="${cart.cartQuantity}">
+								</td>
 							</tr>
 							<tr>
 								<td>상세 내역</td>
-								<td><span th:text="${custom}">custom</span></td>
+								<td><span th:text="${cart.cartCustom}">cartCustom</span></td>
 							</tr>
 							<tr>
 								<td>음료 선택</td>
-								<td><span th:text="${drink}">drink</span></td>
+								<td><span th:text="${cart.cartDrink}">cartDrink</span></td>
 							</tr>
 							<tr>
 								<td>주문 수량</td>
-								<td><span th:text="${quantity}">quantity</span> 개</td>
+								<td><span th:text="${cart.cartQuantity}">cartQuantity</span> 개</td>
+							</tr>
+							<tr>
+								<td>메뉴 금액</td>
+								<td><span th:text="${#numbers.formatInteger(cart.menuPrice, 0, 'COMMA')}">menuPrice</span>원</td>
+								
 							</tr>
 						</tbody>
 					</table>
@@ -494,13 +506,8 @@
 					<table class="chapter03table" id="priceTable">
 						<tbody>
 							<tr>
-								<td>메뉴 금액</td>
-								<td><span th:text="${#numbers.formatInteger(mVo.menuPrice, 0, 'COMMA')}">menuPrice</span>원</td>
-							</tr>
-							<tr>
 								<td>총 결제 금액</td>
-								<td><span th:if="${drink != '음료 선택 안함'}" id="drinkAdd">음료 2,000원 추가　</span>
-								<span th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}">totalPrice</span><span style="font-size: 12pt;">원</span></td>
+								<td><span th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}">totalPrice</span><span style="font-size: 12pt;">원</span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -510,8 +517,7 @@
 						<div><input type="button" value="결제 하기" class="btn2" onclick="payment()"></div>
 					</div>
 				</div>
-			</form> -->
-			<p>넘어옴</p>
+			</form>
 			<script>
 				function payment() {
 					if (!$('#paymentConsent').is(":checked")) {

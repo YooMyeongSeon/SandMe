@@ -333,6 +333,9 @@ input::-webkit-inner-spin-button {
 .chapter03table > tbody > tr > td:last-child {
 	width: 778px;
 }
+.chapter03table:not(:last-child) {
+	margin-bottom: 50px;
+}
 #priceTitle {
 	margin-top: 60px;
 }

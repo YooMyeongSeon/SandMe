@@ -7,6 +7,7 @@ public class CartListVo {
 	private String cartOrder;
 	private String cartAddress;
 	private String shopName;
+	private String shopAddress;
 	private int shopNum;
 	
 	private int menuNum;
@@ -16,7 +17,13 @@ public class CartListVo {
 	private String cartDrink;
 	private int cartQuantity;
 	private int menuPrice;
-
+	
+	public String getShopAddress() {
+		return shopAddress;
+	}
+	public void setShopAddress(String shopAddress) {
+		this.shopAddress = shopAddress;
+	}
 	public int getMenuNum() {
 		return menuNum;
 	}

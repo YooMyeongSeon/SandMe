@@ -25,7 +25,12 @@
     
     <!-- 주문 저장 -->
     <insert id="insertOrder" parameterType="com.green.sandme.order.vo.OrderVo">
-		insert into order_tbl values(order_seq.nextval, #{memberNum}, #{shopNum}, #{orderCategory}, #{orderAddress}, #{menuNum}, #{orderCustom}, #{orderDrink}, #{orderQuantity},sysdate, #{orderRequest}, #{orderTotalPrice})
+		insert into order_tbl values(order_seq.nextval, #{memberNum}, #{shopNum}, #{orderCategory}, #{orderAddress}, sysdate, #{orderRequest}, #{orderTotalPrice})
+    </insert>
+    
+     <!-- 주문 메뉴 저장 -->
+    <insert id="insertOrderMenu" parameterType="com.green.sandme.order.vo.OrderMenuVo">
+		insert into orderMenu_tbl values(orderMenu_seq.nextval, #{orderNum}, #{menuNum}, #{orderCustom}, #{orderDrink}, #{orderQuantity})
     </insert>
     
     <!-- 주문한 시퀀스 가져오기 -->
@@ -36,11 +41,5 @@
     <!-- 주문 내역 다시 가져오기 -->
     <select id="selectOrder" resultType="com.green.sandme.order.vo.OrderVo" parameterType="Int">
     	SELECT * FROM order_tbl WHERE orderNum = #{seq}
-    </select>
-    
-    <!-- 회원 번호로 주문서 가져오기 -->
-    <select id="selectOrderBymemberNum" resultType="com.green.sandme.order.vo.OrderVo" parameterType="Int">
-    	SELECT * FROM order_tbl WHERE memberNum = #{memberNum}
-    </select>
-    
+    </select>    
 </mapper>

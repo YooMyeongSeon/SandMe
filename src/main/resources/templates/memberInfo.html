@@ -41,7 +41,15 @@
 						<td colspan="2" class="formHead"><p>주문 내역</p></td>
 					</tr>
 					<tr>
-						<td colspan="2" class="orderList">주문 내역이 없습니다.</td> <!-- 주문 내역 추가 -->
+						<td th:if="${mOVo == 'null'}" colspan="2" class="orderList">주문 내역이 없습니다.</td>
+						<td th:unless="${mOVo == 'null'}" colspan="2" class="orderList">
+							<div th:each="order, i : ${mOVo}">
+								<p><span th:text="${order.shopName}">shopName</span></p>
+								<div th:each="orderMenu, j : ${order.orderMenu}">
+									<p><span th:text="${orderMenu.menuNum}">menuNum</span></p>
+								</div>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

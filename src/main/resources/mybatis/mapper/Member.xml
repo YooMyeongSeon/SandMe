@@ -40,5 +40,14 @@
 		DELETE FROM member_tbl
 		WHERE memberNum = #{memberNum}
 	</delete>
+	
+	<!-- 회원 번호로 주문서 가져오기 -->
+    <select id="selectOrderByMemberNum" resultType="com.green.sandme.member.vo.MemberOrderVo" parameterType="Int">
+    	SELECT o.orderNum, s.shopname, o.ordercategory, o.orderaddress, o.ordertime, o.orderrequest, o.ordertotalprice FROM order_tbl o, shop_tbl s WHERE o.shopnum = s.shopnum and memberNum = #{memberNum}
+    </select>
 
+	<!-- 회원 번호로 주문서 메뉴 가져오기 -->
+    <select id="selectOrderMenuByMemberNum" resultType="com.green.sandme.order.vo.OrderMenuVo" parameterType="Int">
+    	SELECT * FROM orderMenu_tbl WHERE orderNum = #{orderNum}
+    </select>
 </mapper>  

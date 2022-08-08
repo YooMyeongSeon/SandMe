@@ -139,17 +139,26 @@ create table order_tbl(orderNum number PRIMARY KEY,
 	shopNum number NOT NULL,
 	orderCategory VARCHAR2(50) NOT NULL,
 	orderAddress VARCHAR2(200),
-	menuNum number NOT NULL,
-	orderCustom VARCHAR2(200) NOT NULL,
-	orderDrink VARCHAR2(50) NOT NULL,
-	orderQuantity number NOT NULL,
 	orderTime date,
 	orderRequest VARCHAR2(200),
 	orderTotalPrice number);
-    
+
 create sequence order_seq nocache;
 
 select * from order_tbl;
+
+----------------------------------------------------------------------------------------------------주문 상품 테이블
+
+create table orderMenu_tbl(orderMenuNum number PRIMARY KEY,
+	orderNum number NOT NULL,
+	menuNum number NOT NULL,
+	orderCustom VARCHAR2(200) NOT NULL,
+	orderDrink VARCHAR2(50) NOT NULL,
+	orderQuantity number NOT NULL);
+    
+create sequence orderMenu_seq nocache;
+
+select * from orderMenu_tbl;
 
 ----------------------------------------------------------------------------------------------------장바구니 테이블
 

@@ -1,6 +1,7 @@
 package com.green.sandme.order;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.green.sandme.member.cart.vo.CartListVo;
 import com.green.sandme.member.cart.vo.CartVo;
 import com.green.sandme.order.vo.MenuVo;
 import com.green.sandme.order.vo.OrderAddressVo;
+import com.green.sandme.order.vo.OrderMenuVo;
 import com.green.sandme.order.vo.OrderVo;
 
 @Controller
@@ -130,18 +132,63 @@ public class OrderController {
 			oVo.setMemberNum(Integer.parseInt(request.getParameter("memberNum")));
 			oVo.setShopNum(Integer.parseInt(request.getParameter("inputShop")));
 			oVo.setOrderCategory(request.getParameter("order"));
-			oVo.setMenuNum(Integer.parseInt(request.getParameter("menuNum")));
-			oVo.setOrderCustom(request.getParameter("inputCustom"));
-			oVo.setOrderDrink(request.getParameter("inputDrink"));
-			oVo.setOrderQuantity(Integer.parseInt(request.getParameter("inputquantity")));
 			oVo.setOrderRequest(request.getParameter("request"));
 			oVo.setOrderTotalPrice(Integer.parseInt(request.getParameter("inputTotalPrice")));
 			
 			//데이터베이스에 주문 전송
 			sqlSession.insert("com.green.sandme.order.dao.OrderDao.insertOrder", oVo);
-			
 			int seq = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectOrderSeq");
 			seq -= 1;
+			
+			OrderMenuVo oMVo = new OrderMenuVo();
+			
+			oMVo.setOrderNum(seq);
+			oMVo.setMenuNum(Integer.parseInt(request.getParameter("menuNum")));
+			oMVo.setOrderCustom(request.getParameter("inputCustom"));
+			oMVo.setOrderDrink(request.getParameter("inputDrink"));
+			oMVo.setOrderQuantity(Integer.parseInt(request.getParameter("inputQuantity")));
+			
+			sqlSession.insert("com.green.sandme.order.dao.OrderDao.insertOrderMenu", oMVo);
+
+			oVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectOrder", seq);
+			
+			model.addAttribute("oVo", oVo);
+			model.addAttribute("chapter", "chapter04");
+		} else if (chapter.equals("chapter03_cart")) { //--------------------------------------------------챕터 3 : 주문 작성(장바구니 주문)			
+			OrderVo oVo = new OrderVo();
+			
+			if (order.equals("home")) {
+				oVo.setOrderAddress(request.getParameter("inputAddress"));
+			} else {
+				oVo.setOrderAddress("매장 주문");
+			}
+			
+			oVo.setMemberNum(Integer.parseInt(request.getParameter("memberNum")));
+			oVo.setShopNum(Integer.parseInt(request.getParameter("inputShop")));
+			oVo.setOrderCategory(request.getParameter("order"));
+			oVo.setOrderRequest(request.getParameter("request"));
+			oVo.setOrderTotalPrice(Integer.parseInt(request.getParameter("inputTotalPrice")));
+			
+			//데이터베이스에 주문 전송
+			sqlSession.insert("com.green.sandme.order.dao.OrderDao.insertOrder", oVo);
+			int seq = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectOrderSeq");
+			seq -= 1;
+			
+			int cartSize = Integer.parseInt(request.getParameter("cartSize"));
+			
+			for (int i = 0; i < cartSize; i++) {
+				OrderMenuVo oMVo = new OrderMenuVo();
+				
+				oMVo.setOrderNum(seq);
+				oMVo.setMenuNum(Integer.parseInt(request.getParameter("menuNum" + i)));
+				oMVo.setOrderCustom(request.getParameter("inputCustom" + i));
+				oMVo.setOrderDrink(request.getParameter("inputDrink" + i));
+				oMVo.setOrderQuantity(Integer.parseInt(request.getParameter("inputQuantity" + i)));
+				
+				sqlSession.insert("com.green.sandme.order.dao.OrderDao.insertOrderMenu", oMVo);
+			}
+			
+			sqlSession.delete("com.green.sandme.member.cart.dao.CartDao.deleteCartByMemberNum", oVo.getMemberNum());
 			oVo = sqlSession.selectOne("com.green.sandme.order.dao.OrderDao.selectOrder", seq);
 			
 			model.addAttribute("oVo", oVo);
@@ -244,17 +291,38 @@ public class OrderController {
 
 	@PostMapping("/cartOrder")
 	public String cartOrder(HttpServletRequest request, Model model) throws Exception {
-//		List<CartListVo> cartList = new ArrayList<>();
-
-//		for (int i = 0; i < CartNum.size(); i++) {
-//			cartList.add(sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.selectCartListByCartNum", CartNum.get(i)));
-//		}
-//
-//		if (cartList.get(0).getCartOrder().equals("배달 주문")) {
-//			model.addAttribute("address", cartList.get(0).getCartAddress());
-//		}
+		List<CartListVo> cartList = new ArrayList<>();
 		
+		int listSize = Integer.parseInt(request.getParameter("cartSize"));
+		
+		for (int i = 0; i < listSize; i++) {
+			String cartCheckNum = request.getParameter("cartCheckNum" + i);
+			
+			if (cartCheckNum != null) {
+				int cartNum = Integer.parseInt(request.getParameter("cartNum" + i));
+				
+				cartList.add(sqlSession.selectOne("com.green.sandme.member.cart.dao.CartDao.selectCartListByCartNum", cartNum));
+			}
+		}
+		
+		String order;
+		
+		if (cartList.get(0).getCartOrder().equals("배달 주문")) {
+			order = "home";
+		} else {
+			order = "pickUp";
+		}
+				
+		int totalPrice = 0;
+		
+		for (int i = 0; i < cartList.size(); i++) {
+			totalPrice += cartList.get(i).getMenuPrice();
+		}
+		
+		model.addAttribute("order", order);
 		model.addAttribute("chapter", "chapter03_cart");
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("cartList", cartList);
 		return "order";
 	}
 }

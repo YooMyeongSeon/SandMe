@@ -40,14 +40,14 @@
 					</tbody>
 				</table>
 				<div th:each="cart, i: ${cartList}" class="cartWrap" th:id="cartIndex + ${i.index}">
-					<input type="checkbox" th:id="cart + ${i.index}">
+					<input type="checkbox" th:id="cart + ${i.index}" th:name="cartCheckNum + ${i.index}">
 					<img th:src="@{${cart.menuPicUrl}}">				
 					<p><span th:text="${cart.menuName}">menuName</span>　<span style="color:#C9CACA;">|</span>　수량 : <span th:text="${cart.cartQuantity}">cartQuantity</span>개</p>
 					<p th:text="${cart.cartCustom}">cartCustom</p>
 					<p>음료 : <span th:text="${cart.cartDrink}">cartDrink</span></p>
 					<p><span th:text="${#numbers.formatInteger(cart.menuPrice, 0, 'COMMA')}">menuPrice</span><span style="font-size: 12pt; color: #009223;">원</span></p>
 					<input type="hidden" th:value="${cart.menuPrice}" th:id="cartPrice + ${i.index}">
-					<input type="hidden" th:id="num + ${i.index}" th:value="${cart.cartNum}">
+					<input type="hidden" th:id="num + ${i.index}" th:value="${cart.cartNum}" th:name="cartNum + ${i.index}">
 				</div>
 				<div id="cartPriceBox">
 					<input type="checkbox" name="allCheck" id="allCheck"><label for="allCheck">전체 선택　<span style="color:#C9CACA;">|</span></label>

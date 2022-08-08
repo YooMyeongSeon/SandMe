@@ -1,14 +1,18 @@
-package com.green.sandme.order.vo;
+package com.green.sandme.member.vo;
 
-public class OrderVo {
+import java.util.List;
+
+import com.green.sandme.order.vo.OrderMenuVo;
+
+public class MemberOrderVo {
 	int orderNum;
-	int memberNum;
-	int shopNum;
+	String shopName;
 	String orderCategory;
 	String orderAddress;
 	String orderTime;
 	String orderRequest;
 	int orderTotalPrice;
+	List<OrderMenuVo> orderMenu;
 	
 	public int getOrderNum() {
 		return orderNum;
@@ -16,17 +20,11 @@ public class OrderVo {
 	public void setOrderNum(int orderNum) {
 		this.orderNum = orderNum;
 	}
-	public int getMemberNum() {
-		return memberNum;
+	public String getShopName() {
+		return shopName;
 	}
-	public void setMemberNum(int memberNum) {
-		this.memberNum = memberNum;
-	}
-	public int getShopNum() {
-		return shopNum;
-	}
-	public void setShopNum(int shopNum) {
-		this.shopNum = shopNum;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
 	public String getOrderCategory() {
 		return orderCategory;
@@ -57,5 +55,11 @@ public class OrderVo {
 	}
 	public void setOrderTotalPrice(int orderTotalPrice) {
 		this.orderTotalPrice = orderTotalPrice;
+	}
+	public List<OrderMenuVo> getOrderMenu() {
+		return orderMenu;
+	}
+	public void setOrderMenu(List<OrderMenuVo> orderMenu) {
+		this.orderMenu = orderMenu;
 	}
 }
