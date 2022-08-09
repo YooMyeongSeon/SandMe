@@ -4,54 +4,55 @@
 <mapper namespace="com.green.sandme.board.dao.noticeDao">
 
  	<!-- Notice -->
- 	
  	<!-- 공지사항 목록 보기 -->
     <select id="selectNoticeList" resultType="com.green.sandme.board.notice.vo.NoticeVo">
        SELECT * FROM noticeTbl ORDER BY noticeNum DESC
     </select>
+    
+    <!-- 공지사항 목록 보기(페이징) -->
+    <select id="selectNoticeListByPaging" resultType="com.green.sandme.board.notice.vo.NoticeVo" parameterType="com.green.sandme.paging.spVo">
+       select * from(select rownum nick, noticeNum, noticeUser, noticeTitle, noticeContent, noticeReadNum, noticeDate from(select * from noticeTbl order by noticeNum desc))where nick BETWEEN (#{section} - 1) * 100 + (#{page} - 1) * 10 + 1 and (#{section} - 1) * 100 + #{page} * 10
+    </select>
+    
+    <!-- 공지사항 작성 -->
+	<insert id="insertNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVo">
+		INSERT INTO noticeTbl VALUES(notice_seq.nextval, #{noticeUser}, #{noticeTitle}, #{noticeContent}, 0 , sysdate)
+	</insert>
  	
- 	<!-- 공지사항 상세보기를 위한 쿼리문 -->
+ 	<!-- 공지사항 상세 보기 -->
     <select parameterType="int" id="viewNotice" resultType="com.green.sandme.board.notice.vo.NoticeVo">
        SELECT * 
        FROM noticeTbl
        WHERE noticeNum = #{noticeNum}
     </select>
     
-    <!-- 조회수를 증가시키기 위한 쿼리문 -->
+    <!-- 조회수 증가 -->
     <update id="updateViewCnt" parameterType="int">
         update noticeTbl
         SET noticeReadNum = noticeReadNum + 1
         WHERE noticeNum = #{noticeNum}
 	</update> 
-	
-	<!-- 공지사항을 등록하는 쿼리문 -->
-	<insert id="insertNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVo">
-		INSERT INTO noticeTbl VALUES
-		(notice_seq.nextval, #{noticeUser}, #{noticeTitle}, #{noticeContent}, 0 , sysdate)
-	</insert>
-	
-    <!-- 공지사항을 수정하는 쿼리문 -->
+
+    <!-- 공지사항 수정 -->
 	<update id="updateNotice" parameterType="com.green.sandme.board.notice.vo.NoticeVo">
 		UPDATE noticeTbl
 		SET noticeTitle = #{noticeTitle},noticeContent = #{noticeContent},noticeDate = sysdate
 		WHERE noticeNum = #{noticeNum}
 	</update>
 		 
-	<!-- 공지사항을 삭제하는 쿼리문 -->
+	<!-- 공지사항 삭제 -->
 	<delete parameterType="int" id="deleteNotice">
        delete FROM noticeTbl
        WHERE noticeNum = #{noticeNum}
     </delete>
-    
-    <!-- 페이징을 위한 쿼리문
-    <select id="pageBoard" resultType="com.green.sandme.board.notice.vo.BoardVO">
-    	SELECT * 
-		FROM (SELECT ROWNUM as nick,boardNum,boardUser,boardTitle,boardContent,boardReadNum,boardDate
-      		  FROM (SELECT * FROM boardTbl ORDER BY BoardNum DESC))
-		WHERE nick BETWEEN(S-1)*100+(p-1)*10+1 and(S-1)*100+p*10;      -> 수정해야함
+	
+	<!-- 공지사항 갯수 -->
+    <select id="selectNoticeCnt" resultType="int">
+       SELECT count(*) FROM noticeTbl
     </select>
-     -->
      
+
+
 
     <!-- Ask -->
     <!--  문의사항을 등록하는 쿼리문 -->
@@ -71,8 +72,5 @@
     	DELETE FROM qnaTbl
     	WHERE qnaNum = #{qnaNum}
     </delete>
+    
 </mapper>
-
-<!-- mybatis를 통한 sql제어를 위한 .xml파일
-	mybatis에서는 .xml mapping을 통해 쿼리문만 관리하기 가능
- -->

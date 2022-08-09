@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_notice.css"> <!-- 메인 스타일 시트 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
+	<section>
+		<div id="noticeHeader">
+			<div id="TitleDeco"></div>
+			<div>
+				<p id="Title">공지사항</p>
+				<p>총 <span th:text="${totalCnt}" style="color: #009223; font-family: 'S-CoreDream-6Bold';">totalCnt</span>건의 게시글이 있습니다.</p>
+			</div>
+		</div>
+		<div id="noticeListWrap" th:if="${notice == 'list'}"> <!-- 공지사항 목록 보기 -->
+			<table id="noticeList">
+				<tbody>
+			        <tr th:each="notice : ${noticeList}">
+			            <td><span th:text="${notice.noticeNum}"></span></td>
+			            <td><a th:href="@{/noticeView(noticeNum=${notice.noticeNum})}"><span th:text="${notice.noticeTitle}"></span></a></td>
+			            <td><span th:text="${#strings.substring(notice.noticeDate, 2, 10)}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div id="listPaging">
+				<div th:if="${totalCnt != 0}">
+ 					<div th:if="${totalCnt > 100}">
+						<div th:if="${(section * 100) < totalCnt}" class="pagingBoxWrap">
+							<div th:each="page : ${#numbers.sequence(1, 10)}" class="pagingBox">
+								<span th:if="${section > 1 && page == 1}"><a th:href="@{/noticeList(section = ${section - 1}, page = 10)}" style="color: #C9CACA;">◀</a></span>
+ 								<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${(section - 1) * 10 + page}">page</span></a>
+ 								<span th:if="${page == 10}"><a th:href="@{/noticeList(section = ${section + 1}, page = 1)}" style="color: #C9CACA;">▶</a></span>
+							</div>
+						</div>
+ 						<div th:if="${(section * 100) > totalCnt}" class="pagingBoxWrap">
+ 							<div th:each="page : ${#numbers.sequence(1, ((totalCnt + 9) - ((section - 1) * 100)) / 10)}" class="pagingBox">
+								<span th:if="${section > 1 && page == 1}"><a th:href="@{/noticeList(section = ${section - 1}, page = 10)}" style="color: #C9CACA;">◀</a></span>
+								<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${(section - 1) * 10 + page}">page</span></a>
+							</div>
+						</div>
+					</div>
+ 					<div th:if="${totalCnt == 100}" class="pagingBoxWrap">
+						<div th:each="page : ${#numbers.sequence(1, 10)}" class="pagingBox">
+							<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${page}">page</span></a>
+						</div>
+					</div>
+					<div th:if="${totalCnt < 100}" class="pagingBoxWrap">
+						<div th:each="page : ${#numbers.sequence(1, (totalCnt + 9) / 10})" class="pagingBox">    
+							<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${page}">page</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="noticeListBtnWrap"><button onclick="location.href='/noticeWriteForm'" class="btn">공지사항 작성</button></div>
+		</div>
+		<div id="noticeWriteWrap" th:if="${notice == 'write'}"> <!-- 공지사항 작성 -->
+			<form action="/noticeWrite" method="post" id="noticeWriteForm">
+				<input type="hidden" name="noticeUser" th:value="${#authentication.principal.memberName}">
+				<table id="noticeWriteTable">
+					<tbody>
+						<tr>
+							<td>공지사항 제목</td>
+							<td><input type="text" name="noticeTitle" placeholder="공지사항 제목 입력"></td>
+						</tr>
+						<tr>
+							<td>공지사항 내용</td>
+							<td><textarea rows="5" cols="30" name="noticeContent" placeholder="공지사항 내용 입력"></textarea></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" value="작성" class="btn2" style="margin: 50px 10px 0px 425px; float: left;">
+			</form>
+			<button onclick="location.href='/noticeList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
+		</div>
+		<div id="noticeViewWrap" th:if="${notice == 'view'}"> <!-- 공지사항 상세 보기 -->
+			<p><span th:text="${nVo.noticeTitle}">noticeTitle</span></p>
+			<p><span th:text="${#strings.substring(nVo.noticeDate, 2, 16)}">noticeDate</span></p>
+			<div id="ViewContent"><p><span th:utext="${nVo.noticeContent}"></span></p></div>
+			<div id="ViewbtnWrap"><button onclick="location.href='/noticeList'" class="btn2">목록 보기</button></div>
+			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="ViewbtnWrapAdmin">
+				<button th:onclick="'location.href=\''+@{noticeUpdateForm(noticeNum=${nVo.noticeNum})}+'\''" class="btn3" style="margin: 0px 10px 0px">수정</button>
+				<button class="btn3" onclick="delNotice()">삭제</button>
+				<input type="hidden" th:value="${nVo.noticeNum}" id="noticeNum">
+			</div>
+			<script>
+				function delNotice() {
+					if (confirm('공지사항을 삭제하시겠습니까?')) {
+						location.href="noticeDelete?noticeNum=" + $('#noticeNum').val()
+					}
+				}
+			</script>
+		</div>
+		<div id="noticeUpdateWrap" th:if="${notice == 'update'}"> <!-- 공지사항 수정 -->
+			<form action="/noticeUpdate" method="post">
+				<input type="hidden" th:value="${nVo.noticeNum}" name="noticeNum">
+				<table id="noticeUpdateTable">
+					<tbody>
+						<tr>
+							<td colspan="1">공지사항 제목</td>
+							<td colspan="5"><input type="text" name="noticeTitle" th:value="${nVo.noticeTitle}"></td>
+						</tr>
+						<tr>
+							<td colspan="1">공지사항 내용</td>
+							<td colspan="5"><textarea name="noticeContent" th:text="${nVo.noticeContent}"></textarea></td>
+						</tr>
+						<tr>
+							<td class="updateInfoTd">작성자</td>
+							<td class="updateInfoTdg"><span th:text="${nVo.noticeUser}"></span></td>
+							<td class="updateInfoTd">조회수</td>
+							<td class="updateInfoTdg"><span th:text="${nVo.noticeReadNum}"></span></td>
+							<td class="updateInfoTd">작성일</td>
+							<td class="updateInfoTdg"><span th:text="${#strings.substring(nVo.noticeDate, 2, 16)}"></span></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" value="수정" class="btn2" style="margin: 50px 10px 0px 425px; float: left;">
+			</form>
+			<button th:onclick="|location.href='@{noticeView(noticeNum=${nVo.noticeNum})}'|" class="btn3" style="margin-top: 50px; float: left;">취소</button>
+		</div>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
+	</section>
+</body>
+</html>

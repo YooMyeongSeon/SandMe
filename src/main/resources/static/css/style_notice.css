@@ -21,9 +21,9 @@
 #Title ~ P {
 	line-height: 20pt;	
 }
-#noticeListWrap {
+#noticeListWrap { /* 공지사항 목록 ↓ */
 	width: 1200px;
-	margin: 0px auto 120px;
+	margin: 0px auto 120px;	
 }
 #noticeList {
 	border-collapse: collapse;
@@ -65,5 +65,165 @@
 	font-size: 14pt;
 	color: #009223;
 	cursor: pointer;
-	margin-top: 50px;
+	margin-top: 20px;
+}
+#listPaging {
+	width: 600px;
+	height: 100px;
+	margin: 0px auto;
+	padding-top: 50px;
+	text-align: center;
+}
+.pagingBox {
+	display: inline-block;
+}
+.pagingBox > span, .pagingBox > a {
+	margin-right: 20px;
+	float: left;
+	color: #009223;
+}
+#noticeWriteWrap { /* 공지사항 작성 ↓ */
+	width: 1200px;
+	margin: 0px auto 120px;
+	height: 660px;
+}
+#noticeWriteTable {
+	border-collapse: collapse;
+	width: 1200px;
+	text-align: center;
+	border-top: 4px solid #009223;
+}
+#noticeWriteTable > tbody > tr:first-child > td {
+	height: 60px;
+}
+#noticeWriteTable > tbody > tr:first-child > td:first-child,
+#noticeWriteTable > tbody > tr:nth-child(2) > td:first-child {
+	width: 200px;
+}
+#noticeWriteTable > tbody > tr:first-child > td > input {
+	width: 1000px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+}
+#noticeWriteTable > tbody > tr:nth-child(2) > td {
+	border-top: 1px solid #C9CACA;
+	height: 500px;
+}
+#noticeWriteTable > tbody > tr:nth-child(2) > td > textarea {
+	width: 1000px;
+	height: 480px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	resize: none;
+	line-height: 20pt;
+}
+.btn2 {
+	width: 160px;
+	height: 50px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+}
+.btn3 {
+	width: 160px;
+	height: 50px;
+	border: 1px solid #C9CACA;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #C9CACA;
+	cursor: pointer;
+}
+#noticeViewWrap { /* 공지사항 조회 ↓ */
+	width: 1200px;
+	margin: 0px auto 120px;
+	border-top: 4px solid #009223;
+	position: relative;
+}
+#noticeViewWrap > p:first-child {
+	font-size: 26pt;
+	margin: 20px 0px;
+}
+#noticeViewWrap > p:nth-child(2) {
+	color: #C9CACA;
+}
+#ViewContent {
+	width: 1200px;
+	margin: 20px 0px 50px;
+	text-align: justify;
+	line-height: 22pt;
+}
+#ViewbtnWrap {
+	text-align: center;
+	margin-bottom: 50px;
+}
+#ViewbtnWrapAdmin {
+	position: absolute; bottom:0px; right: 170px;	
+}
+#noticeUpdateWrap { /* 공지사항 수정 ↓ */
+	width: 1200px;
+	height: 725px;
+	margin: 0px auto 120px;
+	border-top: 4px solid #009223;
+	
+}
+#noticeUpdateTable {
+	text-align: center;
+	border-collapse: collapse;
+}
+#noticeUpdateTable > tbody > tr:first-child > td {
+	height: 60px;
+}
+#noticeUpdateTable > tbody > tr:first-child > td:first-child,
+#noticeUpdateTable > tbody > tr:nth-child(2) > td:first-child {
+	width: 200px;
+}
+#noticeUpdateTable > tbody > tr:first-child > td > input {
+	width: 1000px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+}
+#noticeUpdateTable > tbody > tr:nth-child(2) > td {
+	border-top: 1px solid #C9CACA;
+	height: 500px;
+}
+#noticeUpdateTable > tbody > tr:nth-child(2) > td > textarea {
+	width: 1000px;
+	height: 480px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	resize: none;
+	line-height: 20pt;
+}
+#noticeUpdateTable > tbody > tr:nth-child(3) > td {
+	border-top: 1px solid #C9CACA;
+	width: 200px;
+	height: 60px;
+	
+}
+.updateInfoTd {
+	font-family: 'S-CoreDream-6Bold';
+	color: #009223;
+}
+.updateInfoTdg {
+	color: #C9CACA;
 }
