@@ -175,3 +175,30 @@ CREATE TABLE cart_tbl(cartNum NUMBER PRIMARY KEY,
 CREATE SEQUENCE cart_seq nocache;
 
 SELECT * FROM cart_tbl;
+
+----------------------------------------------------------------------------------------------------공지사항 테이블
+
+CREATE TABLE noticeTbl(noticeNum NUMBER(8) CONSTRAINT PK_noticeTbl_noticeNum PRIMARY KEY,
+    noticeUser VARCHAR2(20) not null,
+    noticeTitle VARCHAR2(255) not null,
+    noticeContent CLOB not null,
+    noticeReadNum NUMBER not null,
+    noticeDate DATE DEFAULT sysdate);
+    
+CREATE SEQUENCE notice_seq NOCACHE;
+
+SELECT * FROM noticeTbl ORDER BY noticeNum DESC;
+
+----------------------------------------------------------------------------------------------------이벤트·프로모션 테이블
+
+CREATE TABLE event_tbl(eventNum NUMBER(8) PRIMARY KEY,
+    eventMember VARCHAR2(20) not null,
+    eventTitle VARCHAR2(255) not null,
+    eventContent CLOB not null,
+    eventSomeFile BLOB,
+    eventFile BLOB,
+    eventDate DATE DEFAULT sysdate);
+    
+CREATE SEQUENCE event_seq NOCACHE;
+
+SELECT * FROM event_tbl ORDER BY eventNum DESC;

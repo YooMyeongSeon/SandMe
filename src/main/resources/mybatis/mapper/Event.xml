@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.green.sandme.board.dao.eventDao">
+
+	<!-- 이벤트 갯수 -->
+    <select id="selectEventCnt" resultType="int">
+       SELECT count(*) FROM event_tbl
+    </select>
+	
+	<!-- 이벤트 목록 보기(페이징) -->
+    <select id="selectEventListByPaging" resultType="com.green.sandme.board.event.vo.EventVo" parameterType="com.green.sandme.paging.spVo">
+       select * from(select rownum nick, eventNum, eventMember, eventTitle, eventContent, eventSomeFile, eventFile, eventDate from(select * from event_tbl order by eventNum desc))where nick BETWEEN (#{section} - 1) * 100 + (#{page} - 1) * 10 + 1 and (#{section} - 1) * 100 + #{page} * 10
+    </select>
+    
+    <!-- 이벤트 작성 -->
+	<insert id="insertEvent" parameterType="com.green.sandme.board.event.vo.EventVo">
+		INSERT INTO event_tbl VALUES(event_seq.nextval, #{eventMember}, #{eventTitle}, #{eventContent}, #{eventSomeFile}, #{eventFile}, sysdate)
+	</insert>
+	
+</mapper>

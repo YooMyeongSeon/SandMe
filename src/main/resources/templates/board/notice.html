@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
     <title>SandMe 샌드미</title>
     <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
-    <link rel="stylesheet" href="./css/style_notice.css"> <!-- 메인 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_notice.css"> <!-- 공지사항 스타일 시트 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
 </head>
 <body>
@@ -53,7 +53,7 @@
 						</div>
 					</div>
 					<div th:if="${totalCnt < 100}" class="pagingBoxWrap">
-						<div th:each="page : ${#numbers.sequence(1, (totalCnt + 9) / 10})" class="pagingBox">    
+						<div th:each="page : ${#numbers.sequence(1, ((totalCnt + 9) / 10))}" class="pagingBox">    
 							<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${page}">page</span></a>
 						</div>
 					</div>

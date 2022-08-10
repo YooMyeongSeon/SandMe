@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_event.css"> <!-- 이벤트 스타일 시트 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
+	<section>
+		<div id="eventHeader">
+			<div id="TitleDeco"></div>
+			<div>
+				<p id="Title">이벤트 · 프로모션</p>
+				<p>총 <span th:text="${totalCnt}" style="color: #009223; font-family: 'S-CoreDream-6Bold';">totalCnt</span>건의 게시글이 있습니다.</p>
+			</div>
+		</div>
+		<div id="eventListWrap" th:if="${event == 'list'}"> <!-- 이벤트 목록 보기 -->
+			<table id="eventList">
+				<tbody>
+			        <tr th:each="event : ${eventList}">
+			            <td><span th:text="${event.eventNum}"></span></td>
+			            <td><a th:href="@{/eventView(eventNum=${event.eventNum})}"><span th:text="${event.eventTitle}">eventTitle</span></a></td>
+			            <td><span th:text="${#strings.substring(event.eventDate, 2, 10)}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+<!-- 			<div id="listPaging">
+				<div th:if="${totalCnt != 0}">
+ 					<div th:if="${totalCnt > 100}">
+						<div th:if="${(section * 100) < totalCnt}" class="pagingBoxWrap">
+							<div th:each="page : ${#numbers.sequence(1, 10)}" class="pagingBox">
+								<span th:if="${section > 1 && page == 1}"><a th:href="@{/noticeList(section = ${section - 1}, page = 10)}" style="color: #C9CACA;">◀</a></span>
+ 								<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${(section - 1) * 10 + page}">page</span></a>
+ 								<span th:if="${page == 10}"><a th:href="@{/noticeList(section = ${section + 1}, page = 1)}" style="color: #C9CACA;">▶</a></span>
+							</div>
+						</div>
+ 						<div th:if="${(section * 100) > totalCnt}" class="pagingBoxWrap">
+ 							<div th:each="page : ${#numbers.sequence(1, ((totalCnt + 9) - ((section - 1) * 100)) / 10)}" class="pagingBox">
+								<span th:if="${section > 1 && page == 1}"><a th:href="@{/noticeList(section = ${section - 1}, page = 10)}" style="color: #C9CACA;">◀</a></span>
+								<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${(section - 1) * 10 + page}">page</span></a>
+							</div>
+						</div>
+					</div>
+ 					<div th:if="${totalCnt == 100}" class="pagingBoxWrap">
+						<div th:each="page : ${#numbers.sequence(1, 10)}" class="pagingBox">
+							<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${page}">page</span></a>
+						</div>
+					</div>
+					<div th:if="${totalCnt < 100}" class="pagingBoxWrap">
+						<div th:each="page : ${#numbers.sequence(1, ((totalCnt + 9) / 10))}" class="pagingBox">    
+							<a th:href="@{/noticeList(section = ${section}, page = ${page})}"><span th:text="${page}">page</span></a>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="eventListBtnWrap"><button onclick="location.href='/eventWriteForm'" class="btn">이벤트 작성</button></div>
+		</div>
+		<div id="eventWriteWrap" th:if="${event == 'write'}"> <!-- 이벤트 작성 -->
+			<form action="/eventWrite" method="post" id="eventWriteForm" enctype="multipart/form-data">
+				<input type="hidden" name="memberName" th:value="${#authentication.principal.memberName}">
+				<table id="eventWriteTable">
+					<tbody>
+						<tr>
+							<td>이벤트 제목</td>
+							<td><input type="text" name="eventTitle" placeholder="이벤트 제목 입력"></td>
+						</tr>
+						<tr>
+							<td>이벤트 텍스트 내용</td>
+							<td><textarea name="eventContent" placeholder="이벤트 내용 입력"></textarea></td>
+						</tr>
+						<tr>
+							<td>이벤트 썸네일 파일</td>
+							<td><input type="file" name="eventSomeFile"></td>
+						</tr>
+						<tr>
+							<td>이벤트 배너</td>
+							<td><input type="file" name="eventFile"></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" value="작성" class="btn2" style="margin: 50px 10px 0px 425px; float: left;">
+			</form>
+			<button onclick="location.href='/eventList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
+		</div>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
+	</section>
+</body>
+</html>
