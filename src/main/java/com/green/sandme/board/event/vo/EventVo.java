@@ -1,5 +1,9 @@
 package com.green.sandme.board.event.vo;
 
+import java.io.UnsupportedEncodingException;
+
+import org.apache.tomcat.util.codec.binary.Base64;
+
 public class EventVo {
 	private int eventNum;
 	private String eventMember;
@@ -7,8 +11,22 @@ public class EventVo {
 	private String eventContent;
 	private byte[] eventSomeFile;
 	private byte[] eventFile;
+	private byte[] insertEventSomeFile;
+	private byte[] insertEventFile;
 	private String eventDate;
 	
+	public byte[] getInsertEventSomeFile() {
+		return insertEventSomeFile;
+	}
+	public void setInsertEventSomeFile(byte[] insertEventSomeFile) {
+		this.insertEventSomeFile = insertEventSomeFile;
+	}
+	public byte[] getInsertEventFile() {
+		return insertEventFile;
+	}
+	public void setInsertEventFile(byte[] insertEventFile) {
+		this.insertEventFile = insertEventFile;
+	}
 	public int getEventNum() {
 		return eventNum;
 	}
@@ -39,13 +57,21 @@ public class EventVo {
 	public void setEventDate(String eventDate) {
 		this.eventDate = eventDate;
 	}
-	public byte[] getEventSomeFile() {
+	public String getEventSomeFile() throws UnsupportedEncodingException {
+		byte[] eventSomeFilebyte = eventSomeFile;
+		byte[] eventSomeFilebyteEnc64 = Base64.encodeBase64(eventSomeFilebyte);
+		String eventSomeFile = new String(eventSomeFilebyteEnc64, "UTF-8");
+		
 		return eventSomeFile;
 	}
 	public void setEventSomeFile(byte[] eventSomeFile) {
 		this.eventSomeFile = eventSomeFile;
 	}
-	public byte[] getEventFile() {
+	public String getEventFile() throws UnsupportedEncodingException {
+		byte[] eventFilebyte = eventFile;
+		byte[] eventFilebyteEnc64 = Base64.encodeBase64(eventFilebyte);
+		String eventFile = new String(eventFilebyteEnc64, "UTF-8");
+		
 		return eventFile;
 	}
 	public void setEventFile(byte[] eventFile) {

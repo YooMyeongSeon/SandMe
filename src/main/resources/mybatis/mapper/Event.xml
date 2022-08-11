@@ -8,19 +8,29 @@
        SELECT count(*) FROM event_tbl
     </select>
 	
-	<!-- 이벤트 목록 보기(페이징) -->
-    <select id="selectEventListByPaging" resultType="com.green.sandme.board.event.vo.EventVo" parameterType="com.green.sandme.paging.spVo">
-       select * from(select rownum nick, eventNum, eventMember, eventTitle, eventContent, eventSomeFile, eventFile, eventDate from(select * from event_tbl order by eventNum desc))where nick BETWEEN (#{section} - 1) * 100 + (#{page} - 1) * 10 + 1 and (#{section} - 1) * 100 + #{page} * 10
+	<!-- 공지사항 목록 보기 -->
+    <select id="selectEventList" resultType="com.green.sandme.board.event.vo.EventVo">
+       SELECT * FROM event_tbl ORDER BY eventNum DESC
     </select>
     
     <!-- 이벤트 작성 -->
 	<insert id="insertEvent" parameterType="com.green.sandme.board.event.vo.EventVo">
-		INSERT INTO event_tbl VALUES(event_seq.nextval, #{eventMember}, #{eventTitle}, #{eventContent}, #{eventSomeFile}, #{eventFile}, sysdate)
+		INSERT INTO event_tbl VALUES(event_seq.nextval, #{eventMember}, #{eventTitle}, #{eventContent}, #{insertEventSomeFile}, #{insertEventFile}, sysdate)
 	</insert>
 	
 	<!-- 이벤트 상세 보기 -->
     <select parameterType="int" id="viewEvent" resultType="com.green.sandme.board.event.vo.EventVo">
        SELECT * FROM event_tbl WHERE eventNum = #{eventNum}
     </select>
+	
+	<!-- 이벤트 수정 -->
+	<update id="updateEvent" parameterType="com.green.sandme.board.event.vo.EventVo">
+		UPDATE event_tbl SET eventTitle = #{eventTitle}, eventContent = #{eventContent}, eventSomeFile = #{insertEventSomeFile}, eventFile = #{insertEventFile} WHERE eventNum = #{eventNum}
+	</update>
+	
+	<!-- 이벤트 삭제 -->
+	<delete parameterType="int" id="deleteEvent">
+       delete FROM event_tbl WHERE eventNum = #{eventNum}
+    </delete>
 	
 </mapper>
