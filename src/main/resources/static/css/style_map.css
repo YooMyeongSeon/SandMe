@@ -1,6 +1,9 @@
 @charset "EUC-KR";
 
-#mapHead { /* ÀÌº¥Æ® Çìµå ¡é */
+section {
+	text-align: center;
+}
+#mapHead { /* ¸Ê Çìµå ¡é */
 	text-align: center;
 	width: 1200px;
 	height: 120px;
@@ -21,16 +24,16 @@
 #Title ~ P {
 	line-height: 20pt;	
 }
-#orderSearch { /* ¸Ê °Ë»ö ¡é */
+#mapSearch { /* ¸Ê °Ë»ö ¡é */
 	width: 1200px;
 	margin: 50px auto 120px;
 	border: 1px solid #C9CACA;
 	padding: 50px;
 }
-#orderSearch > form > label {
+#mapSearch > form > label {
 	margin-right: 7.5px;
 }
-#orderSearch > form > input[type=text] {
+#mapSearch > form > input[type=text] {
 	width: 305px;
 	height: 40px;
 	background-color: #EFEFEF;
@@ -40,7 +43,7 @@
 	padding: 10px;
 	margin: 0px 2.5px;
 }
-#orderSearch > form > .btn {
+#mapSearch > form > .btn {
 	margin-left: 7.5px;
 }
 .btn {
@@ -70,9 +73,11 @@
 	white-space: nowrap;
 	text-align: center;
 }
-.shopSearchInfo {
+#shopSearch > p {
 	display: inline-block;
 	padding-right: 15px; 
 	margin-right: 15px;
+}
+#shopSearch > p:not(:nth-child(3)) {
 	border-right: 1px solid #C9CACA;
 }

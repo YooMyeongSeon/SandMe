@@ -19,19 +19,20 @@
 			<div id="TitleDeco"></div>
 			<div th:if="${map == 'address'}">
 				<p id="Title">지역 검색</p>
-				<p>지역을 검색하여 샌드미 매장을 찾을 수 있습니다.</p>
+				<p>매장의 배달 담당 지역을 검색하여 샌드미 매장을 찾을 수 있습니다.</p>
 			</div>
 			<div th:if="${map == 'shopName'}">
 				<p id="Title">매장명 검색</p>
 				<p>매장 이름으로 샌드미 매장을 찾을 수 있습니다.</p>
 			</div>
 		</div>
-		<div>
+		<div id="mapSearch">
 			<form method="post">
-				<label for="address">매장 찾기</label>
-				<input th:if="${map == 'address'}" type="text" id="address" name="address" placeholder="배달 받으실 주소를 입력해 주세요." onclick="callAddress()">
+				<input type="hidden" th:value="${map}" id="mapType">
+				<label for="address">매장 검색</label>
+				<input th:if="${map == 'address'}" type="text" id="address" name="address" placeholder="검색하실 매장의 주소를 입력해 주세요." onclick="callAddress()">
 				<input th:if="${map == 'address'}" type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해 주세요.">
-				<input th:if="${map == 'shopName'}" type="text" id="address" name="address" placeholder="이용하실 매장의 매장명을 입력해 주세요." style="width:626px;">
+				<input th:if="${map == 'shopName'}" type="text" id="address" name="address" placeholder="검색하실 매장의 매장명을 입력해 주세요." style="width:626px;">
 				<button class="btn" th:onclick="search(); return false;">검색</button>
 				<div class="mapLine"></div>
 				<input type="hidden" id="shopAddress" name="shopAddress">
@@ -79,7 +80,6 @@
 			}).open();
 		}
 		
-		/* chapter01 ↓ */
     	function search() {
 			if ($('#address').val() == "") {
 				alert("주소/매장명을 입력해주세요.");
@@ -89,7 +89,7 @@
 				return false;
 			}
 			
-			if ($('#order').val() == "home") {
+			if ($('#mapType').val() == "address") {
 				let address = $('#shopAddress').val();
  			
 				$.ajax({
@@ -113,10 +113,9 @@
 						} else {
 							let html = "";
 							
-							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">이용 가능 매장</span>　:　" + info.shopName + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
-							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"
 							html += "<div class=\"mapLine\"></div>";
 							
 							$("#shopNum").val(info.shopNum);
@@ -148,10 +147,9 @@
 						} else {
 							let html = "";
 							
-							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">이용 가능 매장</span>　:　" + info.shopName + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
-							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"
 							html += "<div class=\"mapLine\"></div>";
 							
 							geocoder.addressSearch(info.shopAddress, function(result, status) {
