@@ -18,4 +18,9 @@
 		INSERT INTO event_tbl VALUES(event_seq.nextval, #{eventMember}, #{eventTitle}, #{eventContent}, #{eventSomeFile}, #{eventFile}, sysdate)
 	</insert>
 	
+	<!-- 이벤트 상세 보기 -->
+    <select parameterType="int" id="viewEvent" resultType="com.green.sandme.board.event.vo.EventVo">
+       SELECT * FROM event_tbl WHERE eventNum = #{eventNum}
+    </select>
+	
 </mapper>

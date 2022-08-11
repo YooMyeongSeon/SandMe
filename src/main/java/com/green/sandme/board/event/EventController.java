@@ -1,25 +1,23 @@
 package com.green.sandme.board.event;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.green.sandme.board.event.vo.EventVo;
 import com.green.sandme.paging.spVo;
-
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @Controller
 public class EventController {
@@ -61,56 +59,45 @@ public class EventController {
     }
 	
 	@PostMapping("/eventWrite") //이벤트 작성
-    public String eventWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html; charset=UTF-8");
-    	PrintWriter out = response.getWriter();
-    
+    public String eventWrite(@RequestParam("memberName") String memberName,
+    		@RequestParam("eventTitle") String eventTitle,
+    		@RequestParam("eventContent") String eventContent,
+    		@RequestParam("eventSomeFile") MultipartFile eventSomeFile,
+    		@RequestParam("eventFile") MultipartFile eventFile) throws IOException {
 		EventVo eVo = new EventVo();
 		
-		eVo.setEventMember(request.getParameter("memberName"));
-		eVo.setEventTitle(request.getParameter("eventTitle"));
-		eVo.setEventContent(request.getParameter("eventContent"));
+		eVo.setEventMember(memberName);
+		eVo.setEventTitle(eventTitle);
+		eVo.setEventContent(eventContent);
+		eVo.setEventSomeFile(eventSomeFile.getBytes());
+		eVo.setEventFile(eventFile.getBytes());
 		
-		String savePath = "src/main/resources/static/img"; //이미지 저장 경로
-		int uploadFileSize = 100*1024*1024; //이미지 합계 파일 사이즈
-		String encType = "UTF-8";
+		sqlSession.insert("com.green.sandme.board.dao.eventDao.insertEvent", eVo);
 		
-		try {
-			MultipartRequest multi = new MultipartRequest(request, savePath, uploadFileSize, encType, new DefaultFileRenamePolicy());
-			
-			@SuppressWarnings("unchecked")
-			Enumeration<String> fileNames = multi.getFileNames(); //파일 이름을 배열 형태로 가져온다.
-			
-			while (fileNames.hasMoreElements()) {
-				String file = fileNames.nextElement(); //파일 이름이 아니라 전송된 객체 이름을 가져옴
-				String fileName = multi.getFilesystemName(file); //실제 파일 이름을 가져온다.
-				
-				String originFileName = multi.getOriginalFileName(file);
-				
-				out.println("업로드된 파일명 : " + fileName + "<br>");
-				out.println("원본 파일명 : " + originFileName + "<br>");
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-//    	sqlSession.insert("com.green.sandme.board.dao.eventDao.insertEvent", eVo);
-    	
     	return "redirect:eventList";
     }
 
-//	@RequestMapping("/noticeView") //공지사항 상세 보기
-//	public String noticeView(Model model, int noticeNum) {
-//		int totalCnt = sqlSession.selectOne("com.green.sandme.board.dao.noticeDao.selectNoticeCnt");
-//		
-//		sqlSession.update("com.green.sandme.board.dao.noticeDao.updateViewCnt", noticeNum); //조회수 증가 기능
-//		NoticeVo nVo = sqlSession.selectOne("com.green.sandme.board.dao.noticeDao.viewNotice", noticeNum);
-//		
-//		model.addAttribute("notice", "view");
-//		model.addAttribute("totalCnt", totalCnt);
-//		model.addAttribute("nVo", nVo);	
-//		return "board/notice";
-//	}
+	@RequestMapping("/eventView") //이벤트 상세 보기
+	public String eventView(Model model, int eventNum) throws UnsupportedEncodingException {
+		int totalCnt = sqlSession.selectOne("com.green.sandme.board.dao.eventDao.selectEventCnt");
+
+		EventVo eVo = sqlSession.selectOne("com.green.sandme.board.dao.eventDao.viewEvent", eventNum);
+		
+		byte[] eventSomeFilebyte = eVo.getEventSomeFile();
+		byte[] eventSomeFilebyteEnc64 = Base64.encodeBase64(eventSomeFilebyte);
+		String eventSomeFile = new String(eventSomeFilebyteEnc64, "UTF-8");
+		
+		byte[] eventFilebyte = eVo.getEventFile();
+		byte[] eventFilebyteEnc64 = Base64.encodeBase64(eventFilebyte);
+		String eventFile = new String(eventFilebyteEnc64, "UTF-8");
+		
+		model.addAttribute("eventFile", eventFile);
+		model.addAttribute("eventSomeFile", eventSomeFile);
+		model.addAttribute("event", "view");
+		model.addAttribute("totalCnt", totalCnt);
+		model.addAttribute("eVo", eVo);
+		return "board/event";
+	}
 //	
 //	@RequestMapping("/noticeUpdateForm") //공지사항 수정 폼
 //	public String noticeUpdateForm(Model model, int noticeNum) {

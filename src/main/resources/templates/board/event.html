@@ -88,6 +88,26 @@
 			</form>
 			<button onclick="location.href='/eventList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
 		</div>
+		<div id="eventViewWrap" th:if="${event == 'view'}"> <!-- 이벤트 상세 보기 -->
+			<p><span th:text="${eVo.eventTitle}">eventTitle</span></p>
+			<p><span th:text="${#strings.substring(eVo.eventDate, 2, 16)}">eventDate</span></p>
+			<div id="eventContent"><p><span th:utext="${eVo.eventContent}"></span></p></div>
+			<div><img th:src="'data:image/jpeg;base64,'+${eventFile}"></div>
+			<div><img th:src="'data:image/jpeg;base64,'+${eventSomeFile}"></div>
+			<div id="ViewbtnWrap"><button onclick="location.href='/eventList'" class="btn2">목록 보기</button></div>
+<!-- 			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="ViewbtnWrapAdmin">
+				<button th:onclick="'location.href=\''+@{noticeUpdateForm(noticeNum=${nVo.noticeNum})}+'\''" class="btn3" style="margin: 0px 10px 0px">수정</button>
+				<button class="btn3" onclick="delNotice()">삭제</button>
+				<input type="hidden" th:value="${nVo.noticeNum}" id="noticeNum">
+			</div> -->
+			<script>
+				function delNotice() {
+					if (confirm('공지사항을 삭제하시겠습니까?')) {
+						location.href="noticeDelete?noticeNum=" + $('#noticeNum').val()
+					}
+				}
+			</script>
+		</div>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
 </body>
