@@ -94,8 +94,11 @@
 		        	for (let i = 0; i < $('#cartSize').val(); i++) {
 		        		let cartId = "#cart" + i;
 		        		let priceId = "#cartPrice" + i;
-		        		$(cartId).prop("checked", false);
-		        		totalPrice -= Number($(priceId).val());
+		        		
+		        		if ($(cartId).is(":checked")) {
+		        			$(cartId).prop("checked", false);
+			        		totalPrice -= Number($(priceId).val());
+		        		}
 		        	}
 
 					$('#hiddenTotalPrice').val(totalPrice);

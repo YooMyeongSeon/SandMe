@@ -1,6 +1,6 @@
-package com.green.sandme.board.qna.vo;
+package com.green.sandme.board.cs.vo;
 
-public class QnaVO {
+public class QnaVo {
 	private int qnaNum;
 	private String qnaType;
 	private String qnaEmail;
@@ -58,6 +58,4 @@ public class QnaVO {
 	public void setQnaDate(String qnaDate) {
 		this.qnaDate = qnaDate;
 	}
-
-	
 }

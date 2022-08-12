@@ -1,0 +1,81 @@
+@charset "EUC-KR";
+
+#faqHeader { /* faq 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#faqList { /* faq 리스트 ↓ */
+	width: 1200px;
+	margin: 0px auto 120px;
+	border-top: 4px solid #009223;
+}
+.question {
+	font-size: 20px;
+	padding: 25px;
+	height: 90px;
+	cursor: pointer;
+	width: 100%;
+	text-align: left;
+	border-bottom: 1px solid #E1E1E1;
+}
+.question > p {
+	margin-top: 5px;
+	float: left;
+}
+.Qdeco {
+	width: 40px;
+	height: 40px;
+	background-color: #009223;
+	text-align: center;
+	border-radius: 20px;
+	padding-top: 6px;
+	margin-right: 20px;
+	float: left;
+}
+.Qdeco > p {
+	color: white;
+	font-family: 'S-CoreDream-6Bold';
+}
+.Adeco {
+	width: 40px;
+	height: 40px;
+	background-color: #FFCE32;
+	text-align: center;
+	border-radius: 20px;
+	padding-top: 6px;
+	margin-right: 20px;
+	margin: 80px 25px;
+	float: left;
+}
+.Adeco > p {
+	font-size: 20px;
+	color: white;
+	font-family: 'S-CoreDream-6Bold';
+}
+.answer { /* faq 답변 ↓ */
+	height: 0px;
+	overflow: hidden;
+	line-height: 22pt;
+	border-bottom: 1px solid #E1E1E1;
+	transition-duration: 0.3s;
+}
+.answerText {
+	float: left;
+	height: 200px;
+	display: flex;
+    align-items: center;
+}
