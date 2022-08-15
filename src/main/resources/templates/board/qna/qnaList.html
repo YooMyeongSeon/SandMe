@@ -1,40 +1,58 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
-<title>문의 리스트</title>
-<link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
-<link rel="stylesheet" href="./css/style_notice.css"> <!-- 메인 스타일 시트 -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_qna.css"> <!-- qna 스타일 시트 -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
 </head>
 <body>
-	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
 	<section>
-		<br><br><h3>고객 1:1 문의 목록</h3><br><br>
-		<table border=1 style=" text-align:center; width:1500px; border-collapse:collapse;">
-				<tr>
-					<th>No.</th>
+		<div id="qnaHeader">
+			<div id="TitleDeco"></div>
+			<div>
+				<p id="Title">문의 접수 리스트</p>
+				<p>1:1 문의사항 리스트</p>
+			</div>
+		</div>
+		<table id="qnaListTable">
+			<tbody th:each="qnaList:${qnaList}">
+				<tr id="listFirstTr">
+					<th>접수번호</th>
+					<td><span th:text="${qnaList.qnaNum}"></span></td>
 					<th>문의유형</th>
+					<td><span th:text="${qnaList.qnaType}"></span></td>
 					<th>이메일</th>
+					<td><span th:text="${qnaList.qnaEmail}"></span></td>
 					<th>전화번호</th>
+					<td><span th:text="${qnaList.qnaTel}"></span></td>
+				</tr>
+				<tr>
 					<th>제목</th>
+					<td colspan="7"><span th:text="${qnaList.qnaTitle}"></span></td>
+				</tr>
+				<tr>
 					<th>내용</th>
+					<td colspan="7" id="content"><span th:text="${qnaList.qnaContent}"></span></td>
+				</tr>
+				<tr id="listlastTr">
 					<th>답변유형</th>
+					<td colspan="2"><span th:text="${qnaList.qnaAnswer}"></span></td>
 					<th>작성일</th>
-					<th>삭제</th>
+		            <td colspan="2"><span th:text="${qnaList.qnaDate}"></span></td>    
+		            <td colspan="2"><button th:onclick="'location.href=\''+ @{qnaDelete(qnaNum=${qnaList.qnaNum})} + '\''" class="btn3">삭제</button></td>
 				</tr>
-		        <tr th:each="qnaList:${qnaList}">
-		            <td><span th:text="${qnaList.qnaNum}"></span></td>
-		            <td><span th:text="${qnaList.qnaType}"></span></td>
-		            <td><span th:text="${qnaList.qnaEmail}"></span></td>
-		            <td><span th:text="${qnaList.qnaTel}"></span></td>
-		            <td><span th:text="${qnaList.qnaTitle}"></span></td>
-		            <td><span th:text="${qnaList.qnaContent}"></span></td>
-		            <td><span th:text="${qnaList.qnaAnswer}"></span></td>
-		            <td><span th:text="${qnaList.qnaDate}"></span></td>    
-		            <td><button th:onclick="'location.href=\''+ @{qnaDelete(qnaNum=${qnaList.qnaNum})} + '\''">삭제</button></td>
+				<tr>
+					<td class="Listmargin"></td>
 				</tr>
+			</tbody>
 		</table>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
-	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </body>
 </html>

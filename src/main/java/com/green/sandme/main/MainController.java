@@ -23,4 +23,9 @@ public class MainController {
 		model.addAttribute("noticeList", noticeList);
 		return "main";
 	}
+	
+	@RequestMapping("/introduce")
+	public String introduce() {
+		return "introduce";
+	}
 }

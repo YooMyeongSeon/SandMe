@@ -3,7 +3,6 @@
   
 <mapper namespace="com.green.sandme.board.dao.qnaDao">
 
-	<!-- Ask -->
     <!--  문의사항을 등록하는 쿼리문 -->
 	<insert id="insertQna" parameterType="com.green.sandme.board.cs.vo.QnaVo">
 		INSERT INTO qnaTbl VALUES
@@ -12,8 +11,7 @@
 	
 	<!-- 문의사항 목록 쿼리문-->
     <select id="getQna" resultType="com.green.sandme.board.cs.vo.QnaVo">
-       SELECT * 
-       FROM qnaTbl ORDER BY qnaNum ASC
+       SELECT * FROM qnaTbl ORDER BY qnaNum DESC
     </select>
     
     <!-- 문의사항 삭제 쿼리문 -->

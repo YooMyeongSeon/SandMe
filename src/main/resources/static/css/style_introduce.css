@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+#promiseHeader { /* 브랜드 약속 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#Title ~ P {
+	line-height: 20pt;	
+}
+#brandContent {
+	width: 1000px;
+	margin: 0px auto;
+	margin-top: 150px;
+}
+ol li {
+	list-style:  none;
+	margin-bottom: 200px;
+}
+/* li 영역 */
+.promise_content {
+	width: 1000px;
+	height: 330px;
+ 	position: relative;
+}
+.sandme_promise_content li:nth-child(even) {
+  	background-color: #f3f3f3;; 
+}
+.sandme_promise_content li:nth-child(odd) {
+    background-color: #fff;   
+} 
+/* 이미지 영역 */
+.sandme_promise_content .promise_content .images {
+	width: 480px;
+	height: 350px;
+}
+.sandme_promise_content .promise_content:nth-child(odd)  .images {
+	position: absolute;
+	top: 30px;
+	left: 5px;
+	z-index: 3;
+} 
+.sandme_promise_content .promise_content:nth-child(even) .images {
+	position: absolute;
+	top: 30px;
+	right: 5px;
+	z-index: 3;
+} 
+/* title 영역 */
+.sandme_promise_content .promise_content .title {
+	width: 500px;
+	height: 200px;
+}
+.sandme_promise_content .promise_content:nth-child(odd) .title {
+	position: absolute;
+	right: 3px;
+	top: 70px;
+	z-index: 2;
+}  
+.sandme_promise_content .promise_content:nth-child(even) .title {
+	position: absolute;
+	left: 3px;
+	top: 70px;
+	z-index: 2;
+}  
+/*  num */
+.promise_content .wrap .title .num {
+	width: 50px;
+	height: 50px;
+	background-color: #009223;
+	color: #fff;
+	padding-top: 20px;
+	text-align: center;
+	box-sizing: border-box;
+	position: absolute;
+	top: -21px;
+	left: 5px;
+	font-size: 18px;
+}
+.promise_content .wrap .title .num:after {
+	content: '';
+	width: 25px;
+	height: 4px;
+	position: absolute;
+	left: 50%;
+	margin-left: -13px;
+	top: 13px;
+	background-color: #FFCE32;
+}
+.promise_content .wrap .title  strong {
+	color: #292929;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: left;
+	padding-left: 69px;
+	letter-spacing: -0.04em;
+	display: block;
+} 
+.sandme_promise_content .promise_content .wrap .title  p {
+	color: #292929;
+	font-size: 16px;
+	margin-top: 28px;
+	letter-spacing:  -0.04em;
+	line-height: 26px;
+}
+.sandme_promise_content .promise_content .eng {
+	font-size: 80px;
+	font-weight: bold;
+	letter-spacing: -0.035em;
+}
+.sandme_promise_content .promise_content:nth-child(odd) .eng {
+	color: #dedede;
+	position: absolute;
+	left: 490px;
+	top: 250px;
+}
+.sandme_promise_content .promise_content:nth-child(even) .eng {
+	color: #fff;
+	position: absolute;
+	left: 210px;
+	top: 240px;
+}
+ .hiddenLeft {
+    opacity:0;
+}
+ .hiddenRight {
+    opacity:0;
+}

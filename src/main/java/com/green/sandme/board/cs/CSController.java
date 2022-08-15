@@ -32,22 +32,24 @@ public class CSController {
 	//문의하기 작성
 	@PostMapping("/qnaWrite")		
     public String insertQna(QnaVo qVo) {
-    	sqlSession.insert("com.green.sandme.board.notice.dao.BoardDao.insertQna", qVo);
-    	return "main";
+    	sqlSession.insert("com.green.sandme.board.dao.qnaDao.insertQna", qVo);
+    	
+    	return "redirect:/";
     }
 	
 	//문의하기 리스트
 	@RequestMapping("/qnaList")
 	public String qnaList(Model model) {
-		List<QnaVo> qnaList = sqlSession.selectList("com.green.sandme.board.notice.dao.BoardDao.getQna");
+		List<QnaVo> qnaList = sqlSession.selectList("com.green.sandme.board.dao.qnaDao.getQna");
 		model.addAttribute("qnaList", qnaList);
+		
 		return "board/qna/qnaList";
 	}
 	
 	//문의내용 삭제 기능
 	@RequestMapping("/qnaDelete")
 	public String deleteQna(int qnaNum) {
-		sqlSession.delete("com.green.sandme.board.notice.dao.BoardDao.deleteQna", qnaNum);
+		sqlSession.delete("com.green.sandme.board.dao.qnaDao.deleteQna", qnaNum);
 		return "redirect:qnaList";
 	}
 }
