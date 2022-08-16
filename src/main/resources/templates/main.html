@@ -61,19 +61,19 @@
         			<p>샌드미의 다양한 소식들을<br> 빠르게 전달해드립니다.</p>
         		</div>
         		<div>
-        			<a th:href="@{/noticeView(noticeNum=${noticeList[0].noticeNum})}">
+        			<a th:href="@{/noticeView(noticeNum=${noticeList[0].noticeNum},section=1,page=1)}">
         				<span th:if="${#strings.length(noticeList[0].noticeTitle) < 25}" th:text="${noticeList[0].noticeTitle}">noticeTitle</span>
         				<span th:unless="${#strings.length(noticeList[0].noticeTitle) < 25}" th:text="${#strings.substring(noticeList[0].noticeTitle, 0, 25)} + ...">noticeTitle</span>
        				</a><br>
-        			<a th:href="@{/noticeView(noticeNum=${noticeList[1].noticeNum})}">
+        			<a th:href="@{/noticeView(noticeNum=${noticeList[1].noticeNum},section=1,page=1)}">
         				<span th:if="${#strings.length(noticeList[1].noticeTitle) < 25}" th:text="${noticeList[1].noticeTitle}">noticeTitle</span>
         				<span th:unless="${#strings.length(noticeList[1].noticeTitle) < 25}" th:text="${#strings.substring(noticeList[1].noticeTitle, 0, 25)} + ...">noticeTitle</span>
        				</a><br>
-        			<a th:href="@{/noticeView(noticeNum=${noticeList[2].noticeNum})}">
+        			<a th:href="@{/noticeView(noticeNum=${noticeList[2].noticeNum},section=1,page=1)}">
         				<span th:if="${#strings.length(noticeList[2].noticeTitle) < 25}" th:text="${noticeList[2].noticeTitle}">noticeTitle</span>
         				<span th:unless="${#strings.length(noticeList[2].noticeTitle) < 25}" th:text="${#strings.substring(noticeList[2].noticeTitle, 0, 25)} + ...">noticeTitle</span>
        				</a><br>
-        			<a th:href="@{/noticeView(noticeNum=${noticeList[3].noticeNum})}">
+        			<a th:href="@{/noticeView(noticeNum=${noticeList[3].noticeNum},section=1,page=1)}">
         				<span th:if="${#strings.length(noticeList[3].noticeTitle) < 25}" th:text="${noticeList[3].noticeTitle}">noticeTitle</span>
         				<span th:unless="${#strings.length(noticeList[3].noticeTitle) < 25}" th:text="${#strings.substring(noticeList[3].noticeTitle, 0, 25)} + ...">noticeTitle</span>
        				</a><br>
