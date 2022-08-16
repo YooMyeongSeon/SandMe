@@ -25,7 +25,7 @@
 				<tbody>
 			        <tr th:each="notice : ${noticeList}">
 			            <td><span th:text="${notice.noticeNum}"></span></td>
-			            <td><a th:href="@{/noticeView(noticeNum=${notice.noticeNum})}"><span th:text="${notice.noticeTitle}"></span></a></td>
+			            <td><a th:href="@{/noticeView(noticeNum=${notice.noticeNum},section=${section},page=${page})}"><span th:text="${notice.noticeTitle}"></span></a></td>
 			            <td><span th:text="${#strings.substring(notice.noticeDate, 2, 10)}"></span></td>
 					</tr>
 				</tbody>
@@ -84,11 +84,13 @@
 			<p><span th:text="${nVo.noticeTitle}">noticeTitle</span></p>
 			<p><span th:text="${#strings.substring(nVo.noticeDate, 2, 16)}">noticeDate</span></p>
 			<div id="ViewContent"><p><span th:utext="${nVo.noticeContent}"></span></p></div>
-			<div id="ViewbtnWrap"><button onclick="location.href='/noticeList'" class="btn2">목록 보기</button></div>
+			<div id="ViewbtnWrap"><button th:onclick="'location.href=\''+@{noticeList(section=${section},page=${page})}+'\''" class="btn2">목록 보기</button></div>
 			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="ViewbtnWrapAdmin">
 				<button th:onclick="'location.href=\''+@{noticeUpdateForm(noticeNum=${nVo.noticeNum})}+'\''" class="btn3" style="margin: 0px 10px 0px">수정</button>
 				<button class="btn3" onclick="delNotice()">삭제</button>
 				<input type="hidden" th:value="${nVo.noticeNum}" id="noticeNum">
+				<input type="hidden" th:value="${section}" id="section">
+				<input type="hidden" th:value="${page}" id="page">
 			</div>
 			<script>
 				function delNotice() {

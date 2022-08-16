@@ -61,12 +61,14 @@ public class NoticeController {
     }
 	
 	@RequestMapping("/noticeView") //공지사항 상세 보기
-	public String noticeView(Model model, int noticeNum) {
+	public String noticeView(Model model, int noticeNum, int section, int page) {
 		int totalCnt = sqlSession.selectOne("com.green.sandme.board.dao.noticeDao.selectNoticeCnt");
 		
 		sqlSession.update("com.green.sandme.board.dao.noticeDao.updateViewCnt", noticeNum); //조회수 증가 기능
 		NoticeVo nVo = sqlSession.selectOne("com.green.sandme.board.dao.noticeDao.viewNotice", noticeNum);
 		
+		model.addAttribute("section", section);
+		model.addAttribute("page", page);
 		model.addAttribute("notice", "view");
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("nVo", nVo);	
