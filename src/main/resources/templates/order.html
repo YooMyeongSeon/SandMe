@@ -416,7 +416,9 @@
 							dataType:'json',
 							success:function(req){
 								let box = req.next_redirect_pc_url;
-								window.open(box); //결제창 열기
+								let _left = Math.ceil((window.screen.width - 400)/2);
+							    let _top = Math.ceil((window.screen.height - 1000)/2)
+								window.open(box, "kakaopay", "width=400, height=700, left = " +_left+ ", top = " + _top); //결제창 열기
 							},
 							error:function(error){
 								alert(error);
