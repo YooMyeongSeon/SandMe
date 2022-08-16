@@ -45,7 +45,7 @@
 					<td colspan="2"><span th:text="${qnaList.qnaAnswer}"></span></td>
 					<th>작성일</th>
 		            <td colspan="2"><span th:text="${qnaList.qnaDate}"></span></td>    
-		            <td colspan="2"><button th:onclick="'location.href=\''+ @{qnaDelete(qnaNum=${qnaList.qnaNum})} + '\''" class="btn3">삭제</button></td>
+		            <td colspan="2"><button th:onclick="|delQna(${qnaList.qnaNum})|" class="btn3">삭제</button></td>
 				</tr>
 				<tr>
 					<td class="Listmargin"></td>
@@ -54,5 +54,12 @@
 		</table>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
+	<script>
+		function delQna(delNum) {
+			if (confirm('문의사항을 삭제하시겠습니까?')) {
+				location.href="qnaDelete?qnaNum=" + delNum;
+			}
+		}
+	</script>
 </body>
 </html>

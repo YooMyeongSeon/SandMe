@@ -25,7 +25,7 @@
 				<p>1:1 문의사항 작성</p>
 			</div>
 		</div>
-		<form action="/qnaWrite" method="post">
+		<form action="/qnaWrite" method="post" id=qnaWriteForm>
 			<table id="qnaQwriteTable">
 				<tbody>
 					<tr>
@@ -78,13 +78,19 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="submit" value="제출" class="btn">
+							<input type="button" value="제출" onclick="chk()" class="btn">
 							<button onclick="location.href='/'" class="btn2">취소</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
+		<script>
+			function chk() {
+				alert("문의사항이 정상적으로 접수되었습니다.");
+				$('#qnaWriteForm').submit();
+			}
+		</script>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
 </body>

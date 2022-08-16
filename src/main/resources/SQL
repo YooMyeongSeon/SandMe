@@ -202,3 +202,18 @@ CREATE TABLE event_tbl(eventNum NUMBER(8) PRIMARY KEY,
 CREATE SEQUENCE event_seq NOCACHE;
 
 SELECT * FROM event_tbl ORDER BY eventNum DESC;
+
+----------------------------------------------------------------------------------------------------문의하기 테이블
+
+CREATE TABLE qnaTbl (qnaNum NUMBER(8) CONSTRAINT PK_qnaTbl_qnaNum PRIMARY KEY,
+    qnaType VARCHAR2(200) not null,
+    qnaEmail VARCHAR2(320) not null,
+    qnaTel VARCHAR2(200) not null,
+    qnaTitle VARCHAR2(255) not null,
+    qnaContent CLOB not null,
+    qnaAnswer VARCHAR2(200) not null,
+    qnaDate DATE DEFAULT sysdate);
+    
+CREATE SEQUENCE qna_seq NOCACHE;
+
+SELECT * FROM qnaTbl;
