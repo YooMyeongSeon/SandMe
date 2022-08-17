@@ -36,14 +36,14 @@ public class MemberController {
 	@GetMapping("/join")
 	public String joinForm(Model model) {
 		model.addAttribute("chapter", "chapter01");
-		return "/joinForm";
+		return "joinForm";
 	}
 	
 	//회원가입 : 약관동의 후 챕터2로 이동
 	@PostMapping("/join")
 	public String joinFormChapter02(Model model) {
 		model.addAttribute("chapter", "chapter02");
-		return "/joinForm";
+		return "joinForm";
 	}
 	
 	//아이디 중복 확인
