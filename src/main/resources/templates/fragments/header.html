@@ -1,16 +1,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="headerFragment">
     <div id="hdLogo">
-        <a href="/"><img src="img/logo.svg"></a>
+        <a th:href="@{/}"><img src="img/logo.svg"></a>
         <div sec:authorize="isAnonymous()" class="hdLeft">
             <ul>
-            	<li><a href="/loginForm">로그인</a></li>
-            	<li><a href="/join">회원 가입</a></li>
+            	<li><a th:href="@{/loginForm}">로그인</a></li>
+            	<li><a th:href="@{/join}">회원 가입</a></li>
             </ul>
         </div>
         <div sec:authorize="isAuthenticated()" class="hdLeft" id="hdLeftLogin">
             <ul>
-            	<li><a href="/logout">로그아웃</a></li>
+            	<li><a th:href="@{/logout}">로그아웃</a></li>
             	<li><a th:href="@{/memberInfo(memberNum=${#authentication.principal.memberNum})}">회원 정보</a></li>
             	<li><a th:href="@{/cartList(memberNum=${#authentication.principal.memberNum})}">장바구니</a></li>
             </ul>
@@ -26,31 +26,31 @@
 	<nav>
 		<div id="openNav">
 			<ul>
-	            <li><a href="order?order=home">온라인 주문</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/eventList">새 소식</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/introduce">샌드미</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/map?map=address">매장 검색</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/faq">고객 센터</a><div class="orderLiDeco"></div></li>
+	            <li><a th:href="@{order?order=home}">온라인 주문</a><div class="orderLiDeco"></div></li>
+	            <li><a th:href="@{/eventList}">새 소식</a><div class="orderLiDeco"></div></li>
+	            <li><a th:href="@{/introduce}">샌드미</a><div class="orderLiDeco"></div></li>
+	            <li><a th:href="@{/map?map=address}">매장 검색</a><div class="orderLiDeco"></div></li>
+	            <li><a th:href="@{/faq}">고객 센터</a><div class="orderLiDeco"></div></li>
 	        </ul>
 	        <div id="detailNav">
 				<ul>
-					<li><a href="order?order=home">배달 주문</a></li>
-					<li><a href="order?order=pickUp">방문 포장</a></li>
+					<li><a th:href="@{order?order=home}">배달 주문</a></li>
+					<li><a th:href="@{order?order=pickUp}">방문 포장</a></li>
 				</ul>
 				<ul>
-					<li><a href="/eventList">이벤트 · 프로모션</a></li>
-					<li><a href="/noticeList">공지사항</a></li>
+					<li><a th:href="@{/eventList}">이벤트 · 프로모션</a></li>
+					<li><a th:href="@{/noticeList}">공지사항</a></li>
 				</ul>
 				<ul>
-					<li><a href="/introduce">브랜드 소개</a></li>
+					<li><a th:href="@{/introduce}">브랜드 소개</a></li>
 				</ul>
 				<ul>
-					<li><a href="/map?map=address">지역 검색</a></li>
-					<li><a href="/map?map=shopName">매장명 검색</a></li>
+					<li><a th:href="@{/map?map=address}">지역 검색</a></li>
+					<li><a th:href="@{/map?map=shopName}">매장명 검색</a></li>
 				</ul>
 				<ul>
-					<li><a href="/faq">자주하는 질문</a></li>
-					<li><a href="/qnaWriteForm">문의하기</a></li>
+					<li><a th:href="@{/faq}">자주하는 질문</a></li>
+					<li><a th:href="@{/qnaWriteForm}">문의하기</a></li>
 				</ul>
            </div>
 		</div>

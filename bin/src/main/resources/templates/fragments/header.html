@@ -1,37 +1,36 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="headerFragment">
     <div id="hdLogo">
         <a href="/"><img src="img/logo.svg"></a>
-        <div id="hdLeft">
+        <div sec:authorize="isAnonymous()" class="hdLeft">
             <ul>
-            	<li><a href="/">로그인</a></li>
-            	<li><a href="/">회원 가입</a></li>
+            	<li><a href="/loginForm">로그인</a></li>
+            	<li><a href="/join">회원 가입</a></li>
+            </ul>
+        </div>
+        <div sec:authorize="isAuthenticated()" class="hdLeft" id="hdLeftLogin">
+            <ul>
+            	<li><a href="/logout">로그아웃</a></li>
+            	<li><a th:href="@{/memberInfo(memberNum=${#authentication.principal.memberNum})}">회원 정보</a></li>
+            	<li><a th:href="@{/cartList(memberNum=${#authentication.principal.memberNum})}">장바구니</a></li>
             </ul>
         </div>
         <div id="hdRight">
             <ul>
-            	<li><a href="/"><img src="img/snsF.svg"></a></li>
-            	<li><a href="/"><img src="img/snsY.svg"></a></li>
-            	<li><a href="/"><img src="img/snsI.svg"></a></li>
+            	<li><a href="#" onclick="SNS()"><img src="img/snsF.svg"></a></li>
+            	<li><a href="#" onclick="SNS()"><img src="img/snsY.svg"></a></li>
+            	<li><a href="#" onclick="SNS()"><img src="img/snsI.svg"></a></li>
             </ul>
         </div>
     </div>
 	<nav>
 		<div id="openNav">
 			<ul>
-<<<<<<< HEAD
-	            <li><a href="order?order=home">온라인 주문</a></li>
-	            <li><a href="">새 소식</a></li>
-	            <li><a href="">샌드미</a></li>
-	            <li><a href="">매장 검색</a></li>
-	            <li><a href="">고객 센터</a></li>
-=======
 	            <li><a href="order?order=home">온라인 주문</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/">새 소식</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/">샌드미</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/">매장 검색</a><div class="orderLiDeco"></div></li>
-	            <li><a href="/">고객 센터</a><div class="orderLiDeco"></div></li>
->>>>>>> origin/MS
+	            <li><a href="/eventList">새 소식</a><div class="orderLiDeco"></div></li>
+	            <li><a href="/introduce">샌드미</a><div class="orderLiDeco"></div></li>
+	            <li><a href="/map?map=address">매장 검색</a><div class="orderLiDeco"></div></li>
+	            <li><a href="/faq">고객 센터</a><div class="orderLiDeco"></div></li>
 	        </ul>
 	        <div id="detailNav">
 				<ul>
@@ -39,42 +38,26 @@
 					<li><a href="order?order=pickUp">방문 포장</a></li>
 				</ul>
 				<ul>
-<<<<<<< HEAD
-					<li><a href="">이벤트</a></li>
-					<li><a href="">프로모션</a></li>
-					<li><a href="">공지사항</a></li>
+					<li><a href="/eventList">이벤트 · 프로모션</a></li>
+					<li><a href="/noticeList">공지사항</a></li>
 				</ul>
 				<ul>
-					<li><a href="">브랜드 소개</a></li>
-					<li><a href="">가맹점 모집</a></li>
-					<li><a href="">인재채용</a></li>
+					<li><a href="/introduce">브랜드 소개</a></li>
 				</ul>
 				<ul>
-					<li><a href="">지역 검색</a></li>
-					<li><a href="">매장명 검색</a></li>
+					<li><a href="/map?map=address">지역 검색</a></li>
+					<li><a href="/map?map=shopName">매장명 검색</a></li>
 				</ul>
 				<ul>
-					<li><a href="">자주하는 질문</a></li>
-					<li><a href="">문의하기</a></li>
-=======
-					<li><a href="/">이벤트 · 프로모션</a></li>
-					<li><a href="/">공지사항</a></li>
-				</ul>
-				<ul>
-					<li><a href="/">브랜드 소개</a></li>
-					<li><a href="/">샌드미 프랜차이즈</a></li>
-					<li><a href="/">가맹점 모집</a></li>
-				</ul>
-				<ul>
-					<li><a href="/">지역 검색</a></li>
-					<li><a href="/">매장명 검색</a></li>
-				</ul>
-				<ul>
-					<li><a href="/">자주하는 질문</a></li>
-					<li><a href="/">문의하기</a></li>
->>>>>>> origin/MS
+					<li><a href="/faq">자주하는 질문</a></li>
+					<li><a href="/qnaWriteForm">문의하기</a></li>
 				</ul>
            </div>
 		</div>
     </nav>
+    <script>
+	    function SNS() {
+	    	alert("준비중 입니다.");
+	    }
+    </script>
 </header>

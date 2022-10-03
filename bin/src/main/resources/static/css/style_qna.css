@@ -1,0 +1,148 @@
+@charset "EUC-KR";
+
+#qnaHeader { /* 문의하기 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#Title ~ P {
+	line-height: 20pt;	
+}
+#qnaQwriteTable {
+	border-collapse: collapse;
+	width: 1200px;
+	text-align: center;
+	border-top: 4px solid #009223;
+	margin: 0px auto;
+}
+#qnaQwriteTable > tbody > tr {
+	border-top: 1px solid #C9CACA;
+	
+}
+#qnaQwriteTable > tbody > tr > td:first-child {
+	width: 200px;
+	height: 60px;
+}
+#qnaQwriteTable > tbody > tr > td:last-child {
+	width: 1000px;
+}
+#qnaQwriteTable > tbody > tr > td:last-child > select {
+	width: 1000px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	line-height: 22pt;
+}
+#qnaQwriteTable > tbody > tr > td:last-child > input[type=text] {
+	width: 1000px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+}
+#qnaQwriteTable > tbody > tr > td > textarea {
+	width: 1000px;
+	height: 480px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	resize: none;
+	line-height: 20pt;
+	margin: 10px 0px;
+}
+#qnaQwriteTable > tbody > tr > td > input[type=radio] {
+	margin: 5px 10px 0px 0px;
+	width: 15px;
+	height: 15px;
+}
+#emailLabel {
+	margin-right: 25px;
+}
+.btn {
+	width: 160px;
+	height: 50px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+	margin: 50px 5px;
+}
+.btn2 {
+	width: 160px;
+	height: 50px;
+	border: 1px solid #C9CACA;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #C9CACA;
+	cursor: pointer;
+	margin: 50px 5px 120px;;
+}
+#qnaFooter > p {
+	color: #C9CACA;
+}
+#qnaListTable {
+	border-collapse: collapse;
+	width: 1200px;
+	text-align: center;
+	margin: 0px auto ;
+}
+#qnaListTable > tbody {
+	border-top: 4px solid #009223;
+}
+#listFirstTr > td,
+#listlastTr > td {
+	color: #C9CACA; 	
+}
+#qnaListTable > tbody > tr {
+	height: 60px;
+	border-top: 1px solid #C9CACA;
+}
+#qnaListTable > tbody > tr > th,
+#qnaListTable > tbody > tr > td {
+	width: 150px;
+}
+#qnaListTable > tbody > tr > th {
+	color: #009223;
+}
+.Listmargin {
+	height: 120px;
+}
+#content {
+	padding: 40px;
+	text-align: justify;
+	line-height: 22pt;
+}
+.btn3 {
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	background-color: #009223;
+	color: white;
+	cursor: pointer;
+}

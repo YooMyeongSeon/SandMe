@@ -741,7 +741,7 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 					</tbody>
 				</table>
 				<input type="button" value="중복 확인" id="overBtn" onclick="overlapCheck()">
-				<div id="btnWrap"><input type="button" value="회원가입" class="btn" onclick="check()"><input type="button" value="취소" class="btn2" onclick="location.href='/'"></div>
+				<div id="btnWrap"><input type="button" value="회원가입" class="btn" onclick="check()"><input type="button" value="취소" class="btn2" onclick="location.href='/sandme-0.0.1-SNAPSHOT/'"></div>
 			</form>
 			<script>
 				function check() {
@@ -832,7 +832,7 @@ SandMe® 앱 및 SandMe® 온라인 주문 웹사이트에는 이용자의 편�
 			<div id="joinSuccess">
 				<p>회원 가입 완료</p>
 				<p><span th:text="${memberName}">memberName</span>님, 샌드미 가입을 완영합니다!<p>
-				<input type="button" value="로그인" class="btn" onclick="location.href='/loginForm'">
+				<input type="button" value="로그인" class="btn" onclick="location.href='/sandme-0.0.1-SNAPSHOT/loginForm'">
 			</div>
 		</div>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->

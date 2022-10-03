@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>SandMe</title>
-=======
     <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
     <title>SandMe 샌드미</title>
->>>>>>> origin/MS
     <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
     <link rel="stylesheet" href="./css/style_order.css"> <!-- 오더 스타일 시트 -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
@@ -17,8 +13,13 @@
     <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 Api -->
 </head>
 <body>
+	<script sec:authorize="isAnonymous()">
+		$(document).ready(function() {
+			location.href="/loginForm";
+		});
+	</script>
 	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
-	<section>
+	<section sec:authorize="isAuthenticated()">
 		<div id="orderHead"> <!-- 오더 헤더 -->
 			<div id="orderTitleDeco"></div>
 			<div th:if="${order == 'home'}">
@@ -42,33 +43,25 @@
 					</div>
 				</div>
 				<div class="chapterPartition"></div>
-<<<<<<< HEAD
-				<div th:if="${chapter == 'chapter02'}">
-=======
 				<div th:if="${chapter == 'chapter02_01' || chapter == 'chapter02_02'}">
->>>>>>> origin/MS
 					<div class="chapterVi">
 						<img src="img/chapter02.svg" class="chapterViImg">
 						<p><span class="Step">Step2</span> <span style="color:white;">|</span> 메뉴 선택</p>
 					</div>
 				</div>
-<<<<<<< HEAD
-				<div th:unless="${chapter == 'chapter02'}">
-=======
 				<div th:unless="${chapter == 'chapter02_01' || chapter == 'chapter02_02'}">
->>>>>>> origin/MS
 					<div class="chapterDe">
 						<img src="img/chapter02(w).svg" class="chapterDeImg">
 					</div>
 				</div>
 				<div class="chapterPartition"></div>
-				<div th:if="${chapter == 'chapter03'}">
+				<div th:if="${chapter == 'chapter03' || chapter == 'chapter03_cart'}">
 					<div class="chapterVi">
 						<img src="img/chapter03.svg" class="chapterViImg">
 						<p><span class="Step">Step3</span> <span style="color:white;">|</span> 주문 작성</p>
 					</div>
 				</div>
-				<div th:unless="${chapter == 'chapter03'}">
+				<div th:unless="${chapter == 'chapter03' || chapter == 'chapter03_cart'}">
 					<div class="chapterDe">
 						<img src="img/chapter03(w).svg" class="chapterDeImg">
 					</div>
@@ -94,43 +87,15 @@
 				<label for="address">매장 찾기</label>
 				<input th:if="${order == 'home'}" type="text" id="address" name="address" placeholder="배달 받으실 주소를 입력해 주세요." onclick="callAddress()">
 				<input th:if="${order == 'home'}" type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해 주세요.">
-<<<<<<< HEAD
-				<input th:if="${order == 'pickUp'}" type="text" style="display:none;">
 				<input th:if="${order == 'pickUp'}" type="text" id="address" name="address" placeholder="이용하실 매장의 매장명을 입력해 주세요." style="width:626px;">
 				<button class="btn" th:onclick="search(); return false;">검색</button>
 				<div class="mapLine"></div>
-				
-=======
-				<input th:if="${order == 'pickUp'}" type="text" id="address" name="address" placeholder="이용하실 매장의 매장명을 입력해 주세요." style="width:626px;">
-				<button class="btn" th:onclick="search(); return false;">검색</button>
-				<div class="mapLine"></div>
->>>>>>> origin/MS
 				<input type="hidden" id="shopAddress" name="shopAddress">
 				<input type="hidden" id="shopNum" name="shopNum">
 				<div id="shopSearch"></div>
 			</form>
 			<div id="map"></div>
 		</div>
-<<<<<<< HEAD
-		<div th:if="${chapter == 'chapter02'}" id="orderSearch"> <!-- 챕터2 : 메뉴 선택 -->
-			<form method="post">
-				<div class="orderMenu">
-					<div id="SelectSc"><p>빵 선택</p></div>
-					<div>
-						<input type="radio" name="bread" value="bread01" id="bread01" class="selectRadio" checked>
-						<div class="menuSelect" onclick="bread01()"><img src="img/menu/bread01.png"><p>화이트</p></div>
-					</div>
-					<div>
-						<input type="radio" name="bread" value="bread02" id="bread02" class="selectRadio">
-						<div class="menuSelect" onclick="bread02()"><img src="img/menu/bread02.png"><p>허니오트</p></div>
-					</div>
-					<div>
-						<input type="radio" name="bread" value="bread03" id="bread03" class="selectRadio">
-						<div class="menuSelect" onclick="bread03()"><img src="img/menu/bread03.png"><p>하티</p></div>
-					</div>
-					<div>
-						<input type="radio" name="bread" value="bread04" id="bread04" class="selectRadio">
-=======
 		<div th:if="${chapter == 'chapter02_01'}" id="orderSearch"> <!-- 챕터2-1 : 메뉴 선택 -->
 			<form id="chapter02_01" method="post">
 				<input type="hidden" name="order" th:value="${order}">
@@ -212,7 +177,6 @@
 					</div>
 					<div>
 						<input type="radio" name="bread" value="플랫브레드" id="bread04" class="selectRadio">
->>>>>>> origin/MS
 						<div class="menuSelect" onclick="bread04()"><img src="img/menu/bread04.png"><p>플랫브레드</p></div>
 					</div>
 					<script>
@@ -223,48 +187,6 @@
 					</script>
 				</div>
 				<div class="orderMenu">
-<<<<<<< HEAD
-					<div id="SelectSc"><p>패티 선택</p></div>
-					<div>
-						<input type="radio" name="patty" value="patty01" id="patty01" class="selectRadio" checked>
-						<div class="menuSelect" onclick="patty01()"><img src="img/menu/patty01.png"><p>베이컨</p></div>
-					</div>
-					<div>
-						<input type="radio" name="patty" value="patty02" id="patty02" class="selectRadio">
-						<div class="menuSelect" onclick="patty02()"><img src="img/menu/patty02.png"><p>풀드포크 바비큐</p></div>
-					</div>
-					<div>
-						<input type="radio" name="patty" value="patty03" id="patty03" class="selectRadio">
-						<div class="menuSelect" onclick="patty03()"><img src="img/menu/patty03.png"><p>치킨 데리야끼</p></div>
-					</div>
-					<div>
-						<input type="radio" name="patty" value="patty04" id="patty04" class="selectRadio">
-						<div class="menuSelect" onclick="patty04()"><img src="img/menu/patty04.png"><p>쉬림프</p></div>
-					</div>
-					<script>
-						function patty01() {$('#patty01').prop("checked", true);}
-						function patty02() {$('#patty02').prop("checked", true);}
-						function patty03() {$('#patty03').prop("checked", true);}
-						function patty04() {$('#patty04').prop("checked", true);}
-					</script>
-				</div>
-				<div class="orderMenu">
-					<div id="SelectSc"><p>야채 선택<br>(다중 선택)</p></div>
-					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable01" id="vegetable01" class="selectRadio">
-						<div class="menuSelect" onclick="vegetable01()"><img src="img/menu/vegetable01.png"><p>양상추</p></div>
-					</div>
-					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable02" id="vegetable02" class="selectRadio">
-						<div class="menuSelect" onclick="vegetable02()"><img src="img/menu/vegetable02.png"><p>양파</p></div> 
-					</div>
-					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable03" id="vegetable03" class="selectRadio">
-						<div class="menuSelect" onclick="vegetable03()"><img src="img/menu/vegetable03.png"><p>토마토</p></div>
-					</div>
-					<div>
-						<input type="checkbox" name="vegetable[]" value="vegetable04" id="vegetable04" class="selectRadio">
-=======
 					<div class="SelectSc"><p>야채 선택<br>(다중 선택)</p></div>
 					<div>
 						<input type="checkbox" name="vegetable[]" value="양상추" id="vegetable01" class="selectRadio">
@@ -280,7 +202,6 @@
 					</div>
 					<div>
 						<input type="checkbox" name="vegetable[]" value="올리브" id="vegetable04" class="selectRadio">
->>>>>>> origin/MS
 						<div class="menuSelect" onclick="vegetable04()"><img src="img/menu/vegetable04.png"><p>올리브</p></div>
 					</div>
 					<script>
@@ -291,38 +212,6 @@
 					</script>
 				</div>
 				<div class="orderMenu">
-<<<<<<< HEAD
-					<div id="SelectSc"><p>치즈 선택</p></div>
-					<div>
-						<input type="radio" name="cheese" value="cheese01" id="cheese01" class="selectRadio" checked>
-						<div class="menuSelect" onclick="cheese01()"><img src="img/menu/cheese01.png"><p>아메리칸 치즈</p></div>
-					</div>
-					<div>
-						<input type="radio" name="cheese" value="cheese02" id="cheese02" class="selectRadio">
-						<div class="menuSelect" onclick="cheese02()"><img src="img/menu/cheese02.png"><p>모차렐라 치즈</p></div>
-					</div>
-					<script>
-						function cheese01() {$('#cheese01').prop("checked", true);}
-						function cheese02() {$('#cheese02').prop("checked", true);}
-					</script>
-				</div>
-				<div class="orderMenu">
-					<div id="SelectSc"><p>소스 선택</p></div>
-					<div>
-						<input type="radio" name="sauce" value="sauce01" id="sauce01" class="selectRadio" checked>
-						<div class="menuSelect" onclick="sauce01()"><img src="img/menu/sauce01.png"><p>허니 머스타드</p></div>
-					</div>
-					<div>
-						<input type="radio" name="sauce" value="sauce02" id="sauce02" class="selectRadio">
-						<div class="menuSelect" onclick="sauce02()"><img src="img/menu/sauce02.png"><p>스위트 어니언</p></div>
-					</div>
-					<div>
-						<input type="radio" name="sauce" value="sauce03" id="sauce03" class="selectRadio">
-						<div class="menuSelect" onclick="sauce03()"><img src="img/menu/sauce03.png"><p>스모크 바비큐</p></div>
-					</div>
-					<div>
-						<input type="radio" name="sauce" value="sauce04" id="sauce04" class="selectRadio">
-=======
 					<div class="SelectSc"><p>소스 선택</p></div>
 					<div>
 						<input type="radio" name="sauce" value="허니 머스타드" id="sauce01" class="selectRadio" checked>
@@ -338,7 +227,6 @@
 					</div>
 					<div>
 						<input type="radio" name="sauce" value="핫 칠리" id="sauce04" class="selectRadio">
->>>>>>> origin/MS
 						<div class="menuSelect" onclick="sauce04()"><img src="img/menu/sauce04.png"><p>핫 칠리</p></div>
 					</div>
 					<script>
@@ -348,8 +236,6 @@
 						function sauce04() {$('#sauce04').prop("checked", true);}
 					</script>
 				</div>
-<<<<<<< HEAD
-=======
 				<div class="orderMenu">
 					<div class="SelectSc"><p>치즈 선택</p></div>
 					<div>
@@ -400,42 +286,290 @@
 						function drink04() {$('#drink04').prop("checked", true);}
 					</script>
 				</div>
->>>>>>> origin/MS
+				<div id="quantityBox">
+					<p>수량</p>
+					<div class="quantityOper" onclick="quantityOperM()"><p>-</p></div>
+					<div><input type="number" id="quantity" name="quantity" value="1" readonly></div>
+					<div class="quantityOper" onclick="quantityOperP()"><p>+</p></div>
+					<script>
+						function quantityOperM() { //수량 감소 함수
+							let num = $('#quantity').val();
+							
+							if (num != 1) {
+								let result = parseInt(num) - 1;
+								$('#quantity').val(result);
+							}
+						}
+						function quantityOperP() { //수량 증가 함수
+							let num = $('#quantity').val();
+							
+							if (num != 99) {
+								let result = parseInt(num) + 1;
+								$('#quantity').val(result);
+							}
+								
+						}
+					</script>
+				</div>
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${shop}" id="inputShop">
+				<input type="hidden" name="inputAddress" th:value="${address}" id="inputAddress">
+				<input type="hidden" name="inputSandMenu" th:value="${mVo.menuNum}">
+				<input type="submit" value="주문하기" class="btn2">
+				<input type="button" value="장바구니" class="btn2" onclick="inCart()">
+				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
+			</form>
+		</div>
+		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
+			<form method="post" id="chapter03Form">
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
 				<input type="hidden" name="inputShop" th:value="${shop}">
 				<input type="hidden" name="inputAddress" th:value="${address}">
-<<<<<<< HEAD
-				<input type="submit" value="선택" class="btn">
-				<div id="map" style="display:none;"></div>
+				<input type="hidden" name="inputCustom" th:value="${custom}">
+				<input type="hidden" name="inputDrink" th:value="${drink}">
+				<input type="hidden" name="inputQuantity" th:value="${quantity}">
+				<input type="hidden" name="inputTotalPrice" th:value="${totalPrice}" id="inputTotalPrice">
+				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
+				<input type="hidden" name="menuNum" th:value="${mVo.menuNum}">
+				<div id="tableWrap">
+					<p>주문 내역</p>
+					<table class="chapter03table">
+						<tbody>
+							<tr>
+								<td>샌드미 <span th:text="${oAv.shopName}">shopName</span></td>
+								<td><span th:text="${oAv.shopAddress}">shopAddress</span></td>
+							</tr>
+							<tr th:if="${order == 'home'}">
+								<td>배달 주소</td>
+								<td><span th:text="${address}">address</span></td>
+							</tr>
+							<tr>
+								<td>주문 유형</td>
+								<td th:if="${order == 'home'}">배달 주문</td>
+								<td th:if="${order == 'pickUp'}">매장 주문</td>
+							</tr>
+							<tr>
+								<td>전화 번호</td>
+								<td><span th:text="${#authentication.principal.memberTel}">memberTel</span></td>
+							</tr>
+							<tr>
+								<td>주문시 요청사항</td>
+								<td><input type="text" name="request" placeholder="요청사항 작성(최대 50자)" maxlength="50"></td>
+							</tr>
+							<tr>
+								<td>주문 메뉴</td>
+								<td><span th:text="${mVo.menuName}">menuName</span></td>
+							</tr>
+							<tr>
+								<td>상세 내역</td>
+								<td><span th:text="${custom}">custom</span></td>
+							</tr>
+							<tr>
+								<td>음료 선택</td>
+								<td><span th:text="${drink}">drink</span></td>
+							</tr>
+							<tr>
+								<td>주문 수량</td>
+								<td><span th:text="${quantity}">quantity</span> 개</td>
+							</tr>
+						</tbody>
+					</table>
+					<p id="priceTitle">결제 금액</p>
+					<table class="chapter03table" id="priceTable">
+						<tbody>
+							<tr>
+								<td>메뉴 금액</td>
+								<td><span th:text="${#numbers.formatInteger(mVo.menuPrice, 0, 'COMMA')}">menuPrice</span>원</td>
+							</tr>
+							<tr>
+								<td>총 결제 금액</td>
+								<td><span th:if="${drink != '음료 선택 안함'}" id="drinkAdd">음료 2,000원 추가　</span>
+								<span th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}">totalPrice</span><span style="font-size: 12pt;">원</span></td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="paymentConsentBox">
+						<input type="checkbox" name="paymentConsent" id="paymentConsent"><label for="paymentConsent">구매조건 및 결제진행 동의</label>
+						<p>주문할 메뉴와 가격, 매장정보를 명확히 확인하였으며 결제 진행에 동의합니다.<br>제조시간은 매장상황에 따라 상이할 수 있습니다.<br>주문자 정보가 서비스 제공을 위해 주문 매장과 라이더에게 제공됨을 동의합니다.<br><span style="color: red">주문 후 제조가 시작되면 주문을 취소할 수 없습니다.</span></p>
+						<div><input type="button" value="결제 하기" class="btn2" onclick="payment()"></div>
+					</div>
+				</div>
 			</form>
-		</div>
-		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
-		
-=======
-				<input type="hidden" name="inputSandMenu" th:value="${mVo.menuNum}">
-				<input type="submit" value="주문하기" class="btn2">
-				<input type="button" value="장바구니" class="btn2" onclick="inCart()">
-			</form>
-		</div>
-		<div th:if="${chapter == 'chapter03'}" id="orderSearch"> <!-- 챕터3 : 주문 작성 -->
-			<form method="post">
+			<script>
+				function payment() {
+					if (!$('#paymentConsent').is(":checked")) {
+						alert("구매조건 및 결제진행 동의가 동의되지 않았습니다.");
+					} else {
+						let totalPrice = $("#inputTotalPrice").val();					
+						let memberNum = $("#memberNum").val();
+
+						$.ajax({
+							url:'/kakaopayP',
+							method : 'POST',
+							async : true,
+							data : { 
+								totalPrice : totalPrice, 
+								memberNum : memberNum	
+							},
+							dataType:'json',
+							success:function(req){
+								let box = req.next_redirect_pc_url;
+								let _left = Math.ceil((window.screen.width - 400)/2);
+							    let _top = Math.ceil((window.screen.height - 1000)/2)
+								window.open(box, "kakaopay", "width=400, height=700, left = " +_left+ ", top = " + _top); //결제창 열기
+							},
+							error:function(error){
+								alert(error);
+							}
+						});
+					}
+				}
 				
+				function chapter03Submit() {
+					$('#chapter03Form').submit();
+				}
+				
+				function chapter03Fail() {
+					alert("결제에 실패했습니다.");
+				}
+			</script>
+			<div id="map" style="display:none;"></div>
+		</div>
+		<div th:if="${chapter == 'chapter03_cart'}" id="orderSearch"> <!-- 챕터3 : 주문 작성(장바구니 에서 주문) -->
+			<form action="order" method="post" id="chapter03Form">
+				<input type="hidden" id="order" name="order" th:value="${order}">
+				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
+				<input type="hidden" name="inputShop" th:value="${cartList[0].shopNum}">
+				<input type="hidden" name="inputAddress" th:value="${cartList[0].cartAddress}">
+				<input type="hidden" th:value="${cartList.size}" id="cartSize" name="cartSize">
+				<input type="hidden" name="inputTotalPrice" th:value="${totalPrice}" id="inputTotalPrice">
+				<input type="hidden" name="memberNum" th:value="${#authentication.principal.memberNum}" id="memberNum">
+				<div id="tableWrap">
+					<p>주문 내역</p>
+					<table class="chapter03table">
+						<tbody>
+							<tr>
+								<td>샌드미 <span th:text="${cartList[0].shopName}">shopName</span></td>
+								<td><span th:text="${cartList[0].shopAddress}">shopAddress</span></td>
+							</tr>
+							<tr th:if="${order == 'home'}">
+								<td>배달 주소</td>
+								<td><span th:text="${cartList[0].cartAddress}">address</span></td>
+							</tr>
+							<tr>
+								<td>주문 유형</td>
+								<td th:if="${order == 'home'}">배달 주문</td>
+								<td th:if="${order == 'pickUp'}">매장 주문</td>
+							</tr>
+							<tr>
+								<td>전화 번호</td>
+								<td><span th:text="${#authentication.principal.memberTel}">memberTel</span></td>
+							</tr>
+							<tr>
+								<td>주문시 요청사항</td>
+								<td><input type="text" name="request" placeholder="요청사항 작성(최대 50자)" maxlength="50"></td>
+							</tr>
+						</tbody>
+					</table>
+					<table th:each="cart, i: ${cartList}" th:id="cartIndex + ${i.index}" class="chapter03table">
+						<tbody>
+							<tr>
+								<td>주문 메뉴</td>
+								<td>
+									<span th:text="${cart.menuName}">menuName</span>
+									<input type="hidden" th:name="menuNum + ${i.index}" th:value="${cart.menuNum}">
+									<input type="hidden" th:name="inputCustom + ${i.index}" th:value="${cart.cartCustom}">
+									<input type="hidden" th:name="inputDrink + ${i.index}" th:value="${cart.cartDrink}">
+									<input type="hidden" th:name="inputQuantity + ${i.index}" th:value="${cart.cartQuantity}">
+								</td>
+							</tr>
+							<tr>
+								<td>상세 내역</td>
+								<td><span th:text="${cart.cartCustom}">cartCustom</span></td>
+							</tr>
+							<tr>
+								<td>음료 선택</td>
+								<td><span th:text="${cart.cartDrink}">cartDrink</span></td>
+							</tr>
+							<tr>
+								<td>주문 수량</td>
+								<td><span th:text="${cart.cartQuantity}">cartQuantity</span> 개</td>
+							</tr>
+							<tr>
+								<td>메뉴 금액</td>
+								<td><span th:text="${#numbers.formatInteger(cart.menuPrice, 0, 'COMMA')}">menuPrice</span>원</td>
+								
+							</tr>
+						</tbody>
+					</table>
+					<p id="priceTitle">결제 금액</p>
+					<table class="chapter03table" id="priceTable">
+						<tbody>
+							<tr>
+								<td>총 결제 금액</td>
+								<td><span th:text="${#numbers.formatInteger(totalPrice, 0, 'COMMA')}">totalPrice</span><span style="font-size: 12pt;">원</span></td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="paymentConsentBox">
+						<input type="checkbox" name="paymentConsent" id="paymentConsent"><label for="paymentConsent">구매조건 및 결제진행 동의</label>
+						<p>주문할 메뉴와 가격, 매장정보를 명확히 확인하였으며 결제 진행에 동의합니다.<br>제조시간은 매장상황에 따라 상이할 수 있습니다.<br>주문자 정보가 서비스 제공을 위해 주문 매장과 라이더에게 제공됨을 동의합니다.<br><span style="color: red">주문 후 제조가 시작되면 주문을 취소할 수 없습니다.</span></p>
+						<div><input type="button" value="결제 하기" class="btn2" onclick="payment()"></div>
+					</div>
+				</div>
 			</form>
->>>>>>> origin/MS
+			<script>
+				function payment() {
+					if (!$('#paymentConsent').is(":checked")) {
+						alert("구매조건 및 결제진행 동의가 동의되지 않았습니다.");
+					} else {
+						let totalPrice = $("#inputTotalPrice").val();					
+						let memberNum = $("#memberNum").val();
+
+						$.ajax({
+							url:'/kakaopayP',
+							method : 'POST',
+							async : true,
+							data : { 
+								totalPrice : totalPrice, 
+								memberNum : memberNum	
+							},
+							dataType:'json',
+							success:function(req){
+								let box = req.next_redirect_pc_url;
+								window.open(box); //결제창 열기
+							},
+							error:function(error){
+								alert(error);
+							}
+						});
+					}
+				}
+				
+				function chapter03Submit() {
+					$('#chapter03Form').submit();
+				}
+				
+				function chapter03Fail() {
+					alert("결제에 실패했습니다.");
+				}
+			</script>
 			<div id="map" style="display:none;"></div>
 		</div>
 		<div th:if="${chapter == 'chapter04'}" id="orderSearch"> <!-- 챕터4 : 주문 완료 -->
-			
+			<div id="orderSuccessBox">
+				<p>주문이 완료되었습니다.</p>
+				<p>주문 내역 및 배달에 관한 안내는 회원 정보를 통하여 확인 가능합니다.</p>
+				<p>주문 번호 : <span th:text="${oVo.orderNum}">orderNum</span></p>
+				<p>주문 시간 : <span th:text="${oVo.orderTime}">orderTime</span></p>
+			</div>
+			<button onclick="location.href='/'" class="btn2">메인 화면</button>
 			<div id="map" style="display:none;"></div>
 		</div>
-<<<<<<< HEAD
-	</section>
-	<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
-=======
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
->>>>>>> origin/MS
     <script>
     	/* 카카오 맵 ↓ */
 		let container = document.getElementById('map');
@@ -508,11 +642,7 @@
 						} else {
 							let html = "";
 							
-<<<<<<< HEAD
-							html += "<p class=\"shopSearchInfo\"><span style=\"color:#5CB531;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
-=======
 							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
->>>>>>> origin/MS
 							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
 							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"
@@ -547,11 +677,7 @@
 						} else {
 							let html = "";
 							
-<<<<<<< HEAD
-							html += "<p class=\"shopSearchInfo\"><span style=\"color:#5CB531;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
-=======
-							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">배달 가능 매장</span>　:　" + info.shopName + "</p>";
->>>>>>> origin/MS
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">이용 가능 매장</span>　:　" + info.shopName + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
 							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
 							html += "<input class=\"btn\" type=\"submit\" value=\"선택\">"
@@ -585,8 +711,6 @@
 				});
 			}
 		}
-<<<<<<< HEAD
-=======
 		
     	function chap02submit(selectMenuNum) {
     		$('#selectsandMenu').val(selectMenuNum);
@@ -594,10 +718,47 @@
     	}
     	
     	function inCart() {
-    		$('#chapter').val("inCart");
-    		$('#chapter02_02').submit();
+    		let memberNum = $('#memberNum').val();
+    		let order = $('#order').val();
+    		let shop = $('#inputShop').val();
+    		let address = $('#inputAddress').val();
+    		
+    		let data = {"memberNum" : memberNum, "order" : order, "shop" : shop, "address" : address};
+    		
+			$.ajax({
+				url : "cartCheck",
+				type : "post",
+				async : true,
+				data : JSON.stringify(data),
+				datetype : "text",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					if (data != "fail") {
+						$('#chapter').val("inCart");
+			    		$('#chapter02_02').submit();
+					} else {
+						if (!confirm('이미 담은 다른 정보의 상품을 삭제 후 담으시겠습니까?')) {
+							location.href="order?order=home";
+						} else {
+							$.ajax({
+								url : "cartDeleteInsert",
+								type : "post",
+								async : true,
+								data : memberNum,
+								datetype : "text",
+								contentType: "application/json; charset=UTF-8",
+								success : function(data) {
+									$('#chapter').val("inCart");
+						    		$('#chapter02_02').submit();
+								}
+							});
+						}
+					}
+				}
+			});
+			
+ 			
     	}
->>>>>>> origin/MS
     </script>
 </body>
 </html>

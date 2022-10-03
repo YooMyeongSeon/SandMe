@@ -1,0 +1,83 @@
+@charset "EUC-KR";
+
+section {
+	text-align: center;
+}
+#mapHead { /* 맵 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#Title ~ P {
+	line-height: 20pt;	
+}
+#mapSearch { /* 맵 검색 ↓ */
+	width: 1200px;
+	margin: 50px auto 120px;
+	border: 1px solid #C9CACA;
+	padding: 50px;
+}
+#mapSearch > form > label {
+	margin-right: 7.5px;
+}
+#mapSearch > form > input[type=text] {
+	width: 305px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	margin: 0px 2.5px;
+}
+#mapSearch > form > .btn {
+	margin-left: 7.5px;
+}
+.btn {
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	background-color: #009223;
+	color: white;
+	cursor: pointer;
+	display: inline-block;
+}
+.mapLine { 
+	border-top: 1px solid #C9CACA;
+	width:1100px;
+	margin: 50px auto;
+}
+#map { /* 오더 검색 지도 ↓ */
+	width:1100px;
+	height:400px;
+	margin: 25px auto;
+	border-radius: 5px;
+}
+#markerName {
+	padding: 10px;
+	font-size: 10pt;
+	white-space: nowrap;
+	text-align: center;
+}
+#shopSearch > p {
+	display: inline-block;
+	padding-right: 15px; 
+	margin-right: 15px;
+}
+#shopSearch > p:not(:nth-child(3)) {
+	border-right: 1px solid #C9CACA;
+}

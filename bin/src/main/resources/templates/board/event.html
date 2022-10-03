@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_event.css"> <!-- 이벤트 스타일 시트 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
+	<section>
+		<div id="eventHeader">
+			<div id="TitleDeco"></div>
+			<div>
+				<p id="Title">이벤트 · 프로모션</p>
+				<p>총 <span th:text="${totalCnt}" style="color: #009223; font-family: 'S-CoreDream-6Bold';">totalCnt</span>건의 게시글이 있습니다.</p>
+			</div>
+		</div>
+		<div id="eventListWrap" th:if="${event == 'list'}"> <!-- 이벤트 목록 보기 -->
+			<div th:each="event, i : ${eventList}" id="eventList">
+				<a th:href="@{/eventView(eventNum=${event.eventNum})}">
+					<img th:src="'data:image/jpeg;base64,'+${event.eventSomeFile}">
+					<span th:text="${event.eventTitle}">eventTitle</span>
+					<span th:text="${#strings.substring(event.eventDate, 2, 10)}">eventDate</span>
+				</a>
+			</div>
+			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="eventListBtnWrap"><button onclick="location.href='/eventWriteForm'" class="btn">이벤트 작성</button></div>
+		</div>
+		<div id="eventWriteWrap" th:if="${event == 'write'}"> <!-- 이벤트 작성 -->
+			<form action="/eventWrite" method="post" id="eventWriteForm" enctype="multipart/form-data">
+				<input type="hidden" name="memberName" th:value="${#authentication.principal.memberName}">
+				<table id="eventWriteTable">
+					<tbody>
+						<tr>
+							<td>이벤트 제목</td>
+							<td><input type="text" name="eventTitle" placeholder="이벤트 제목 입력"></td>
+						</tr>
+						<tr>
+							<td>이벤트 텍스트 내용</td>
+							<td><textarea name="eventContent" placeholder="이벤트 내용 입력"></textarea></td>
+						</tr>
+						<tr>
+							<td>이벤트 썸네일 파일</td>
+							<td><input type="file" name="eventSomeFile" required></td>
+						</tr>
+						<tr>
+							<td>이벤트 배너</td>
+							<td><input type="file" name="eventFile" required></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" value="작성" class="btn2" style="margin: 50px 10px 0px 425px; float: left;">
+			</form>
+			<button onclick="location.href='/eventList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
+		</div>
+		<div id="eventViewWrap" th:if="${event == 'view'}"> <!-- 이벤트 상세 보기 -->
+			<p><span th:text="${eVo.eventTitle}">eventTitle</span></p>
+			<p><span th:text="${#strings.substring(eVo.eventDate, 2, 16)}">eventDate</span></p>
+			<div id="imgWrap"><img th:src="'data:image/jpeg;base64,'+${eVo.eventFile}"></div>
+			<div id="ViewContent"><p><span th:utext="${eVo.eventContent}"></span></p></div>
+			<div id="ViewbtnWrap"><button onclick="location.href='/eventList'" class="btn2">목록 보기</button></div>
+ 			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="ViewbtnWrapAdmin">
+				<button th:onclick="'location.href=\''+@{eventUpdateForm(eventNum=${eVo.eventNum})}+'\''" class="btn3" style="margin: 0px 10px 0px">수정</button>
+				<button class="btn3" onclick="delEvent()">삭제</button>
+				<input type="hidden" th:value="${eVo.eventNum}" id="eventNum">
+			</div>
+			<script>
+				function delEvent() {
+					if (confirm('이벤트를 삭제하시겠습니까?')) {
+						location.href="eventDelete?eventNum=" + $('#eventNum').val()
+					}
+				}
+			</script>
+		</div>
+		<div id="eventUpdateWrap" th:if="${event == 'update'}"> <!-- 이벤트 수정 -->
+			<form action="/eventUpdate" method="post" enctype="multipart/form-data">
+				<input type="hidden" th:value="${eVo.eventNum}" name="eventNum">
+				<input type="hidden" th:value="${eVo.eventMember}" name="memberName">
+				<input type="hidden" th:value="${eVo.eventNum}" name="eventNum">
+				<table id="eventUpdateTable">
+					<tbody>
+						<tr>
+							<td colspan="1">이벤트 제목</td>
+							<td colspan="3"><input type="text" name="eventTitle" th:value="${eVo.eventTitle}"></td>
+						</tr>
+						<tr>
+							<td colspan="1">이벤트 내용</td>
+							<td colspan="3"><textarea name="eventContent" th:text="${eVo.eventContent}"></textarea></td>
+						</tr>
+						<tr>
+							<td colspan="1">이벤트 썸네일 파일 변경</td>
+							<td colspan="3"><input type="file" name="eventSomeFile" required></td>
+						</tr>
+						<tr>
+							<td colspan="1">이벤트 배너 변경</td>
+							<td colspan="3"><input type="file" name="eventFile" required></td>
+						</tr>
+						<tr>
+							<td class="updateInfoTd">작성자</td>
+							<td class="updateInfoTdg"><span th:text="${eVo.eventMember}"></span></td>
+							<td class="updateInfoTd">작성일</td>
+							<td class="updateInfoTdg"><span th:text="${#strings.substring(eVo.eventDate, 2, 16)}"></span></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" value="수정" class="btn2" style="margin: 50px 10px 0px 425px; float: left;">
+			</form>
+			<button th:onclick="|location.href='@{eventView(eventNum=${eVo.eventNum})}'|" class="btn3" style="margin-top: 50px; float: left;">취소</button>
+		</div>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
+	</section>
+</body>
+</html>

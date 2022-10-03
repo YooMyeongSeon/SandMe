@@ -16,8 +16,7 @@
     
     <!-- 문의사항 삭제 쿼리문 -->
     <delete parameterType="int" id="deleteQna">
-    	DELETE FROM qnaTbl
-    	WHERE qnaNum = #{qnaNum}
+    	DELETE FROM qnaTbl WHERE qnaNum = #{qnaNum}
     </delete>
     
 </mapper>

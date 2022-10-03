@@ -24,7 +24,7 @@
 			<p>장바구니가 비어있습니다.</p>
 		</div>
 		<div th:unless="${cartList == 'nothing'}" id="cartBox">
-			<form action="cartOrder" method="post" id="cartForm">
+			<form action="/sandme-0.0.1-SNAPSHOT/cartOrder" method="post" id="cartForm">
 				<table>
 					<tbody>
 						<tr>
@@ -150,7 +150,7 @@
 			} else {
 				if (confirm("상품을 장바구니에서 삭제하시겠습니까?")) {	
 					$.ajax({
-						url : "/cartDelete",
+						url : "/sandme-0.0.1-SNAPSHOT/cartDelete",
 						type : "post",
 						async : true,
 						data : JSON.stringify(delCartNum),

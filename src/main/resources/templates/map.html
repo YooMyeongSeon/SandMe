@@ -41,6 +41,7 @@
 			</form>
 			<div id="map"></div>
 		</div>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
 	</section>
 	<script>
     	/* 카카오 맵 ↓ */
@@ -93,7 +94,7 @@
 				let address = $('#shopAddress').val();
  			
 				$.ajax({
-					url : "order/home",
+					url : "/sandme-0.0.1-SNAPSHOT/order/home",
 					type : "post",
 					async : true,
 					data : address,
@@ -127,7 +128,7 @@
 				let address = $('#address').val();
  			
 				$.ajax({
-					url : "order/pickUp",
+					url : "/sandme-0.0.1-SNAPSHOT/order/pickUp",
 					type : "post", 
 					async : true,
 					data : address,

@@ -1,0 +1,238 @@
+@charset "EUC-KR";
+
+#eventHeader { /* 이벤트 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#Title ~ P {
+	line-height: 20pt;	
+}
+#eventListWrap { /* 이벤트 목록 보기 ↓ */
+	width: 1200px;
+	margin: 0px auto 120px;
+}
+#eventList {
+	width: 380px;
+	height: 320px;
+	background-color: #EFEFEF;
+	display: inline-block;
+	margin-bottom: 50px;
+}
+#eventList:not(:nth-child(3n)) {
+	margin-right: 25px;
+}
+#eventList > a > img {
+	width: 380px;
+	height: 200px;
+}
+#eventList > a > span:nth-child(2) {
+	font-family: 'S-CoreDream-6Bold';
+	display: block;
+	margin: 10px 0px 0px 30px;
+}
+#eventList > a > span:nth-child(3) {
+	color: #009223;
+	display: block;
+	margin: 30px 0px 0px 30px;
+}
+
+#eventListBtnWrap {
+	text-align: center;
+}
+.btn {
+	width: 200px;
+	height: 50px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+}
+#listPaging {
+	width: 600px;
+	height: 100px;
+	margin: 0px auto;
+	padding-top: 50px;
+	text-align: center;
+}
+.pagingBox {
+	display: inline-block;
+}
+.pagingBox > span, .pagingBox > a {
+	margin-right: 20px;
+	float: left;
+	color: #009223;
+}
+#eventWriteWrap { /* 이벤트 작성 ↓ */
+	width: 1200px;
+	margin: 0px auto 120px;
+	height: 780px;
+}
+#eventWriteTable {
+	border-collapse: collapse;
+	width: 1200px;
+	text-align: center;
+	border-top: 4px solid #009223;
+}
+#eventWriteTable > tbody > tr:not(:nth-child(2)) > td {
+	height: 60px;
+}
+#eventWriteTable > tbody > tr:first-child > td:first-child,
+#eventWriteTable > tbody > tr:nth-child(2) > td:first-child {
+	width: 200px;
+}
+#eventWriteTable > tbody > tr:first-child > td > input {
+	width: 1000px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+}
+#eventWriteTable > tbody > tr:nth-child(2) > td {
+	border-top: 1px solid #C9CACA;
+	height: 500px;
+}
+#eventWriteTable > tbody > tr:nth-child(2) > td > textarea {
+	width: 1000px;
+	height: 480px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	resize: none;
+	line-height: 20pt;
+}
+#eventWriteTable > tbody > tr:nth-child(3) > td,
+#eventWriteTable > tbody > tr:nth-child(4) > td {
+	border-top: 1px solid #C9CACA;
+}
+.btn2 {
+	width: 160px;
+	height: 50px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+}
+.btn3 {
+	width: 160px;
+	height: 50px;
+	border: 1px solid #C9CACA;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #C9CACA;
+	cursor: pointer;
+}
+#eventViewWrap { /* 이벤트 조회 ↓ */
+	width: 1200px;
+	margin: 0px auto 120px;
+	border-top: 4px solid #009223;
+	position: relative;
+}
+#eventViewWrap > p:first-child {
+	font-size: 26pt;
+	margin: 20px 0px;
+}
+#eventViewWrap > p:nth-child(2) {
+	color: #C9CACA;
+}
+#imgWrap {
+	width: 800px;
+	margin: 0px auto;
+}
+#imgWrap > img {
+	width: 800px;
+}
+#ViewContent {
+	width: 1200px;
+	margin: 20px 0px 50px;
+	text-align: center;
+	line-height: 22pt;
+}
+#ViewbtnWrap {
+	text-align: center;
+	margin-bottom: 50px;
+}
+#ViewbtnWrapAdmin {
+	position: absolute; bottom:0px; right: 170px;	
+}
+#eventUpdateWrap { /* 공지사항 수정 ↓ */
+	width: 1200px;
+	height: 845px;
+	margin: 0px auto 120px;
+	border-top: 4px solid #009223;
+	
+}
+#eventUpdateTable {
+	text-align: center;
+	border-collapse: collapse;
+}
+#eventUpdateTable > tbody > tr:first-child > td {
+	height: 60px;
+}
+#eventUpdateTable > tbody > tr:first-child > td:first-child,
+#eventUpdateTable > tbody > tr:nth-child(2) > td:first-child {
+	width: 200px;
+}
+#eventUpdateTable > tbody > tr:first-child > td > input {
+	width: 1000px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+}
+#eventUpdateTable > tbody > tr:nth-child(2) > td {
+	border-top: 1px solid #C9CACA;
+	height: 500px;
+}
+#eventUpdateTable > tbody > tr:nth-child(2) > td > textarea {
+	width: 1000px;
+	height: 480px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	resize: none;
+	line-height: 20pt;
+}
+#eventUpdateTable > tbody > tr:nth-child(3) > td,
+#eventUpdateTable > tbody > tr:nth-child(4) > td,
+#eventUpdateTable > tbody > tr:nth-child(5) > td {
+	border-top: 1px solid #C9CACA;
+	width: 200px;
+	height: 60px;
+}
+.updateInfoTd {
+	font-family: 'S-CoreDream-6Bold';
+	color: #009223;
+}
+.updateInfoTdg {
+	color: #C9CACA;
+}

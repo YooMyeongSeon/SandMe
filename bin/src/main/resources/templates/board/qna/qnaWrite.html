@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_qna.css"> <!-- qna 스타일 시트 -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
+	<script sec:authorize="isAnonymous()">
+		$(document).ready(function() {
+			location.href="/loginForm";
+		});
+	</script>
+	<section sec:authorize="isAuthenticated()">
+		<div id="qnaHeader">
+			<div id="TitleDeco"></div>
+			<div>
+				<p id="Title">문의하기</p>
+				<p>1:1 문의사항 작성</p>
+			</div>
+		</div>
+		<form action="/qnaWrite" method="post" id=qnaWriteForm>
+			<table id="qnaQwriteTable">
+				<tbody>
+					<tr>
+						<td><label for="">문의 유형</label></td>
+						<td>
+							<select name="qnaType" required>
+								<optgroup label="메뉴 문의">
+								  	<option value="아이디어 건의">아이디어 건의</option>
+								    <option value="알레르기 문의">알레르기 문의</option>
+								    <option value="원산지 문의">원산지 문의</option>
+								</optgroup>
+								<optgroup label="창업 문의">
+								    <option value="가맹 개설 문의">가맹 개설 문의</option>
+								</optgroup>
+								<optgroup label="서비스 문의">
+								    <option value="칭찬합니다">칭찬합니다</option>
+								    <option value="개선해주세요">개선해주세요</option>
+								    <option value="기타">기타</option>
+							  </optgroup>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="qnaEmail">이메일 주소</label></td>
+						<td><input type="text" name="qnaEmail" th:value="${#authentication.principal.memberEmail}" readonly></td>
+					</tr>
+					<tr>
+						<td><label for="qnaTel">전화번호</label></td>
+						<td><input type="text" name="qnaTel" th:value="${#authentication.principal.memberTel}" readonly></td>
+					</tr>
+					<tr>
+						<td><label for="qnaTitle">문의 제목</label></td>
+						<td><input type="text" name="qnaTitle" required></td>
+					</tr>
+					<tr>
+						<td><label for="qnaContent">문의 내용</label></td>
+						<td><textarea name="qnaContent"></textarea></td>
+					</tr>
+					<tr>
+						<td><label for="qnaAnswer">답변 받을 수단</label></td>
+						<td>
+							<input type="radio" name="qnaAnswer" value="이메일" checked="checked"><label for="qnaAnswer" id="emailLabel">이메일</label>
+							<input type="radio" name="qnaAnswer" value="휴대전화"><label for="qnaAnswer">휴대전화</label>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" id="qnaFooter">
+							<p>문의 답변은 이메일/휴대폰 메시지로 전송됩니다. (소요기간은 1~3일 이내로 문의가 많을시 답변이 지연될 수 있습니다.)</p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input type="button" value="제출" onclick="chk()" class="btn">
+							<button type="button" onclick="location.href='/'" class="btn2">취소</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<script>
+			function chk() {
+				alert("문의사항이 정상적으로 접수되었습니다.");
+				$('#qnaWriteForm').submit();
+			}
+		</script>
+		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
+	</section>
+</body>
+</html>

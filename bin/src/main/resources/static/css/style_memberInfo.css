@@ -1,0 +1,192 @@
+@charset "EUC-KR";
+
+#memberInfoHeader { /* 회원 정보 헤드 ↓ */
+	text-align: center;
+	width: 1200px;
+	height: 120px;
+	margin: 75px auto;
+}
+#TitleDeco {
+	width: 40px;
+	height: 5px;
+	margin: 0px auto;
+	background-color: #FFCE32;
+}
+#Title {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 32pt;
+	color: #009223;
+	margin: 10px 0px 25px;
+}
+#memberInfoBox { /* 회원 기본 정보 ↓ */
+	width: 1200px;
+	margin: 50px auto 120px;
+	border: 1px solid #C9CACA;
+	padding: 50px;
+}
+table {
+	margin: 0px auto;
+	border-collapse: collapse;
+}
+#memberInfoBox > table > tbody > tr > td:first-child {
+	width: 200px;
+	height: 80px;
+}
+#memberInfoBox > table > tbody > tr > td:last-child {
+	width: 600px;
+}
+#memberInfoBox > table > tbody > tr:not(:nth-child(4)) > td {
+	border-bottom: 1px solid #C9CACA;
+}
+.formHead {
+	font-size: 16pt;
+	font-family: 'S-CoreDream-6Bold';
+	text-align: center;
+}
+#btnWrap {
+	position: relative;
+}
+.btn {
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	background-color: #009223;
+	color: white;
+	cursor: pointer;
+	position: absolute; top: 20px; right: 0px;
+}
+.orderList {
+	color: #C9CACA;
+}
+#btnWrap2 {
+	text-align: center;
+	clear: both;
+}
+.btn2 {
+	width: 160px;
+	height: 50px;
+	margin: 40px 10px;
+	border: 1px solid #009223;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #009223;
+	cursor: pointer;
+	display: inline-block;
+}
+.btn3 {
+	width: 160px;
+	height: 50px;
+	margin: 40px 10px;
+	border: 1px solid #C9CACA;
+	border-radius: 30px;
+	font-family: 'S-CoreDream-6Bold';
+	background-color: white;
+	font-size: 14pt;
+	color: #C9CACA;
+	cursor: pointer;
+}
+#memberUpdateForm > table { /* 회원 정보 수정 ↓ */
+	margin: 0px auto;
+	border-collapse: collapse;
+}
+#formHead {
+	font-size: 16pt;
+	font-family: 'S-CoreDream-6Bold';
+	text-align: center;
+}
+#memberUpdateForm > table > tbody > tr > td:first-child {
+	width: 150px;
+	height: 80px;
+}
+#memberUpdateForm > table > tbody > tr > td {
+	border-bottom: 1px solid #C9CACA;
+}
+#memberUpdateForm > table > tbody > tr > td > input {
+	width: 400px;
+	height: 40px;
+	background-color: #EFEFEF;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+	padding: 10px;
+	margin: 0px 2.5px;
+}
+#deleteBox {  /* 회원 탈퇴 ↓ */
+	text-align: center;
+	width: 650px;
+	margin: 0px auto;
+}
+#deleteBox > p {
+	font-family: 'S-CoreDream-6Bold';
+	font-size: 20pt;
+	margin-bottom: 15px;
+}
+#deleteBox > input[type=checkbox] {
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin-right: 10px;
+}
+#deleteBox > label {
+	float: left;
+}
+.memberOrder {
+	width: 800px;
+	margin: 0px auto;
+	border-collapse: collapse;
+}
+.memberOrder > tbody > tr:first-child {
+	border-top: 4px solid #009223;
+}
+.memberOrder > tbody > tr {
+	border-top: 1px solid #C9CACA;
+}
+.memberOrder > tbody > tr > th, .memberOrder > tbody > tr > td {
+	height: 60px;
+	text-align: left;
+}
+.memberOrder > tbody > tr > th {
+	width: 150px;
+	color: #009223;
+}
+.memberOrder > tbody > tr > td {
+	width: 250px;
+}
+.orderWrap {
+	width: 800px;
+	height: 200px;
+	margin: 0px auto 25px;
+	border-top: 1px solid #C9CACA;
+}
+.orderWrap > img {
+	width: 200px;
+	margin: 25px 15px 0px 0px;
+	float: left;
+}
+.orderWrap > p:nth-child(2) {
+	margin: 25px 0px 10px;
+}
+.orderWrap > p:nth-child(2) > span:first-child {
+	color: #009223;
+	font-size: 20pt;
+	font-family: 'S-CoreDream-6Bold';
+	
+}
+.orderWrap > p:nth-child(3) {
+	color: #C9CACA;
+	font-size: 10pt;
+}
+.orderWrap > p:nth-child(4) {
+	color: #C9CACA;
+	font-size: 10pt;
+	margin: 5px 0px 0px;
+}
+.orderWrap > p:nth-child(5) {
+	color: #FFCE32;
+	font-size: 20pt;
+	margin-top: 20px;
+	font-family: 'S-CoreDream-6Bold';
+}

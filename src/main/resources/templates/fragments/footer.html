@@ -7,7 +7,7 @@
 			<li><a href="#" onclick="SNS()">위치기반서비스</a></li>
 			<li><a href="#" onclick="SNS()">청소년보호방침</a></li>
 			<li><a href="#" onclick="SNS()">단체주문</a></li>
-			<li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="noticeListBtnWrap"><a onclick="location.href='/qnaList'">문의 사항</a></li>
+			<li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="noticeListBtnWrap"><a onclick="location.href='/sandme-0.0.1-SNAPSHOT/qnaList'">문의 사항</a></li>
 		</ul>
 	</div>
 	<div id="ftBody">

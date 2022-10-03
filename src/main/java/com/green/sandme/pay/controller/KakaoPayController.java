@@ -25,7 +25,7 @@ public class KakaoPayController {
 			try { //카카오 디벨로퍼 단건결제페이지에 있는 양식 그대로 옮김
 				HttpURLConnection server = (HttpURLConnection) payUrl.openConnection(); //서버연결
 				server.setRequestMethod("POST");
-				server.setRequestProperty("Authorization", "KakaoAK 337d6a7354bfe683bd496a9480eb05de" );
+				server.setRequestProperty("Authorization", "KakaoAK b4bf695eb189177575f0d9926efa920c" );
 				server.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 				server.setDoOutput(true);
 
@@ -37,9 +37,9 @@ public class KakaoPayController {
 					+ "&total_amount="+totalPrice+"" // 총 금액
 					+ "&vat_amount=200" // 부가세
 					+ "&tax_free_amount=0" // 상품 비과세 금액
-					+ "&approval_url=http://localhost:8090/kakaopaysuccess" // 결제 성공 시
-					+ "&fail_url=http://localhost:8090/kakaopayfail" // 결제 실패 시
-					+ "&cancel_url=http://localhost:8090/kakaopayfail"; // 결제 취소 시
+					+ "&approval_url=http://129.154.203.250:8080/sandme-0.0.1-SNAPSHOT/kakaopaysuccess" // 결제 성공 시
+					+ "&fail_url=http://129.154.203.250:8080/sandme-0.0.1-SNAPSHOT/kakaopayfail" // 결제 실패 시
+					+ "&cancel_url=http://129.154.203.250:8080/sandme-0.0.1-SNAPSHOT/kakaopayfail"; // 결제 취소 시
 
 				OutputStream out = server.getOutputStream(); //주는애
 				DataOutputStream dataOut = new DataOutputStream(out); //데이터 주는애

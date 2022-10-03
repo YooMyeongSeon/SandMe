@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/favicon.ico"> <!-- 파비콘 -->
+    <title>SandMe 샌드미</title>
+    <link rel="stylesheet" href="./css/style_base.css"> <!-- 베이스 스타일 시트 -->
+    <link rel="stylesheet" href="./css/style_map.css"> <!-- 맵 스타일 시트 -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- 제이쿼리 -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f087608337867dd75c4783c9a811d2db&libraries=services,clusterer"></script> <!-- 카카오 맵 Api -->
+    <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 검색 Api -->
+</head>
+<body>
+	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
+	<section>
+		<div id="mapHead"> <!-- 맵 헤더 -->
+			<div id="TitleDeco"></div>
+			<div th:if="${map == 'address'}">
+				<p id="Title">지역 검색</p>
+				<p>매장의 배달 담당 지역을 검색하여 샌드미 매장을 찾을 수 있습니다.</p>
+			</div>
+			<div th:if="${map == 'shopName'}">
+				<p id="Title">매장명 검색</p>
+				<p>매장 이름으로 샌드미 매장을 찾을 수 있습니다.</p>
+			</div>
+		</div>
+		<div id="mapSearch">
+			<form method="post">
+				<input type="hidden" th:value="${map}" id="mapType">
+				<label for="address">매장 검색</label>
+				<input th:if="${map == 'address'}" type="text" id="address" name="address" placeholder="검색하실 매장의 주소를 입력해 주세요." onclick="callAddress()">
+				<input th:if="${map == 'address'}" type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해 주세요.">
+				<input th:if="${map == 'shopName'}" type="text" id="address" name="address" placeholder="검색하실 매장의 매장명을 입력해 주세요." style="width:626px;">
+				<button class="btn" th:onclick="search(); return false;">검색</button>
+				<div class="mapLine"></div>
+				<input type="hidden" id="shopAddress" name="shopAddress">
+				<input type="hidden" id="shopNum" name="shopNum">
+				<div id="shopSearch"></div>
+			</form>
+			<div id="map"></div>
+		</div>
+	</section>
+	<script>
+    	/* 카카오 맵 ↓ */
+		let container = document.getElementById('map');
+		let options = {center: new kakao.maps.LatLng(37.26358693125355, 127.0287164628422), level: 7};
+		let map = new kakao.maps.Map(container, options);
+		let geocoder = new kakao.maps.services.Geocoder();
+		
+		/* 주소 검색 ↓ */
+		function callAddress() {
+			new daum.Postcode({
+		        oncomplete: function(data) {
+					$('#address').val(data.roadAddress);
+					$('#shopAddress').val(data.bname);
+					
+					geocoder.addressSearch(data.roadAddress, function(result, status) {
+				    	if (status === kakao.maps.services.Status.OK) {
+					        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					        
+							$('#map').empty();
+							let map = new kakao.maps.Map(container, options);
+							
+							let marker = new kakao.maps.Marker({
+					            map: map,
+					            position: coords
+					        });
+
+					        let infowindow = new kakao.maps.InfoWindow({
+					            content: '<div id="markerName">' + data.roadAddress + '</div>'
+					        });
+					        
+					        infowindow.open(map, marker);
+					        map.setCenter(coords); 
+					    }
+					});
+		        }
+			}).open();
+		}
+		
+    	function search() {
+			if ($('#address').val() == "") {
+				alert("주소/매장명을 입력해주세요.");
+				return false;
+			} else if ($('#detailAddress').val() == "") {
+				alert("상세주소를 입력해주세요.");
+				return false;
+			}
+			
+			if ($('#mapType').val() == "address") {
+				let address = $('#shopAddress').val();
+ 			
+				$.ajax({
+					url : "order/home",
+					type : "post",
+					async : true,
+					data : address,
+					datetype : "text",
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+						let info = JSON.parse(data);
+						$("#shopSearch").empty();
+						
+						if (data == "null" || info.shopOpen == "close") {
+							let html = "";
+	
+							html += "<p>입력하신 주소 주변으로 배달 가능한 매장이 없습니다.</p>";
+								html += "<div class=\"mapLine\"></div>";
+										
+							$("#shopSearch").append(html);
+						} else {
+							let html = "";
+							
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">이용 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
+							html += "<div class=\"mapLine\"></div>";
+							
+							$("#shopNum").val(info.shopNum);
+							$("#shopSearch").append(html);
+						}
+					}
+				});
+			} else {
+				let address = $('#address').val();
+ 			
+				$.ajax({
+					url : "order/pickUp",
+					type : "post", 
+					async : true,
+					data : address,
+					datetype : "text",
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+						let info = JSON.parse(data);
+						$("#shopSearch").empty();
+						
+						if (data == "null" || info.shopOpen == "close") {
+							let html = "";
+	
+							html += "<p>입력하신 매장이 없거나, 영업시간이 아닙니다.</p>";
+								html += "<div class=\"mapLine\"></div>";
+										
+							$("#shopSearch").append(html);
+						} else {
+							let html = "";
+							
+							html += "<p class=\"shopSearchInfo\"><span style=\"color:#009223;\">이용 가능 매장</span>　:　" + info.shopName + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopAddress + "</p>";
+							html += "<p class=\"shopSearchInfo\">" + info.shopTel + "</p>";
+							html += "<div class=\"mapLine\"></div>";
+							
+							geocoder.addressSearch(info.shopAddress, function(result, status) {
+						    	if (status === kakao.maps.services.Status.OK) {
+							        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+							        
+									$('#map').empty();
+									let map = new kakao.maps.Map(container, options);
+									
+									let marker = new kakao.maps.Marker({
+							            map: map,
+							            position: coords
+							        });
+		
+							        let infowindow = new kakao.maps.InfoWindow({
+							            content: '<div id="markerName">' + info.shopAddress + '</div>'
+							        });
+							        
+							        infowindow.open(map, marker);
+							        map.setCenter(coords); 
+							    }
+							});
+
+							$("#shopNum").val(info.shopNum);
+							$("#shopSearch").append(html);
+						}
+					}
+				});
+			}
+		}
+    </script>
+</body>
+</html>

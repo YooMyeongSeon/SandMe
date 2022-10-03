@@ -31,7 +31,7 @@
             </div>
             <a href="#" th:onclick="return false" id="mainBtL"><img src="./img/mainBt.svg"></a>
             <a href="#" th:onclick="return false" id="mainBtR"><img src="./img/mainBt.svg"></a>
-            <a href="order?order=home" id="mainOrder"><img src="./img/mainOrder.svg"><span>주문 하기</span></a>
+            <a th:href="@{order?order=home}" id="mainOrder"><img src="./img/mainOrder.svg"><span>주문 하기</span></a>
         </div>
         <div id="mainMenu">
 	        <div id="mainMenuTitleDeco"><p>SandMe's Menu</p></div>
@@ -77,13 +77,13 @@
         				<span th:if="${#strings.length(noticeList[3].noticeTitle) < 25}" th:text="${noticeList[3].noticeTitle}">noticeTitle</span>
         				<span th:unless="${#strings.length(noticeList[3].noticeTitle) < 25}" th:text="${#strings.substring(noticeList[3].noticeTitle, 0, 25)} + ...">noticeTitle</span>
        				</a><br>
-        			<a href="/noticeList" style="color: #C9CACA;"><span>more</span></a>
+        			<a th:href="@{/noticeList}" style="color: #C9CACA;"><span>more</span></a>
         		</div>
         	</div>
 			<div id="mainEtcShop">
 				<p>샌드미 매장 찾기</p>
 				<p>나와 가장 가까운 샌드미를 찾아보세요</p>
-				<a href="/map?map=address"><span>more</span></a>
+				<a th:href="@{/map?map=address}"><span>more</span></a>
 				<img src="./img/location.svg">
 			</div>
         </div>

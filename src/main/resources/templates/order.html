@@ -15,7 +15,7 @@
 <body>
 	<script sec:authorize="isAnonymous()">
 		$(document).ready(function() {
-			location.href="/loginForm";
+			location.href="/sandme-0.0.1-SNAPSHOT/loginForm";
 		});
 	</script>
 	<th:block th:replace="fragments/header :: headerFragment"></th:block> <!-- 헤더 -->
@@ -406,7 +406,7 @@
 						let memberNum = $("#memberNum").val();
 
 						$.ajax({
-							url:'/kakaopayP',
+							url:'/sandme-0.0.1-SNAPSHOT/kakaopayP',
 							method : 'POST',
 							async : true,
 							data : { 
@@ -417,7 +417,7 @@
 							success:function(req){
 								let box = req.next_redirect_pc_url;
 								let _left = Math.ceil((window.screen.width - 400)/2);
-							    let _top = Math.ceil((window.screen.height - 1000)/2)
+							    let _top = Math.ceil((window.screen.height - 1000)/2);
 								window.open(box, "kakaopay", "width=400, height=700, left = " +_left+ ", top = " + _top); //결제창 열기
 							},
 							error:function(error){
@@ -438,7 +438,7 @@
 			<div id="map" style="display:none;"></div>
 		</div>
 		<div th:if="${chapter == 'chapter03_cart'}" id="orderSearch"> <!-- 챕터3 : 주문 작성(장바구니 에서 주문) -->
-			<form action="order" method="post" id="chapter03Form">
+			<form action="/sandme-0.0.1-SNAPSHOT/order" method="post" id="chapter03Form">
 				<input type="hidden" id="order" name="order" th:value="${order}">
 				<input type="hidden" id="chapter" name="chapter" th:value="${chapter}">
 				<input type="hidden" name="inputShop" th:value="${cartList[0].shopNum}">
@@ -529,7 +529,7 @@
 						let memberNum = $("#memberNum").val();
 
 						$.ajax({
-							url:'/kakaopayP',
+							url:'/sandme-0.0.1-SNAPSHOT/kakaopayP',
 							method : 'POST',
 							async : true,
 							data : { 
@@ -539,7 +539,9 @@
 							dataType:'json',
 							success:function(req){
 								let box = req.next_redirect_pc_url;
-								window.open(box); //결제창 열기
+								let _left = Math.ceil((window.screen.width - 400)/2);
+							    let _top = Math.ceil((window.screen.height - 1000)/2);
+								window.open(box, "kakaopay", "width=400, height=700, left = " +_left+ ", top = " + _top); //결제창 열기
 							},
 							error:function(error){
 								alert(error);
@@ -565,7 +567,7 @@
 				<p>주문 번호 : <span th:text="${oVo.orderNum}">orderNum</span></p>
 				<p>주문 시간 : <span th:text="${oVo.orderTime}">orderTime</span></p>
 			</div>
-			<button onclick="location.href='/'" class="btn2">메인 화면</button>
+			<button onclick="location.href='/sandme-0.0.1-SNAPSHOT/'" class="btn2">메인 화면</button>
 			<div id="map" style="display:none;"></div>
 		</div>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->
@@ -622,7 +624,7 @@
 				let address = $('#shopAddress').val();
  			
 				$.ajax({
-					url : "order/home",
+					url : "/sandme-0.0.1-SNAPSHOT/order/home",
 					type : "post",
 					async : true,
 					data : address,
@@ -657,7 +659,7 @@
 				let address = $('#address').val();
  			
 				$.ajax({
-					url : "order/pickUp",
+					url : "/sandme-0.0.1-SNAPSHOT/order/pickUp",
 					type : "post", 
 					async : true,
 					data : address,
@@ -726,7 +728,7 @@
     		let data = {"memberNum" : memberNum, "order" : order, "shop" : shop, "address" : address};
     		
 			$.ajax({
-				url : "cartCheck",
+				url : "/sandme-0.0.1-SNAPSHOT/cartCheck",
 				type : "post",
 				async : true,
 				data : JSON.stringify(data),
@@ -738,10 +740,10 @@
 			    		$('#chapter02_02').submit();
 					} else {
 						if (!confirm('이미 담은 다른 정보의 상품을 삭제 후 담으시겠습니까?')) {
-							location.href="order?order=home";
+							location.href="/sandme-0.0.1-SNAPSHOT/order?order=home";
 						} else {
 							$.ajax({
-								url : "cartDeleteInsert",
+								url : "/sandme-0.0.1-SNAPSHOT/cartDeleteInsert",
 								type : "post",
 								async : true,
 								data : memberNum,

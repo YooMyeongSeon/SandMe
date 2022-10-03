@@ -38,7 +38,7 @@
 			</table>
 			<div id="btnWrap">
 				<button onclick="check()" id="btn">로그인</button><br>
-				<a href="/join">회원 가입</a>
+				<a th:href="@{/join}">회원 가입</a>
 			</div>
 		</form>
 		<th:block th:replace="fragments/footer :: footerFragment"></th:block> <!-- 푸터 -->

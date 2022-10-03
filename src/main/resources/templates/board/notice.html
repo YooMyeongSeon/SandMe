@@ -59,10 +59,10 @@
 					</div>
 				</div>
 			</div>
-			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="noticeListBtnWrap"><button onclick="location.href='/noticeWriteForm'" class="btn">공지사항 작성</button></div>
+			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="noticeListBtnWrap"><button onclick="location.href='/sandme-0.0.1-SNAPSHOT/noticeWriteForm'" class="btn">공지사항 작성</button></div>
 		</div>
 		<div id="noticeWriteWrap" th:if="${notice == 'write'}"> <!-- 공지사항 작성 -->
-			<form action="/noticeWrite" method="post" id="noticeWriteForm">
+			<form action="/sandme-0.0.1-SNAPSHOT/noticeWrite" method="post" id="noticeWriteForm">
 				<input type="hidden" name="noticeUser" th:value="${#authentication.principal.memberName}">
 				<table id="noticeWriteTable">
 					<tbody>
@@ -78,7 +78,7 @@
 				</table>
 				<input type="submit" value="작성" class="btn2" style="margin: 50px 10px 0px 425px; float: left;">
 			</form>
-			<button onclick="location.href='/noticeList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
+			<button onclick="location.href='/sandme-0.0.1-SNAPSHOT/noticeList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
 		</div>
 		<div id="noticeViewWrap" th:if="${notice == 'view'}"> <!-- 공지사항 상세 보기 -->
 			<p><span th:text="${nVo.noticeTitle}">noticeTitle</span></p>
@@ -95,13 +95,13 @@
 			<script>
 				function delNotice() {
 					if (confirm('공지사항을 삭제하시겠습니까?')) {
-						location.href="noticeDelete?noticeNum=" + $('#noticeNum').val()
+						location.href="/sandme-0.0.1-SNAPSHOT/noticeDelete?noticeNum=" + $('#noticeNum').val()
 					}
 				}
 			</script>
 		</div>
 		<div id="noticeUpdateWrap" th:if="${notice == 'update'}"> <!-- 공지사항 수정 -->
-			<form action="/noticeUpdate" method="post">
+			<form action="/sandme-0.0.1-SNAPSHOT/noticeUpdate" method="post">
 				<input type="hidden" th:value="${nVo.noticeNum}" name="noticeNum">
 				<table id="noticeUpdateTable">
 					<tbody>

@@ -28,10 +28,10 @@
 					<span th:text="${#strings.substring(event.eventDate, 2, 10)}">eventDate</span>
 				</a>
 			</div>
-			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="eventListBtnWrap"><button onclick="location.href='/eventWriteForm'" class="btn">이벤트 작성</button></div>
+			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="eventListBtnWrap"><button onclick="location.href='/sandme-0.0.1-SNAPSHOT/eventWriteForm'" class="btn">이벤트 작성</button></div>
 		</div>
 		<div id="eventWriteWrap" th:if="${event == 'write'}"> <!-- 이벤트 작성 -->
-			<form action="/eventWrite" method="post" id="eventWriteForm" enctype="multipart/form-data">
+			<form action="/sandme-0.0.1-SNAPSHOT/eventWrite" method="post" id="eventWriteForm" enctype="multipart/form-data">
 				<input type="hidden" name="memberName" th:value="${#authentication.principal.memberName}">
 				<table id="eventWriteTable">
 					<tbody>
@@ -55,14 +55,14 @@
 				</table>
 				<input type="submit" value="작성" class="btn2" style="margin: 50px 10px 0px 425px; float: left;">
 			</form>
-			<button onclick="location.href='/eventList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
+			<button onclick="location.href='/sandme-0.0.1-SNAPSHOT/eventList'" class="btn3" style="margin-top: 50px; float: left;">취소</button>
 		</div>
 		<div id="eventViewWrap" th:if="${event == 'view'}"> <!-- 이벤트 상세 보기 -->
 			<p><span th:text="${eVo.eventTitle}">eventTitle</span></p>
 			<p><span th:text="${#strings.substring(eVo.eventDate, 2, 16)}">eventDate</span></p>
 			<div id="imgWrap"><img th:src="'data:image/jpeg;base64,'+${eVo.eventFile}"></div>
 			<div id="ViewContent"><p><span th:utext="${eVo.eventContent}"></span></p></div>
-			<div id="ViewbtnWrap"><button onclick="location.href='/eventList'" class="btn2">목록 보기</button></div>
+			<div id="ViewbtnWrap"><button onclick="location.href='/sandme-0.0.1-SNAPSHOT/eventList'" class="btn2">목록 보기</button></div>
  			<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin == 'Y'}" id="ViewbtnWrapAdmin">
 				<button th:onclick="'location.href=\''+@{eventUpdateForm(eventNum=${eVo.eventNum})}+'\''" class="btn3" style="margin: 0px 10px 0px">수정</button>
 				<button class="btn3" onclick="delEvent()">삭제</button>
@@ -71,13 +71,13 @@
 			<script>
 				function delEvent() {
 					if (confirm('이벤트를 삭제하시겠습니까?')) {
-						location.href="eventDelete?eventNum=" + $('#eventNum').val()
+						location.href="/sandme-0.0.1-SNAPSHOT/eventDelete?eventNum=" + $('#eventNum').val()
 					}
 				}
 			</script>
 		</div>
 		<div id="eventUpdateWrap" th:if="${event == 'update'}"> <!-- 이벤트 수정 -->
-			<form action="/eventUpdate" method="post" enctype="multipart/form-data">
+			<form action="/sandme-0.0.1-SNAPSHOT/eventUpdate" method="post" enctype="multipart/form-data">
 				<input type="hidden" th:value="${eVo.eventNum}" name="eventNum">
 				<input type="hidden" th:value="${eVo.eventMember}" name="memberName">
 				<input type="hidden" th:value="${eVo.eventNum}" name="eventNum">
